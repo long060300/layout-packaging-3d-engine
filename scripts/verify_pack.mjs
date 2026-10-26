@@ -20,7 +20,7 @@
  */
 
 import { spawn, spawnSync } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -233,6 +233,52 @@ async function meshCheck() {
   console.log('lid AABB y', lbox.min.y.toFixed(2), '→', lbox.max.y.toFixed(2));
   if (lidH > 80) fail(`lid lips look unfolded, vertical extent ${lidH.toFixed(2)}`);
   else ok('lid folds into a shallow hood');
+
+  const pfCarton = buildAssembly(pf.carton);
+  applyFold(pfCarton, 100);
+  applyPose(pfCarton, 100);
+  const pfBox = worldBox(pfCarton.root);
+  const pfSize = {
+    x: pfBox.max.x - pfBox.min.x,
+    y: pfBox.max.y - pfBox.min.y,
+    z: pfBox.max.z - pfBox.min.z,
+  };
+  console.log('powerforce carton AABB', pfSize.x.toFixed(1), pfSize.y.toFixed(1), pfSize.z.toFixed(1), 'minY', pfBox.min.y.toFixed(2));
+  if (pfSize.y < 168 || pfSize.y > 210) fail(`powerforce carton height ${pfSize.y.toFixed(1)}`);
+  else ok('powerforce folded carton is about 175 mm tall');
+  if (pfSize.x < 300 || pfSize.x > 360) fail(`powerforce carton length ${pfSize.x.toFixed(1)}`);
+  if (pfSize.z < 250 || pfSize.z > 320) fail(`powerforce carton depth ${pfSize.z.toFixed(1)}`);
+  else ok('powerforce folded carton footprint is about 315 × 263');
+  if (pfBox.min.y < -8) fail(`powerforce flaps hang below the floor at y=${pfBox.min.y.toFixed(1)}`);
+  else ok('powerforce bottom flaps land on the floor');
+
+  const pfLid = buildAssembly(pf.lid);
+  applyFold(pfLid, 100);
+  applyPose(pfLid, 100);
+  const pfLidBox = worldBox(pfLid.root);
+  const pfLidSize = {
+    x: pfLidBox.max.x - pfLidBox.min.x,
+    y: pfLidBox.max.y - pfLidBox.min.y,
+    z: pfLidBox.max.z - pfLidBox.min.z,
+  };
+  console.log('powerforce lid AABB', pfLidSize.x.toFixed(1), pfLidSize.y.toFixed(1), pfLidSize.z.toFixed(1));
+  if (pfLidSize.y < 160 || pfLidSize.y > 210) fail(`powerforce lid hang ${pfLidSize.y.toFixed(1)}`);
+  else ok('powerforce lid flaps hang about 173 mm');
+  if (pfLidSize.x < 300 || pfLidSize.x > 340) fail(`powerforce lid length ${pfLidSize.x.toFixed(1)}`);
+  if (pfLidSize.z < 250 || pfLidSize.z > 290) fail(`powerforce lid depth ${pfLidSize.z.toFixed(1)}`);
+  else ok('powerforce lid top is about 315 × 258');
+
+  const topMesh = pfLid.meshes.find((m) => m.userData.panelId === 'lid-top');
+  const pos = topMesh.geometry.attributes.position;
+  let insideHole = 0;
+  for (const [cx, cy] of [[157.5, 99], [157.5, 159]]) {
+    for (let i = 0; i < pos.count; i += 1) {
+      if (pos.getZ(i) < -0.15) continue;
+      if (Math.hypot(pos.getX(i) - cx, pos.getY(i) - cy) < 8) insideHole += 1;
+    }
+  }
+  if (insideHole) fail(`powerforce lid holes still contain ${insideHole} print vertices`);
+  else ok('powerforce lid holes are open');
 }
 
 function sleep(ms) {
@@ -241,11 +287,21 @@ function sleep(ms) {
 
 async function browserSmoke() {
   let puppeteer;
+  let executablePath;
   try {
     puppeteer = await import('puppeteer');
-  } catch (err) {
-    fail('puppeteer is not installed (' + err.message + '). npm install puppeteer, then re-run with --browser.');
-    return;
+  } catch {
+    try {
+      puppeteer = await import('puppeteer-core');
+      executablePath = ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'].find((p) => existsSync(p));
+      if (!executablePath) {
+        fail('puppeteer-core is installed but no system Chrome was found');
+        return;
+      }
+    } catch (err) {
+      fail('puppeteer is not installed (' + err.message + '). npm install puppeteer, then re-run with --browser.');
+      return;
+    }
   }
   const launch = puppeteer.default?.launch || puppeteer.launch;
   const port = 18000 + Math.floor(Math.random() * 2000);
@@ -269,12 +325,13 @@ async function browserSmoke() {
     }
     const browser = await launch({
       headless: true,
+      executablePath,
       args: ['--no-sandbox', '--disable-dev-shm-usage'],
     });
     try {
       const page = await browser.newPage();
       page.on('pageerror', (err) => console.log('pageerror', err.message));
-      await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'load', timeout: 45000 });
       await page.waitForFunction(() => window.__quickpack && window.__quickpack.ready, { timeout: 20000 });
       const snap = await page.evaluate(() => window.__quickpack.setT(100));
       if (!snap.fit) fail('browser FIT at t=100 was false');
@@ -287,11 +344,97 @@ async function browserSmoke() {
       const html = await page.content();
       if (html.includes(dataUrl) || html.includes(b64Payload)) fail('viewer DOM contains an embedded image');
       else ok('viewer DOM has no embedded image');
+
+      const jobUrl = `http://127.0.0.1:${port}/viewer/?job=../jobs/powerforce-xxl-35l/panels.json`;
+      const jobPage = await browser.newPage();
+      const jobErrors = [];
+      jobPage.on('pageerror', (err) => jobErrors.push(String(err && err.message ? err.message : err)));
+      jobPage.on('console', (msg) => {
+        if (msg.type() === 'error') jobErrors.push(msg.text());
+      });
+      await jobPage.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+      await jobPage.goto(jobUrl, { waitUntil: 'load', timeout: 45000 });
+      await jobPage.waitForFunction(() => window.__quickpack && window.__quickpack.ready, { timeout: 20000 });
+      await jobPage.evaluate(() => window.__quickpack.setFrame([1320, 1280, 1300], [272, 30, 0]));
+      await jobPage.evaluate(() => window.__quickpack.setT(0));
+      await sleep(500);
+      mkdirSync('/opt/cursor/artifacts', { recursive: true });
+      await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-flat.png' });
+      const folded = await jobPage.evaluate(() => window.__quickpack.setT(100));
+      await sleep(700);
+      if (jobErrors.length) fail('powerforce page errors: ' + jobErrors.join(' | '));
+      else ok('powerforce fold=100 with no page errors');
+      if (!folded || Math.abs(folded.t - 100) > 0.01) fail('powerforce slider did not reach t=100');
+      else ok('powerforce slider t=100');
+      if (folded.productCode && !String(folded.productCode).includes('50POW0350001485')) {
+        fail('powerforce product code ' + folded.productCode);
+      }
+      await jobPage.evaluate(() => window.__quickpack.setFrame([720, 520, 860], [0, 90, 0]));
+      await sleep(250);
+      await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-folded.png' });
+      await jobPage.evaluate(() => window.__quickpack.setFrame([40, 980, 80], [0, 90, 0]));
+      await sleep(200);
+      await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-top.png' });
+      const dom = await jobPage.content();
+      if (dom.includes(dataUrl) || dom.includes(b64Payload)) fail('powerforce viewer DOM contains an embedded image');
+      else ok('powerforce viewer DOM has no embedded image');
     } finally {
       await browser.close();
     }
   } finally {
     server.kill();
+  }
+}
+
+const pf = JSON.parse(read('jobs/powerforce-xxl-35l/panels.json'));
+assertJob(pf);
+ok('powerforce job passes assertJob');
+{
+  const nom = pf.carton.nominalOutsideMm;
+  if (nom.l !== 315 || nom.w !== 263 || nom.h !== 175) {
+    fail(`powerforce nominal ${nom.l}×${nom.w}×${nom.h}`);
+  } else ok('powerforce carton QC phủ bì 315 × 263 × 175');
+  if (!pf.meta.sources.includes('dieline') || !pf.meta.sources.includes('estimate')) {
+    fail('powerforce sources must include dieline and estimate');
+  } else if (pf.meta.sources.includes('ProductMaster')) {
+    fail('powerforce must not claim Product Master until the reply lands');
+  } else ok('powerforce sources are dieline + estimate');
+  if (pf.pack.grid.cells.length !== 0) fail('powerforce pack cells should stay empty until Product Master');
+  else ok('powerforce pack cells empty (pending Product Master)');
+  if ((pf.inners && pf.inners.length) || (pf.rolls && pf.rolls.length)) {
+    fail('powerforce should not invent rolls or inners before Product Master');
+  } else ok('powerforce has no rolls or inners yet');
+  if (!pf.lid || pf.lid.panels.length !== 3) fail('powerforce lid must be a two-flap cover (top + two flaps)');
+  else ok('powerforce lid is a two-flap cover');
+  const lidTop = pf.lid.panels.find((p) => p.id === 'lid-top');
+  const holes = lidTop && lidTop.holesMm;
+  if (!holes || holes.length !== 2 || holes.some((h) => !h.circle || h.circle[2] !== 10)) {
+    fail('powerforce lid should have two Ø20 holes');
+  } else ok('powerforce lid has two Ø20 holes');
+  const front = pf.carton.panels.find((p) => p.id === 'front');
+  if (!front || !front.outlineMm || !front.outlineMm.some((p) => Math.abs(p[1] - 65) < 0.2)) {
+    fail('powerforce front handle notch should sit 65 mm above the bottom crease');
+  } else ok('powerforce handle notch floor is 65 mm above the bottom crease');
+  const pfRefs = new Set();
+  const collectRefs = (node) => {
+    if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node)) { node.forEach(collectRefs); return; }
+    if (typeof node.textureRef === 'string') pfRefs.add(node.textureRef);
+    Object.values(node).forEach(collectRefs);
+  };
+  collectRefs(pf);
+  if (pfRefs.size < 8) fail('powerforce job is missing per-face textureRef');
+  for (const ref of pfRefs) {
+    const path = join(root, 'jobs/powerforce-xxl-35l', ref);
+    if (!existsSync(path)) {
+      fail('missing texture ' + ref);
+      continue;
+    }
+    const buf = readFileSync(path);
+    const webp = buf.subarray(0, 4).toString() === 'RIFF' && buf.subarray(8, 12).toString() === 'WEBP';
+    if (!webp) fail(ref + ' must be webp');
+    else if (buf.length > 1_500_000) fail(ref + ' is unexpectedly large');
+    else ok('powerforce texture ' + ref + ` (${buf.length} bytes)`);
   }
 }
 

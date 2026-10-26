@@ -155,6 +155,30 @@ function checkAssembly(asm, label, errors) {
     if (p.textureRef !== undefined && !TEXTURE_REF.test(p.textureRef)) {
       errors.push(`${label} panel ${p.id} textureRef must be textures/<file>.png|webp|jpg (no base64, no URLs)`);
     }
+    if (p.outlineMm !== undefined) {
+      if (!Array.isArray(p.outlineMm) || p.outlineMm.length < 3) {
+        errors.push(`${label} panel ${p.id} outlineMm needs at least 3 [x,y] points`);
+      } else if (p.outlineMm.some((pt) => !Array.isArray(pt) || pt.length !== 2 || pt.some((n) => typeof n !== 'number' || !Number.isFinite(n)))) {
+        errors.push(`${label} panel ${p.id} outlineMm points must be [x,y]`);
+      }
+    }
+    if (p.holesMm !== undefined) {
+      if (!Array.isArray(p.holesMm)) {
+        errors.push(`${label} panel ${p.id} holesMm must be an array`);
+      } else {
+        for (const hole of p.holesMm) {
+          const circle = hole && hole.circle;
+          const points = hole && hole.points;
+          const okCircle = Array.isArray(circle) && circle.length === 3
+            && circle.every((n) => typeof n === 'number' && Number.isFinite(n)) && circle[2] > 0;
+          const okPoints = Array.isArray(points) && points.length >= 3
+            && points.every((pt) => Array.isArray(pt) && pt.length === 2 && pt.every((n) => typeof n === 'number'));
+          if (okCircle === okPoints) {
+            errors.push(`${label} panel ${p.id} each hole needs circle:[cx,cy,r] or points, not both and not neither`);
+          }
+        }
+      }
+    }
     if (p.hinge !== undefined) {
       errors.push(`${label} panel ${p.id} must not store its own hinge — attach it only as a crease.panelB`);
     }

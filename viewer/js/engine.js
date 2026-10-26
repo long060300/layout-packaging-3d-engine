@@ -155,8 +155,13 @@ function bindTextures(roots) {
   for (const root of roots) {
     root.traverse((obj) => {
       const ref = obj.userData && obj.userData.textureRef;
-      const mat = Array.isArray(obj.material) ? obj.material[4] : null;
-      if (!ref || !mat) return;
+      const mats = Array.isArray(obj.material) ? obj.material : null;
+      if (!ref || !mats) return;
+      const idx = obj.userData.printMaterialIndex != null
+        ? obj.userData.printMaterialIndex
+        : 4;
+      const mat = mats[idx];
+      if (!mat) return;
       if (String(ref).startsWith('data:')) throw new Error('textureRef must be a file, not base64');
       const url = new URL(ref, jobHref).href;
       const entry = textureFor(url);
@@ -256,8 +261,9 @@ function renderSpec(job, report) {
 
 function renderFit(report, measured) {
   fitEl.replaceChildren();
-  const verdict = el('div', '', 'verdict ' + (report.fit ? 'ok' : 'bad'));
-  verdict.textContent = report.fit ? 'FIT' : 'NOT FIT';
+  const pending = report.packedCount === 0;
+  const verdict = el('div', '', 'verdict ' + (pending ? '' : (report.fit ? 'ok' : 'bad')));
+  verdict.textContent = pending ? 'NO PACK' : (report.fit ? 'FIT' : 'NOT FIT');
   fitEl.append(verdict);
   const rule = el('p', '', 'mono');
   if (report.anchor === 'center') {
@@ -338,7 +344,24 @@ function goTo(v) {
   updatePlay();
 }
 
+function applyFrame(frame) {
+  if (!frame) return;
+  camera.position.set(frame.position[0], frame.position[1], frame.position[2]);
+  controls.target.set(frame.target[0], frame.target[1], frame.target[2]);
+  const reach = Math.max(1400, camera.position.distanceTo(controls.target) * 1.4);
+  Object.assign(sun.shadow.camera, {
+    left: -reach, right: reach, top: reach, bottom: -reach, far: reach * 3,
+  });
+  sun.shadow.camera.updateProjectionMatrix();
+  controls.update();
+}
+
 function view(dir) {
+  const frame = state.job && state.job.meta && state.job.meta.frameMm;
+  if (dir === 'iso' && frame) {
+    applyFrame(frame);
+    return;
+  }
   const d = dir === 'top'
     ? new THREE.Vector3(0.01, 1, 0.14)
     : dir === 'bottom'
@@ -438,6 +461,7 @@ async function main() {
   });
 
   applyTheme();
+  applyFrame(job.meta.frameMm);
   new ResizeObserver(resize).observe(canvas.parentElement);
   resize();
   state.t = Math.min(100, Math.max(0, state.t));
@@ -455,6 +479,10 @@ async function main() {
       pose(state.t);
       updatePlay();
       refreshFit();
+      return api.snapshot();
+    },
+    setFrame(position, target) {
+      applyFrame({ position, target });
       return api.snapshot();
     },
     snapshot() {

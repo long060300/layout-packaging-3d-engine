@@ -1,7 +1,7 @@
 /**
  * Hinged blanks for the QuickPack viewer.
- * Rectangles only — dieline contours stay in the parser until a later port.
- * Resting Y is not computed here; callers use pack-rule.js so the rule stays in one place.
+ * A panel is a rectangle unless it sets outlineMm and/or holesMm (dieline cut and openings).
+ * UV is the panel rect 1:1 — no separate uvMm. Resting Y stays in pack-rule.js.
  */
 import * as THREE_NS from 'three';
 
@@ -39,6 +39,113 @@ function makeLineMaterials() {
     crease: new THREE.LineDashedMaterial({ color: 0x1f8a52, dashSize: 4, gapSize: 3 }),
     window: new THREE.LineDashedMaterial({ color: 0xd0157a, dashSize: 2, gapSize: 2 }),
   };
+}
+
+function signedArea(pts) {
+  let area = 0;
+  for (let i = 0; i < pts.length; i += 1) {
+    const p = pts[i];
+    const q = pts[(i + 1) % pts.length];
+    area += p[0] * q[1] - q[0] * p[1];
+  }
+  return area / 2;
+}
+
+/** CCW outline in panel XY so the extruded cap faces +Z (the print). */
+function ccwRing(pts) {
+  return signedArea(pts) < 0 ? [...pts].reverse() : pts.slice();
+}
+
+function shapeFromPanel(panel) {
+  const rect = panel.rectMm;
+  const outline = panel.outlineMm && panel.outlineMm.length >= 3
+    ? ccwRing(panel.outlineMm)
+    : [
+      [rect.x, rect.y],
+      [rect.x + rect.w, rect.y],
+      [rect.x + rect.w, rect.y + rect.h],
+      [rect.x, rect.y + rect.h],
+    ];
+  const shape = new THREE.Shape();
+  shape.moveTo(outline[0][0], outline[0][1]);
+  for (let i = 1; i < outline.length; i += 1) shape.lineTo(outline[i][0], outline[i][1]);
+  shape.closePath();
+  for (const hole of panel.holesMm || []) {
+    const path = new THREE.Path();
+    if (hole.circle) {
+      const [cx, cy, radius] = hole.circle;
+      path.absarc(cx, cy, radius, 0, Math.PI * 2, true);
+    } else if (hole.points && hole.points.length >= 3) {
+      const ring = signedArea(hole.points) > 0 ? [...hole.points].reverse() : hole.points;
+      path.moveTo(ring[0][0], ring[0][1]);
+      for (let i = 1; i < ring.length; i += 1) path.lineTo(ring[i][0], ring[i][1]);
+      path.closePath();
+    }
+    shape.holes.push(path);
+  }
+  return { shape, outline };
+}
+
+/**
+ * Board in the same frame as BoxGeometry: print on z=0, kraft on z=-1, then mesh.scale.z = caliper.
+ * Materials are [print, back, edge] — print is index 0, not the box slot 4.
+ */
+function boardGeometry(shape, rect) {
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: 1, bevelEnabled: false });
+  geo.translate(0, 0, -1);
+  const flat = geo.index ? geo.toNonIndexed() : geo;
+  if (flat !== geo) geo.dispose();
+  flat.computeVertexNormals();
+  const pos = flat.attributes.position;
+  const norm = flat.attributes.normal;
+  const faces = pos.count / 3;
+  const buckets = { print: [], back: [], edge: [] };
+  for (let f = 0; f < faces; f += 1) {
+    let nz = 0;
+    for (let k = 0; k < 3; k += 1) nz += norm.getZ(f * 3 + k);
+    nz /= 3;
+    const key = nz > 0.65 ? 'print' : nz < -0.65 ? 'back' : 'edge';
+    buckets[key].push(f);
+  }
+  const order = [...buckets.print, ...buckets.back, ...buckets.edge];
+  const np = new Float32Array(order.length * 9);
+  const nuv = new Float32Array(order.length * 6);
+  let o = 0;
+  for (const f of order) {
+    for (let k = 0; k < 3; k += 1) {
+      const i = f * 3 + k;
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      np[o * 3] = x;
+      np[o * 3 + 1] = y;
+      np[o * 3 + 2] = pos.getZ(i);
+      nuv[o * 2] = (x - rect.x) / rect.w;
+      nuv[o * 2 + 1] = (y - rect.y) / rect.h;
+      o += 1;
+    }
+  }
+  flat.dispose();
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(np, 3));
+  out.setAttribute('uv', new THREE.BufferAttribute(nuv, 2));
+  out.computeVertexNormals();
+  const counts = [buckets.print.length, buckets.back.length, buckets.edge.length];
+  let start = 0;
+  counts.forEach((n, idx) => {
+    if (!n) return;
+    out.addGroup(start * 3, n * 3, idx);
+    start += n;
+  });
+  return out;
+}
+
+function circleLoop(cx, cy, radius, z, n = 48) {
+  const pts = [];
+  for (let i = 0; i <= n; i += 1) {
+    const a = (i / n) * Math.PI * 2;
+    pts.push(new THREE.Vector3(cx + Math.cos(a) * radius, cy + Math.sin(a) * radius, z));
+  }
+  return pts;
 }
 
 /**
@@ -86,6 +193,8 @@ export function buildAssembly(asm) {
       new THREE.Vector3(rect.x + rect.w, rect.y + rect.h, 0.4),
       new THREE.Vector3(rect.x, rect.y + rect.h, 0.4),
     ];
+    const shaped = (panel.outlineMm && panel.outlineMm.length >= 3)
+      || (panel.holesMm && panel.holesMm.length > 0);
     if (panel.role === 'window') {
       const loopGeo = new THREE.BufferGeometry().setFromPoints([...corners, corners[0]]);
       const loop = new THREE.Line(loopGeo, linesMat.window);
@@ -94,7 +203,7 @@ export function buildAssembly(asm) {
       loop.renderOrder = 2;
       pivot.add(loop);
       lines.push(loop);
-    } else {
+    } else if (!shaped) {
       const geo = new THREE.BoxGeometry(rect.w, rect.h, 1);
       geo.translate(rect.x + rect.w / 2, rect.y + rect.h / 2, -0.5);
       const printMat = new THREE.MeshStandardMaterial({
@@ -111,17 +220,55 @@ export function buildAssembly(asm) {
       mesh.scale.z = asm.thicknessMm;
       mesh.castShadow = true;
       mesh.receiveShadow = true;
-    mesh.userData.body = true;
-    mesh.userData.panelId = panel.id;
-    mesh.userData.role = panel.role;
-    mesh.userData.printFace = panel.printFace;
-    mesh.userData.textureRef = panel.textureRef || null;
-    mesh.userData.thicknessScales = true;
+      mesh.userData.body = true;
+      mesh.userData.panelId = panel.id;
+      mesh.userData.role = panel.role;
+      mesh.userData.printFace = panel.printFace;
+      mesh.userData.textureRef = panel.textureRef || null;
+      mesh.userData.thicknessScales = true;
       pivot.add(mesh);
       meshes.push(mesh);
       const cut = line([...corners, corners[0]], linesMat.cut, 'cut');
       pivot.add(cut);
       lines.push(cut);
+    } else {
+      const { shape, outline } = shapeFromPanel(panel);
+      const geo = boardGeometry(shape, rect);
+      const printMat = new THREE.MeshStandardMaterial({
+        color: PRINT_COLOR[panel.printFace] ?? PRINT_COLOR.none,
+        roughness: panel.printFace === 'hero' ? 0.55 : 0.86,
+        metalness: 0,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
+      });
+      const backMat = new THREE.MeshStandardMaterial({ color: 0xa98157, roughness: 0.95, metalness: 0 });
+      const edgeMat = new THREE.MeshStandardMaterial({ color: 0x8f6b45, roughness: 1, metalness: 0 });
+      const mesh = new THREE.Mesh(geo, [printMat, backMat, edgeMat]);
+      mesh.scale.z = asm.thicknessMm;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.userData.body = true;
+      mesh.userData.panelId = panel.id;
+      mesh.userData.role = panel.role;
+      mesh.userData.printFace = panel.printFace;
+      mesh.userData.textureRef = panel.textureRef || null;
+      mesh.userData.thicknessScales = true;
+      mesh.userData.printMaterialIndex = 0;
+      pivot.add(mesh);
+      meshes.push(mesh);
+      const cutPts = outline.map((p) => new THREE.Vector3(p[0], p[1], 0.4));
+      const cut = line([...cutPts, cutPts[0]], linesMat.cut, 'cut');
+      pivot.add(cut);
+      lines.push(cut);
+      for (const hole of panel.holesMm || []) {
+        const loopPts = hole.circle
+          ? circleLoop(hole.circle[0], hole.circle[1], hole.circle[2], 0.45)
+          : [...hole.points.map((p) => new THREE.Vector3(p[0], p[1], 0.45)), new THREE.Vector3(hole.points[0][0], hole.points[0][1], 0.45)];
+        const loop = line(loopPts, linesMat.window, 'window');
+        pivot.add(loop);
+        lines.push(loop);
+      }
     }
 
     if (crease) {

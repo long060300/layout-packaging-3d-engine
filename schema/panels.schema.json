@@ -63,6 +63,16 @@
         },
         "notes": { "type": "string" },
         "todo": { "type": "array", "items": { "type": "string" } },
+        "frameMm": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["position", "target"],
+          "description": "Optional camera for a blank larger than the sample. Position and target are millimetres. Omit it and the viewer keeps the sample camera.",
+          "properties": {
+            "position": { "$ref": "#/$defs/vec3" },
+            "target": { "$ref": "#/$defs/vec3" }
+          }
+        },
         "pageSizeMm": {
           "type": "array",
           "minItems": 2,
@@ -117,6 +127,43 @@
           "type": "string",
           "pattern": "^textures/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(png|webp|jpe?g)$",
           "description": "Path relative to this job JSON. A file under textures/. Never a data: URL or base64."
+        },
+        "outlineMm": {
+          "type": "array",
+          "minItems": 3,
+          "description": "Cut outline in this panel's local millimetres. When set, the mesh follows this ring instead of rectMm. rectMm stays the UV bounds (texture maps 1:1 across the rectangle). Winding is corrected to CCW.",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": { "type": "number" }
+          }
+        },
+        "holesMm": {
+          "type": "array",
+          "description": "Openings cut through the panel. A circle is [cx, cy, r]. A polygon hole is points. Drawn with the window line. UV stays on rectMm, so a per-face texture does not need uvMm.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "circle": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": { "type": "number" }
+              },
+              "points": {
+                "type": "array",
+                "minItems": 3,
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": { "type": "number" }
+                }
+              }
+            }
+          }
         }
       }
     },

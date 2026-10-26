@@ -1,0 +1,997 @@
+{
+  "$schema": "../../schema/panels.schema.json",
+  "meta": {
+    "productCode": "50POW0350001485 + 120200206",
+    "title": "POWERFORCE XXL 35L — carton 50POW0350001485 + lid 120200206",
+    "sources": [
+      "dieline",
+      "estimate"
+    ],
+    "pageSizeMm": [
+      1382.6,
+      921.7
+    ],
+    "generatedBy": "dieline cut/crease vectors from 50POW0350001485 & 120200206 (BOX + LID), one-up",
+    "frameMm": {
+      "position": [
+        1320,
+        1280,
+        1300
+      ],
+      "target": [
+        272,
+        30,
+        0
+      ]
+    },
+    "notes": "Dieline (cut and crease vectors, one of the two-up blanks). Carton 50POW0350001485 POWERFORCE XXL 35L-RED-ORANGE 1047093101 (BOX). QC phủ bì 315 × 263 × 175 mm. Wrap L→R: glue 30 + 315 + 263 + 315 + 261 = blank 1184 mm. Body 175. Bottom major flaps 159 (the two length flaps overlap 55 mm on the 263 width). Minor flaps 131.5 (= 263/2) with a 1.5 mm slot. Handle: one trapezoid notch in the top edge of one length face, opening 149 mm, depth 110 mm, floor 65 mm above the bottom crease, flat 92.6 mm, ~R10 fillets. Length-flap notch 172 mm centered (shoulders 71.5) and 27.5 mm deep from the flap edge. Outside is flexo white; inside is brown (engine back face). Lid 120200206 POWERFORCE XXL 35L-RED-ORANGE 1047093401 (LID). QC phủ bì 315 × 258 × 173 mm. Two-flap cover: flap 173 + center 258 + flap 173. Not a telescoping skirt. Outer corners R20 (tangent offset 20 mm). Flap sides inset 3 mm. Two Ø20 holes on the center, centers 60 mm apart (40 mm edge to edge), 99 mm from each crease (89 mm to the hole edge), 157.5 mm from each side edge (147.5 mm to the hole edge). Estimate, pending Product Master: board caliper 2.0 mm; floorBoardLayers 2; pack grid is empty. The 1 mm pack fields are schema placeholders, not roll sizes. FIT is not a pack result until EB, rolls/carton, bags/roll, bag width and film arrive.",
+    "todo": [
+      "Product Master pending: EB, rolls per carton, bags per roll, bag width, film. Leave pack.grid.cells empty until then.",
+      "Replace pack itemHeightMm / colMm / rowMm (currently 1 mm schema placeholders) with the Product Master roll.",
+      "Board caliper 2.0 mm is an estimate — the dieline says Flexo, not a flute."
+    ]
+  },
+  "carton": {
+    "id": "carton",
+    "thicknessMm": 2,
+    "nominalOutsideMm": {
+      "l": 315,
+      "w": 263,
+      "h": 175
+    },
+    "flatPositionMm": [
+      16,
+      0,
+      0
+    ],
+    "seatMm": [
+      -157.5,
+      0,
+      131.5
+    ],
+    "uprightEulerDeg": [
+      0,
+      0,
+      0
+    ],
+    "orientWindow": [
+      0,
+      18
+    ],
+    "panels": [
+      {
+        "id": "front",
+        "role": "face",
+        "rectMm": {
+          "x": 0,
+          "y": 0,
+          "w": 315,
+          "h": 175
+        },
+        "printFace": "hero",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            315,
+            0
+          ],
+          [
+            315,
+            175.0
+          ],
+          [
+            232,
+            175.0
+          ],
+          [
+            213.6,
+            73.06
+          ],
+          [
+            212.35,
+            69.82
+          ],
+          [
+            210.14,
+            67.27
+          ],
+          [
+            207.21,
+            65.6
+          ],
+          [
+            203.79,
+            65.0
+          ],
+          [
+            111.21,
+            65.0
+          ],
+          [
+            107.8,
+            65.6
+          ],
+          [
+            104.87,
+            67.27
+          ],
+          [
+            102.66,
+            69.82
+          ],
+          [
+            101.4,
+            73.06
+          ],
+          [
+            83,
+            175.0
+          ],
+          [
+            0,
+            175.0
+          ]
+        ],
+        "textureRef": "textures/carton-front.webp"
+      },
+      {
+        "id": "right",
+        "role": "face",
+        "rectMm": {
+          "x": 0,
+          "y": 0,
+          "w": 261,
+          "h": 175
+        },
+        "printFace": "text",
+        "textureRef": "textures/carton-right.webp"
+      },
+      {
+        "id": "back",
+        "role": "face",
+        "rectMm": {
+          "x": -315,
+          "y": 0,
+          "w": 315,
+          "h": 175
+        },
+        "printFace": "text",
+        "textureRef": "textures/carton-back.webp"
+      },
+      {
+        "id": "left",
+        "role": "face",
+        "rectMm": {
+          "x": -263,
+          "y": 0,
+          "w": 263,
+          "h": 175
+        },
+        "printFace": "text",
+        "textureRef": "textures/carton-left.webp"
+      },
+      {
+        "id": "glue",
+        "role": "glue",
+        "rectMm": {
+          "x": -30,
+          "y": 0,
+          "w": 30,
+          "h": 175
+        },
+        "printFace": "none",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            -30,
+            5.29
+          ],
+          [
+            -30,
+            169.71
+          ],
+          [
+            0,
+            175
+          ]
+        ]
+      },
+      {
+        "id": "flap-front",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": -159,
+          "w": 315,
+          "h": 159
+        },
+        "printFace": "text",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            315,
+            0
+          ],
+          [
+            243,
+            -131.5
+          ],
+          [
+            243,
+            -149
+          ],
+          [
+            242.66,
+            -151.59
+          ],
+          [
+            241.66,
+            -154.0
+          ],
+          [
+            240.07,
+            -156.07
+          ],
+          [
+            238.0,
+            -157.66
+          ],
+          [
+            235.59,
+            -158.66
+          ],
+          [
+            233.0,
+            -159.0
+          ],
+          [
+            82,
+            -159
+          ],
+          [
+            79.41,
+            -158.66
+          ],
+          [
+            77.0,
+            -157.66
+          ],
+          [
+            74.93,
+            -156.07
+          ],
+          [
+            73.34,
+            -154.0
+          ],
+          [
+            72.34,
+            -151.59
+          ],
+          [
+            72.0,
+            -149.0
+          ],
+          [
+            72,
+            -131.5
+          ]
+        ],
+        "textureRef": "textures/carton-flap-front.webp"
+      },
+      {
+        "id": "flap-back",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": -159,
+          "w": 315,
+          "h": 159
+        },
+        "printFace": "text",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            315,
+            0
+          ],
+          [
+            315,
+            -159
+          ],
+          [
+            253.5,
+            -159
+          ],
+          [
+            253.16,
+            -156.41
+          ],
+          [
+            252.16,
+            -154.0
+          ],
+          [
+            250.57,
+            -151.93
+          ],
+          [
+            248.5,
+            -150.34
+          ],
+          [
+            246.09,
+            -149.34
+          ],
+          [
+            243.5,
+            -149.0
+          ],
+          [
+            243.5,
+            -131.5
+          ],
+          [
+            71.5,
+            -131.5
+          ],
+          [
+            71.5,
+            -149
+          ],
+          [
+            68.91,
+            -149.34
+          ],
+          [
+            66.5,
+            -150.34
+          ],
+          [
+            64.43,
+            -151.93
+          ],
+          [
+            62.84,
+            -154.0
+          ],
+          [
+            61.84,
+            -156.41
+          ],
+          [
+            61.5,
+            -159.0
+          ],
+          [
+            0,
+            -159
+          ]
+        ],
+        "textureRef": "textures/carton-flap-back.webp"
+      },
+      {
+        "id": "flap-left",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": -131.5,
+          "w": 263,
+          "h": 131.5
+        },
+        "printFace": "text",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            263,
+            0
+          ],
+          [
+            261.5,
+            -1.5
+          ],
+          [
+            261.5,
+            -131.5
+          ],
+          [
+            153.5,
+            -131.5
+          ],
+          [
+            148.32,
+            -130.82
+          ],
+          [
+            143.5,
+            -128.82
+          ],
+          [
+            139.36,
+            -125.64
+          ],
+          [
+            136.18,
+            -121.5
+          ],
+          [
+            134.18,
+            -116.68
+          ],
+          [
+            133.5,
+            -111.5
+          ],
+          [
+            133.5,
+            -71.5
+          ]
+        ],
+        "textureRef": "textures/carton-flap-left.webp"
+      },
+      {
+        "id": "flap-right",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": -131.5,
+          "w": 261,
+          "h": 131.5
+        },
+        "printFace": "text",
+        "outlineMm": [
+          [
+            0,
+            0
+          ],
+          [
+            261,
+            0
+          ],
+          [
+            129.5,
+            -71.5
+          ],
+          [
+            129.5,
+            -111.5
+          ],
+          [
+            128.82,
+            -116.68
+          ],
+          [
+            126.82,
+            -121.5
+          ],
+          [
+            123.64,
+            -125.64
+          ],
+          [
+            119.5,
+            -128.82
+          ],
+          [
+            114.68,
+            -130.82
+          ],
+          [
+            109.5,
+            -131.5
+          ],
+          [
+            1.5,
+            -131.5
+          ],
+          [
+            1.5,
+            -1.5
+          ]
+        ],
+        "textureRef": "textures/carton-flap-right.webp"
+      }
+    ],
+    "creases": [
+      {
+        "id": "front-right",
+        "panelA": "front",
+        "panelB": "right",
+        "axis": {
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        "attachMm": [
+          315,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          8,
+          26
+        ],
+        "lengthMm": 175
+      },
+      {
+        "id": "front-left",
+        "panelA": "front",
+        "panelB": "left",
+        "axis": {
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        "attachMm": [
+          0,
+          0,
+          0
+        ],
+        "foldDeg": -90,
+        "foldWindow": [
+          10,
+          28
+        ],
+        "lengthMm": 175
+      },
+      {
+        "id": "left-back",
+        "panelA": "left",
+        "panelB": "back",
+        "axis": {
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        "attachMm": [
+          -263,
+          0,
+          0
+        ],
+        "foldDeg": -90,
+        "foldWindow": [
+          12,
+          30
+        ],
+        "lengthMm": 175
+      },
+      {
+        "id": "back-glue",
+        "panelA": "back",
+        "panelB": "glue",
+        "axis": {
+          "direction": [
+            0,
+            1,
+            0
+          ]
+        },
+        "attachMm": [
+          -315,
+          0,
+          0
+        ],
+        "foldDeg": -90,
+        "foldWindow": [
+          14,
+          32
+        ],
+        "lengthMm": 175
+      },
+      {
+        "id": "front-flap",
+        "panelA": "front",
+        "panelB": "flap-front",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          0,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          34,
+          52
+        ],
+        "lengthMm": 315
+      },
+      {
+        "id": "back-flap",
+        "panelA": "back",
+        "panelB": "flap-back",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          -315,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          36,
+          54
+        ],
+        "lengthMm": 315
+      },
+      {
+        "id": "left-flap",
+        "panelA": "left",
+        "panelB": "flap-left",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          -263,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          34,
+          52
+        ],
+        "lengthMm": 263
+      },
+      {
+        "id": "right-flap",
+        "panelA": "right",
+        "panelB": "flap-right",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          0,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          36,
+          54
+        ],
+        "lengthMm": 261
+      }
+    ]
+  },
+  "lid": {
+    "id": "lid",
+    "thicknessMm": 2,
+    "flatPositionMm": [
+      820,
+      0,
+      130
+    ],
+    "seatMm": [
+      -157.5,
+      175,
+      129
+    ],
+    "uprightEulerDeg": [
+      -90,
+      0,
+      0
+    ],
+    "orientWindow": [
+      74,
+      96
+    ],
+    "panels": [
+      {
+        "id": "lid-top",
+        "role": "face",
+        "rectMm": {
+          "x": 0,
+          "y": 0,
+          "w": 315,
+          "h": 258
+        },
+        "printFace": "kraft",
+        "holesMm": [
+          {
+            "circle": [
+              157.5,
+              99,
+              10
+            ]
+          },
+          {
+            "circle": [
+              157.5,
+              159,
+              10
+            ]
+          }
+        ],
+        "textureRef": "textures/lid-top.webp"
+      },
+      {
+        "id": "lid-front",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": -173,
+          "w": 315,
+          "h": 173
+        },
+        "printFace": "kraft",
+        "outlineMm": [
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            -153
+          ],
+          [
+            3.68,
+            -158.18
+          ],
+          [
+            5.68,
+            -163.0
+          ],
+          [
+            8.86,
+            -167.14
+          ],
+          [
+            13.0,
+            -170.32
+          ],
+          [
+            17.82,
+            -172.32
+          ],
+          [
+            23.0,
+            -173.0
+          ],
+          [
+            292,
+            -173
+          ],
+          [
+            297.18,
+            -172.32
+          ],
+          [
+            302.0,
+            -170.32
+          ],
+          [
+            306.14,
+            -167.14
+          ],
+          [
+            309.32,
+            -163.0
+          ],
+          [
+            311.32,
+            -158.18
+          ],
+          [
+            312.0,
+            -153.0
+          ],
+          [
+            312,
+            0
+          ]
+        ],
+        "textureRef": "textures/lid-front.webp"
+      },
+      {
+        "id": "lid-back",
+        "role": "flap",
+        "rectMm": {
+          "x": 0,
+          "y": 0,
+          "w": 315,
+          "h": 173
+        },
+        "printFace": "kraft",
+        "outlineMm": [
+          [
+            3,
+            0
+          ],
+          [
+            312,
+            0
+          ],
+          [
+            312,
+            153
+          ],
+          [
+            311.32,
+            158.18
+          ],
+          [
+            309.32,
+            163.0
+          ],
+          [
+            306.14,
+            167.14
+          ],
+          [
+            302.0,
+            170.32
+          ],
+          [
+            297.18,
+            172.32
+          ],
+          [
+            292.0,
+            173.0
+          ],
+          [
+            23,
+            173
+          ],
+          [
+            17.82,
+            172.32
+          ],
+          [
+            13.0,
+            170.32
+          ],
+          [
+            8.86,
+            167.14
+          ],
+          [
+            5.68,
+            163.0
+          ],
+          [
+            3.68,
+            158.18
+          ],
+          [
+            3.0,
+            153.0
+          ]
+        ],
+        "textureRef": "textures/lid-back.webp"
+      }
+    ],
+    "creases": [
+      {
+        "id": "lid-to-front",
+        "panelA": "lid-top",
+        "panelB": "lid-front",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          0,
+          0,
+          0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          78,
+          94
+        ],
+        "lengthMm": 315
+      },
+      {
+        "id": "lid-to-back",
+        "panelA": "lid-top",
+        "panelB": "lid-back",
+        "axis": {
+          "direction": [
+            1,
+            0,
+            0
+          ]
+        },
+        "attachMm": [
+          0,
+          258,
+          0
+        ],
+        "foldDeg": -90,
+        "foldWindow": [
+          78,
+          94
+        ],
+        "lengthMm": 315
+      }
+    ]
+  },
+  "pack": {
+    "eb": "vertical",
+    "grid": {
+      "cols": 1,
+      "rows": 1,
+      "colMm": 1,
+      "rowMm": 1,
+      "cells": []
+    },
+    "anchor": "center",
+    "restingYRule": "floor+H/2",
+    "heroTowardDisplay": true,
+    "itemHeightMm": 1,
+    "floorBoardLayers": 2,
+    "dropWindow": [
+      56,
+      76
+    ],
+    "stagger": 1,
+    "dropDuration": 8
+  },
+  "steps": [
+    {
+      "t": 0,
+      "label": "Flat blanks / Tấm phẳng"
+    },
+    {
+      "t": 18,
+      "label": "Carton body / Dựng thân thùng"
+    },
+    {
+      "t": 52,
+      "label": "Bottom closed / Gấp đáy"
+    },
+    {
+      "t": 74,
+      "label": "Lid folds / Gấp nắp"
+    },
+    {
+      "t": 100,
+      "label": "Lid on — pack pending Product Master / Đậy nắp — chờ Product Master"
+    }
+  ]
+}
