@@ -13,7 +13,7 @@ Mẫu `EXAMPLE-ZOSIA-LAYOUT` dùng hằng số tròn (thùng 200×100×160, inne
 
 ## Job ZOSIA Slider mix
 
-`jobs/zosia-slider-mix-1l3l/` là job ZOSIA thật (mã kiểu `JMDWSL001`), cùng viewer, không có engine thứ hai. Product Master V2 `Packing_Material_Code_R7d` (lưu 14:49 Asia/Bangkok 24/10/2026): thùng `50ZOAMIX0001568` **297 × 155 × 259 mm**, nắp `53ZOAMIX0001569` (Packing không có L×W×H; hood 304 × 161 × 265 là ước lượng từ dieline / bản đo), inner `54ZOA0010001570` (1L) và `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. Mở:
+`jobs/zosia-slider-mix-1l3l/` là job ZOSIA thật (mã kiểu `JMDWSL001`), cùng viewer, không có engine thứ hai. Product Master V2 `Packing_Material_Code_R7d` (lưu 14:49 Asia/Bangkok 24/10/2026): thùng `50ZOAMIX0001568` **297 × 155 × 259 mm**, nắp `53ZOAMIX0001569` (Packing không có L×W×H; hood 304 × 161 × 265 là ước lượng từ dieline / bản đo), inner `54ZOA0010001570` (1L) và `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. Mặt hero 75 mm hướng ra đầu 155 mm (nhìn vào thấy hero, không phải mặt text 40 mm). Lưới vẫn 7 × 40 dọc dài và 2 × 75 dọc sâu. Mở:
 
 `/viewer/?job=../jobs/zosia-slider-mix-1l3l/panels.json`
 
@@ -68,7 +68,7 @@ One static viewer for every packing job. A new product is a new `jobs/<code>/` f
 
 ## ZOSIA Slider mix job
 
-`jobs/zosia-slider-mix-1l3l/` is the real ZOSIA mix (style `JMDWSL001`) on the same viewer. Product Master V2 `Packing_Material_Code_R7d`, saved 14:49 Asia/Bangkok 24/10/2026: carton `50ZOAMIX0001568` **297 × 155 × 259 mm**, lid `53ZOAMIX0001569` (no L×W×H in Packing; the 304 × 161 × 265 mm hood is the dieline / verify estimate), inners `54ZOA0010001570` (1L) and `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. Open:
+`jobs/zosia-slider-mix-1l3l/` is the real ZOSIA mix (style `JMDWSL001`) on the same viewer. Product Master V2 `Packing_Material_Code_R7d`, saved 14:49 Asia/Bangkok 24/10/2026: carton `50ZOAMIX0001568` **297 × 155 × 259 mm**, lid `53ZOAMIX0001569` (no L×W×H in Packing; the 304 × 161 × 265 mm hood is the dieline / verify estimate), inners `54ZOA0010001570` (1L) and `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. The 75 mm hero face points out the 155 mm end (the look-in shows the hero, not the 40 mm text face). The grid stays 7 × 40 mm along the length and 2 × 75 mm along the depth. Open:
 
 `/viewer/?job=../jobs/zosia-slider-mix-1l3l/panels.json`
 

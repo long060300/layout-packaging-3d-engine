@@ -150,6 +150,20 @@ else ok('ZOSIA notes cite Product Master codes and the bag-film thickness');
 if (zosia.inners.some((inner) => inner.thicknessMm === 0.047 || inner.thicknessMm < 0.1)) {
   fail('bag film 0.047 must stay meta, not inner board thickness');
 } else ok('inner board is not the 0.047 mm bag film');
+if (zosia.pack.heroTowardDisplay) {
+  fail('ZOSIA heroTowardDisplay must stay false so a 90° yaw does not swap the 40 × 75 footprint');
+} else ok('ZOSIA does not yaw the 75 mm hero onto +Z');
+let facesOk = true;
+for (const inner of zosia.inners) {
+  const byId = new Map(inner.panels.map((p) => [p.id, p]));
+  const hero75 = ['face-75a', 'face-75b'].every((id) => byId.get(id) && byId.get(id).printFace === 'hero');
+  const text40 = ['face-40', 'face-40b'].every((id) => byId.get(id) && byId.get(id).printFace === 'text');
+  if (!hero75 || !text40) {
+    facesOk = false;
+    fail(`${inner.id} must put hero on the 75 mm faces and text on the 40 mm faces`);
+  }
+}
+if (facesOk) ok('ZOSIA dieline: hero on 75 mm faces, text on 40 mm faces');
 
 const refs = new Set();
 const walk = (node) => {
@@ -335,18 +349,24 @@ async function meshCheck() {
       if (sx < 39 || sx > 42 || sz < 74 || sz > 78 || sy < 254 || sy > 257) {
         fail(`ZOSIA packed footprint ${sx.toFixed(2)} × ${sy.toFixed(2)} × ${sz.toFixed(2)} is not 40 × 255 × 75`);
       } else ok('ZOSIA packed boards are 40 × 255 × 75');
-      let hero = null;
+      const normals = {};
       wrap.traverse((obj) => {
-        if (obj.userData && obj.userData.printFace === 'hero') hero = obj;
-      });
-      if (!hero) fail('ZOSIA packed clone has no hero face');
-      else {
-        const e = hero.matrixWorld.elements;
+        if (!obj.isMesh || !obj.userData || !obj.userData.panelId) return;
+        const e = obj.matrixWorld.elements;
         const len = Math.hypot(e[8], e[9], e[10]) || 1;
-        const zz = e[10] / len;
-        if (zz < 0.9) fail(`ZOSIA hero normal not toward +Z (${(e[8] / len).toFixed(2)}, ${(e[9] / len).toFixed(2)}, ${zz.toFixed(2)})`);
-        else ok('ZOSIA 40 mm hero faces the window (+Z); 75 mm panels stay along the row');
-      }
+        normals[obj.userData.panelId] = {
+          face: obj.userData.printFace,
+          x: e[8] / len,
+          z: e[10] / len,
+        };
+      });
+      const hero = normals['face-75a'];
+      const text = normals['face-40'];
+      if (!hero || hero.face !== 'hero' || hero.x < 0.9) {
+        fail(`ZOSIA 75 mm hero normal should point out the look-in (+X), got ${JSON.stringify(hero)}`);
+      } else if (!text || text.face !== 'text' || text.z < 0.9) {
+        fail(`ZOSIA 40 mm text face should stay parallel to the 297 mm wall (+Z), got ${JSON.stringify(text)}`);
+      } else ok('ZOSIA 75 mm hero points out the look-in (+X); 40 mm text stays on the 297 mm wall');
     }
   }
   if (zosia.pack.grid.cells.length !== 14) fail('ZOSIA packed count ' + zosia.pack.grid.cells.length);

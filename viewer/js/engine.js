@@ -475,6 +475,21 @@ async function main() {
         })),
       };
     },
+    look(eye, at) {
+      camera.position.set(eye[0], eye[1], eye[2]);
+      controls.target.set(at[0], at[1], at[2]);
+      controls.update();
+    },
+    setMeshVisible(panelId, visible) {
+      const roots = [state.carton, state.lid, ...state.templates]
+        .filter(Boolean)
+        .map((built) => built.root);
+      for (const root of roots) {
+        root.traverse((obj) => {
+          if (obj.isMesh && obj.userData && obj.userData.panelId === panelId) obj.visible = visible;
+        });
+      }
+    },
   };
   window.__quickpackReady = true;
   window.__quickpack = api;

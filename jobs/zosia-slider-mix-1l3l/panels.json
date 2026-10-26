@@ -9,7 +9,7 @@
       "Dieline vectors are not cut yet. Panels are rectangles. The carton front slot is the dieline hole's 90 × 33 mm box, not the real contour.",
       "Inner top flaps from the dieline are left off this blank so the closed bottom is what the resting-Y check measures."
     ],
-    "notes": "Product Master V2 Packing_Material_Code_R7d, saved 14:49 Asia/Bangkok 24/10/2026. Carton 50ZOAMIX0001568 outside L×W×H 297 × 155 × 259 mm (this nominal replaces the verified model's 297.5 mm length). Lid 53ZOAMIX0001569 has no L×W×H in Packing; hood 304 × 161 × 265 mm is the dieline / verify measure (estimate). Inners 54ZOA0010001570 (1L, SKU 28JMDWSL00101) and 54ZOA0030001571 (3L, SKU 28JMDWSL00102). EB Vertical for both. Inner QC L×W×H 255 × 75 × 40 mm, with 255 vertical. Innerbox per carton 7 + 7 = 14, not rolls. Bags per innerbox 1L=20 and 3L=15, bag width target 240 mm, bag film 0.047 mm: meta only, not geometry and not board caliper. Pack map (Long): vertical, up = 255, along carton length = 40 (7), along carton depth = 75 (2). The dieline's main printed panel is 75 mm wide. With this footprint that panel's normal runs along the carton length; the face toward the display window (+Z, row 0) is the 40 mm panel. Aiming the 75 mm panel at +Z would swap the cell to 75 × 40, and 7 × 75 mm does not fit 297 mm. heroTowardDisplay stays on for the 40 mm root so the yaw is 0. Row 0 (window) = 7 × 1L and row 1 = 7 × 3L is the verified sim's row order (estimate; Product Master does not name the row). Board 2.0 mm and two bottom layers are the verify run's T=2 (estimate), so floor = 4 mm, center resting Y = 131.5 mm, H = 255. Inner board 0.5 mm is the verified sim's duplex (estimate). Dieline glue: carton 30 mm, inner 15 × 253.4 mm. Dieline carton sides 155 and 153 mm; both walls here are 155 mm so the outside matches Product Master width. Dieline carton length panels 297.5 / 297 / 295.5 mm; walls here are 297 mm. Bottom flaps from the dieline: carton 107 mm and 93.5 mm, inner 39.5 / 38 / 37 mm. Lid skirt 263 mm is 265 − 2 mm top board (estimate) so the hood outside height stays 265 mm. Verify json on the 297.5 mm model: per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261, overlaps 0, outside 0, fit true. Formula clearances on Product Master 297 × 155 × 259 at t = 2 mm are length 13 mm, width 1 mm, height 0 mm. Textures are raster previews of the dieline PDFs, one sheet per blank, not a per-panel UV."
+    "notes": "Product Master V2 Packing_Material_Code_R7d, saved 14:49 Asia/Bangkok 24/10/2026. Carton 50ZOAMIX0001568 outside L×W×H 297 × 155 × 259 mm (this nominal replaces the verified model's 297.5 mm length). Lid 53ZOAMIX0001569 has no L×W×H in Packing; hood 304 × 161 × 265 mm is the dieline / verify measure (estimate). Inners 54ZOA0010001570 (1L, SKU 28JMDWSL00101) and 54ZOA0030001571 (3L, SKU 28JMDWSL00102). EB Vertical for both. Inner QC L×W×H 255 × 75 × 40 mm, with 255 vertical. Innerbox per carton 7 + 7 = 14, not rolls. Bags per innerbox 1L=20 and 3L=15, bag width target 240 mm, bag film 0.047 mm: meta only, not geometry and not board caliper. Pack map (Long / QuickPack): vertical, up = 255, 7 × 40 mm along the carton length (under 297), 2 × 75 mm along the depth. Dieline: hero art is on the 75 mm faces, text is on the 40 mm faces. The 75 mm hero normal points out the 155 mm end (+X), the look-in. Shoppers on that axis see the hero, not the 40 mm text face. The 40 mm text face is parallel to the 297 mm wall. Turning the 75 mm normal onto +Z is a 90° yaw and swaps the cell to 75 × 40, and 7 × 75 mm does not fit 297 mm. heroTowardDisplay is false so that yaw is not applied. The hero print already points out the +X end, so no extra 180° about the center is needed; the placement stays on the body center, not a corner. Row 0 (+Z) = 7 × 1L and row 1 = 7 × 3L follows the verified sim (estimate; Product Master does not name the row). Board 2.0 mm and two bottom layers are the verify run's T=2 (estimate), so floor = 4 mm, center resting Y = 131.5 mm, H = 255. Inner board 0.5 mm is the verified sim's duplex (estimate). Dieline glue: carton 30 mm, inner 15 × 253.4 mm. Dieline carton sides 155 and 153 mm; both walls here are 155 mm so the outside matches Product Master width. Dieline carton length panels 297.5 / 297 / 295.5 mm; walls here are 297 mm. Bottom flaps from the dieline: carton 107 mm and 93.5 mm, inner 39.5 / 38 / 37 mm. Lid skirt 263 mm is 265 − 2 mm top board (estimate) so the hood outside height stays 265 mm. Verify json on the 297.5 mm model: per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261, overlaps 0, outside 0, fit true. Formula clearances on Product Master 297 × 155 × 259 at t = 2 mm are length 13 mm, width 1 mm, height 0 mm. Textures are raster previews of the dieline PDFs, one sheet per blank, not a per-panel UV."
   },
   "carton": {
     "id": "carton",
@@ -281,28 +281,28 @@
           "id": "face-40",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "hero",
-          "textureRef": "textures/inner-1l.png"
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
         },
         {
           "id": "face-75a",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
-          "printFace": "text",
+          "printFace": "hero",
           "textureRef": "textures/inner-1l.png"
         },
         {
           "id": "face-40b",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "kraft",
-          "textureRef": "textures/inner-1l.png"
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
         },
         {
           "id": "face-75b",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
-          "printFace": "text",
+          "printFace": "hero",
           "textureRef": "textures/inner-1l.png"
         },
         {
@@ -431,28 +431,28 @@
           "id": "face-40",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "hero",
-          "textureRef": "textures/inner-3l.png"
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
         },
         {
           "id": "face-75a",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
-          "printFace": "text",
+          "printFace": "hero",
           "textureRef": "textures/inner-3l.png"
         },
         {
           "id": "face-40b",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "kraft",
-          "textureRef": "textures/inner-3l.png"
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
         },
         {
           "id": "face-75b",
           "role": "face",
           "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
-          "printFace": "text",
+          "printFace": "hero",
           "textureRef": "textures/inner-3l.png"
         },
         {
@@ -584,7 +584,7 @@
     },
     "anchor": "center",
     "restingYRule": "floor+H/2",
-    "heroTowardDisplay": true,
+    "heroTowardDisplay": false,
     "itemHeightMm": 255,
     "floorBoardLayers": 2,
     "dropWindow": [46, 76],
