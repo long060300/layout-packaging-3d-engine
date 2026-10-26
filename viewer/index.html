@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>QuickPack layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eceae4; --panel:#f7f6f2; --stage:#e2dfd7; --fg:#1f2326; --muted:#5f6468; --line:#cfcbc1;
+  --die:#2b4fa1; --crease:#1f8a52; --window:#d0157a; --kraft:#a98157; --hero:#d7a441;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#17191b; --panel:#1f2225; --stage:#24272a; --fg:#e8e6e1; --muted:#a3a6a8; --line:#363a3e;
+  --die:#7d9df0; --crease:#5cc48d; --window:#f08ab8; --kraft:#c4a27a; --hero:#e2b85a;
+  color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14px;line-height:1.5}
+[hidden]{display:none !important}
+.wrap{max-width:1280px;margin:0 auto;padding:16px 16px 32px;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,4vw,36px);line-height:1.05;margin:0}
+.codes{font-family:var(--f-mono);font-size:12px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.viewer{position:relative;background:var(--stage);border:1px solid var(--line);border-radius:6px;overflow:hidden;height:min(72vh,680px);min-height:340px}
+@media (max-width:600px){.viewer{height:58vh}}
+#c{display:block;width:100%;height:100%;touch-action:none;outline:none}
+.hud{position:absolute;left:10px;top:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
+.stagebadge{font-family:var(--f-display);font-weight:600;font-size:18px;background:color-mix(in srgb,var(--panel) 88%,transparent);border:1px solid var(--line);border-radius:4px;padding:2px 10px}
+.stagebadge span{font-family:var(--f-mono);font-size:12px;color:var(--die);margin-right:6px}
+.hint{font-size:12px;color:var(--muted);align-self:center;background:color-mix(in srgb,var(--panel) 80%,transparent);padding:2px 8px;border-radius:4px}
+@media (max-width:600px){.hint{display:none}}
+.controls,.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+.controls{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button{font:inherit;font-weight:500;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:4px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--die)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--die);outline-offset:2px}
+button.primary{background:var(--die);border-color:var(--die);color:#fff;font-weight:600;min-width:120px}
+#t{flex:1;min-width:140px;accent-color:var(--die)}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+ol.steps button{width:100%;text-align:left;border:0;border-left:3px solid transparent;border-radius:0;padding:6px 8px;display:flex;gap:10px;align-items:baseline}
+ol.steps button .n{font-family:var(--f-mono);font-size:12px;color:var(--muted);width:14px}
+ol.steps button[aria-current="step"]{border-left-color:var(--die);background:color-mix(in srgb,var(--die) 9%,transparent)}
+.check{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.label{font-size:11px;letter-spacing:.9px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.ln{display:inline-block;width:24px;height:0;border-top:2px solid var(--die);margin-right:6px;vertical-align:3px}
+.ln.cr{border-top:2px dashed var(--crease)}
+.ln.win{border-top:2px dotted var(--window)}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.lower{grid-template-columns:1fr}}
+.card{display:flex;flex-direction:column;gap:10px;min-width:0}
+.spec{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13px}
+.spec dt{color:var(--muted)}
+.spec dd{margin:0;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:12.5px}
+.notes{margin:0;font-size:13px;color:var(--muted)}
+ul.notes{padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.verdict{font-family:var(--f-display);font-weight:700;font-size:28px;margin:0}
+.ok{color:var(--crease)}.bad{color:#c44a45}
+.fitt{border-collapse:collapse;font-size:12.5px;width:100%}
+.fitt td{padding:3px 4px;border-bottom:1px solid var(--line)}
+.fitt td:last-child{text-align:right;font-family:var(--f-mono)}
+.mono{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin:0}
+select{font:inherit;color:var(--fg);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:4px 6px}
+.err{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--fg);background:color-mix(in srgb,var(--panel) 92%,transparent)}
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">QuickPack</h1>
+    <div class="codes" id="codes"></div>
+  </header>
+  <div class="grid">
+    <div class="viewer">
+      <canvas id="c" tabindex="0" aria-label="Mô hình 3D hộp gấp. Kéo để xoay, cuộn để phóng to. 3D folding model. Drag to orbit, scroll to zoom."></canvas>
+      <div class="hud">
+        <div class="stagebadge" id="badge"><span>0</span>…</div>
+        <div class="hint">Kéo để xoay · cuộn để zoom · Drag to orbit · scroll to zoom</div>
+      </div>
+      <div class="err" id="err" hidden></div>
+    </div>
+    <div class="controls">
+      <div class="row">
+        <button class="primary" id="play" type="button">▶ Gấp / Fold</button>
+        <input id="t" type="range" min="0" max="100" step="0.1" value="0" aria-label="Tiến trình gấp 0–100 / Fold progress">
+      </div>
+      <div class="label">Steps / các bước</div>
+      <ol class="steps" id="steps"></ol>
+      <div class="row">
+        <label class="check"><input type="checkbox" id="showLid" checked> Nắp / lid</label>
+        <label class="check"><input type="checkbox" id="showLines" checked> Nét cắt / lines</label>
+        <label class="check"><input type="checkbox" id="spin"> Tự xoay / spin</label>
+      </div>
+      <div class="row">
+        <label class="check" for="thick">Độ dày sóng t / board (estimate)</label>
+        <select id="thick" aria-label="Board caliper">
+          <option value="1.5">1.5 mm</option>
+          <option value="2">2.0 mm</option>
+          <option value="2.5">2.5 mm</option>
+          <option value="3">3.0 mm</option>
+          <option value="5">5.0 mm</option>
+        </select>
+      </div>
+      <div class="row">
+        <button id="flat" type="button">Trải phẳng / Flat</button>
+        <button id="reset" type="button">Góc nhìn / Reset</button>
+        <button id="viewTop" type="button">Trên / Top</button>
+        <button id="viewBottom" type="button">Đáy / Bottom</button>
+      </div>
+      <div class="legend">
+        <span><i class="ln"></i>Nét cắt / cut</span>
+        <span><i class="ln cr"></i>Nét gấp / crease</span>
+        <span><i class="ln win"></i>Cửa sổ / window</span>
+        <span><i class="sw" style="background:#d7a441"></i>Hero</span>
+        <span><i class="sw" style="background:#a98157"></i>Kraft</span>
+      </div>
+    </div>
+  </div>
+  <div class="lower">
+    <div class="card" id="spec"></div>
+    <div class="card">
+      <div class="label">FIT</div>
+      <div id="fit"><p class="mono">…</p></div>
+    </div>
+  </div>
+  <p class="mono" id="foot"></p>
+</div>
+<script type="module" src="js/engine.js"></script>
+<script>
+setTimeout(function () {
+  if (!window.__quickpackReady && !window.__quickpackFailed) {
+    var e = document.getElementById('err');
+    e.hidden = false;
+    e.textContent = 'Không tải được Three.js r147. Kiểm tra mạng và mở trang qua HTTP (không phải file://). / Could not load Three.js r147. Open this page from an HTTP server, not a file:// URL.';
+  }
+}, 12000);
+</script>
+</body>
+</html>

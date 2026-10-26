@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quickpack.local/schema/panels.schema.json",
+  "title": "QuickPack Job",
+  "description": "One packing job for the shared Three.js viewer. A new product is a new job folder (this JSON + texture files). Do not fork the engine. All lengths are millimetres. Panel local space: +X across the face, +Y up the upright face, +Z toward the print. A non-root panel hinges only by being crease.panelB of exactly one crease; the crease axis passes through the child origin and axis.direction is in that child's local space.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meta", "carton", "pack", "steps"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": { "$ref": "#/$defs/meta" },
+    "carton": {
+      "description": "Outer carton. nominalOutsideMm is the outside size FIT compares to the grid. QC-style: length × width × height, crease to crease.",
+      "allOf": [
+        { "$ref": "#/$defs/assembly" },
+        { "required": ["nominalOutsideMm"] }
+      ]
+    },
+    "lid": { "$ref": "#/$defs/assembly" },
+    "inners": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/assembly" }
+    },
+    "rolls": {
+      "description": "Alternative to inners for roll-packed goods. Same assembly shape. Use inners or rolls (or neither for a dieline draft).",
+      "type": "array",
+      "items": { "$ref": "#/$defs/assembly" }
+    },
+    "pack": { "$ref": "#/$defs/pack" },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Fold-slider chapters. t is 0–100, the same clock crease.foldWindow and pack.dropWindow use.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["t", "label"],
+        "properties": {
+          "t": { "type": "number", "minimum": 0, "maximum": 100 },
+          "label": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productCode", "sources"],
+      "properties": {
+        "productCode": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Job code. The sample uses an EXAMPLE label. Do not invent Product Master numbers."
+        },
+        "title": { "type": "string" },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["dieline", "ProductMaster", "estimate"] },
+          "description": "Where the numbers came from. estimate = assumed constant, not a measured dieline or a Product Master row."
+        },
+        "notes": { "type": "string" },
+        "todo": { "type": "array", "items": { "type": "string" } },
+        "pageSizeMm": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "type": "number" },
+          "description": "Optional PDF page size in mm, written by the dieline parser stub."
+        },
+        "generatedBy": { "type": "string" }
+      }
+    },
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": { "type": "number" }
+    },
+    "window": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "type": "number", "minimum": 0, "maximum": 100 },
+      "description": "[t0, t1] on the 0–100 fold slider."
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "w", "h"],
+      "description": "Panel rectangle in the panel's own local millimetres. The origin is the hinge (the root panel's origin is the assembly origin). +Y is up the upright face. Negative x or y places material on the other side of the hinge, which is how flaps are drawn before they fold.",
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "w": { "type": "number", "exclusiveMinimum": 0 },
+        "h": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "rectMm", "printFace"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "role": {
+          "enum": ["face", "glue", "flap", "window"],
+          "description": "face = wall or lid panel, glue = manufacturer's joint, flap = fold-in flap, window = opening mark (outline in this scaffold; real contours come from a later dieline parse)."
+        },
+        "rectMm": { "$ref": "#/$defs/rect" },
+        "printFace": {
+          "enum": ["hero", "text", "kraft", "none"],
+          "description": "Which external texture to show on +Z. hero is the face pack.heroTowardDisplay aims at +Z (the display side)."
+        },
+        "textureRef": {
+          "type": "string",
+          "pattern": "^textures/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(png|webp|jpe?g)$",
+          "description": "Path relative to this job JSON. A file under textures/. Never a data: URL or base64."
+        }
+      }
+    },
+    "crease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "panelA", "panelB", "axis", "attachMm", "foldDeg", "foldWindow"],
+      "description": "The only hinge between two panels. panelB's origin sits at attachMm in panelA's local space. Rotation is the right-hand rule about axis.direction, which is expressed in panelB local space and passes through panelB's origin.",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "panelA": { "type": "string" },
+        "panelB": { "type": "string" },
+        "axis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["direction"],
+          "properties": {
+            "direction": {
+              "$ref": "#/$defs/vec3",
+              "description": "Axis direction in panelB local space. Does not need to be unit length."
+            }
+          }
+        },
+        "attachMm": {
+          "$ref": "#/$defs/vec3",
+          "description": "panelB origin, in panelA local millimetres."
+        },
+        "foldDeg": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180,
+          "description": "Signed fold at the end of foldWindow. 0 keeps the child coplanar (used for a window mark)."
+        },
+        "foldWindow": { "$ref": "#/$defs/window" },
+        "lengthMm": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Dashed crease length drawn along the axis. Defaults to the child panel's longer edge."
+        }
+      }
+    },
+    "assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "thicknessMm", "flatPositionMm", "seatMm", "uprightEulerDeg", "orientWindow", "panels", "creases"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "thicknessMm": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Board caliper of this blank. The carton value is what the FIT floor uses; inners may differ."
+        },
+        "nominalOutsideMm": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["l", "w", "h"],
+          "description": "Outside length × width × height in mm. Required on the carton. FIT cavity is L−2t, W−2t, H−floor.",
+          "properties": {
+            "l": { "type": "number", "exclusiveMinimum": 0 },
+            "w": { "type": "number", "exclusiveMinimum": 0 },
+            "h": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "flatPositionMm": {
+          "$ref": "#/$defs/vec3",
+          "description": "Where the blank sits on the table before orientWindow. Y is ignored; the viewer rests the sheet on the floor at the current caliper."
+        },
+        "seatMm": {
+          "$ref": "#/$defs/vec3",
+          "description": "Where the assembly origin sits once orientWindow has finished, in pack millimetres."
+        },
+        "uprightEulerDeg": {
+          "$ref": "#/$defs/vec3",
+          "description": "Euler XYZ degrees of the folded blank in use. Cartons and vertical inners use [0,0,0] (root face standing, print toward +Z). A hood whose local XY is the top board uses [-90,0,0] so print faces up."
+        },
+        "orientWindow": { "$ref": "#/$defs/window" },
+        "panels": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/panel" } },
+        "creases": { "type": "array", "items": { "$ref": "#/$defs/crease" } }
+      }
+    },
+    "pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eb", "grid", "anchor", "restingYRule", "heroTowardDisplay",
+        "itemHeightMm", "floorBoardLayers", "dropWindow", "stagger", "dropDuration"
+      ],
+      "description": "How folded inners or rolls sit inside the carton. Resting Y is fully determined by anchor. center → the packed item's geometric center is at floor + H/2. pivot → the assembly origin is at floor. H is itemHeightMm. floor = carton.thicknessMm × floorBoardLayers (layers of carton board under the goods, usually 2). Example with floor 4 mm and H 120 mm: center rests at 64 mm, pivot rests at 4 mm.",
+      "properties": {
+        "eb": {
+          "enum": ["vertical", "horizontal"],
+          "description": "Pack orientation. vertical: root panel +Y is up, and that panel's rectMm.h is H. horizontal is reserved for a later job; H is still the vertical extent used by the resting-Y rule."
+        },
+        "grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cols", "rows", "colMm", "rowMm", "cells"],
+          "properties": {
+            "cols": { "type": "integer", "minimum": 1 },
+            "rows": { "type": "integer", "minimum": 1 },
+            "colMm": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "Cell length along X. For a vertical inner this equals the root panel rectMm.w."
+            },
+            "rowMm": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "Cell depth along Z. Row 0 is the row toward +Z (display)."
+            },
+            "cells": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Row-major inner or roll ids, length cols×rows. An empty array means the draft has no packed items yet."
+            }
+          }
+        },
+        "anchor": {
+          "enum": ["pivot", "center"],
+          "$comment": "center → resting Y = floor + H/2 (geometric center). pivot → resting Y = floor (assembly origin). Must match restingYRule."
+        },
+        "restingYRule": {
+          "enum": ["floor", "floor+H/2"],
+          "description": "Must pair with anchor. center pairs with floor+H/2. pivot pairs with floor. floor = carton.thicknessMm × floorBoardLayers. H = itemHeightMm."
+        },
+        "heroTowardDisplay": {
+          "type": "boolean",
+          "description": "When true, yaw the packed item about Y so the printFace hero normal points to +Z (the display side). Yaw is about the geometric center, so a square footprint does not change cell."
+        },
+        "itemHeightMm": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "H in the resting-Y rule. For eb=vertical this is the inner root panel height."
+        },
+        "floorBoardLayers": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Carton board layers under the goods. floor = carton.thicknessMm × floorBoardLayers. Two layers is the usual double bottom (inner flap + outer flap)."
+        },
+        "dropWindow": { "$ref": "#/$defs/window" },
+        "stagger": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Slider units added to dropWindow start per cell index, so items settle one after another."
+        },
+        "dropDuration": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Slider units each item takes to move from above the carton down to its resting Y."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "anchor": { "const": "center" } },
+            "required": ["anchor"]
+          },
+          "then": {
+            "properties": { "restingYRule": { "const": "floor+H/2" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "anchor": { "const": "pivot" } },
+            "required": ["anchor"]
+          },
+          "then": {
+            "properties": { "restingYRule": { "const": "floor" } }
+          }
+        }
+      ]
+    }
+  }
+}
