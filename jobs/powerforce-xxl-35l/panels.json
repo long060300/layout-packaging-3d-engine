@@ -2,9 +2,11 @@
   "$schema": "../../schema/panels.schema.json",
   "meta": {
     "productCode": "50POW0350001485 + 120200206",
-    "title": "POWERFORCE XXL 35L — carton 50POW0350001485 + lid 120200206",
+    "title": "POWERFORCE XXL 35L — carton 50POW0350001485 + lid 120200206 · 6 rolls horizontal",
+    "labelCodes": ["51POW035CI01486", "51POW035MI01487"],
     "sources": [
       "dieline",
+      "ProductMaster",
       "estimate"
     ],
     "pageSizeMm": [
@@ -24,10 +26,9 @@
         0
       ]
     },
-    "notes": "Dieline (cut and crease vectors, one of the two-up blanks). Carton 50POW0350001485 POWERFORCE XXL 35L-RED-ORANGE 1047093101 (BOX). QC phủ bì 315 × 263 × 175 mm. Wrap L→R: glue 30 + 315 + 263 + 315 + 261 = blank 1184 mm. Body 175. Bottom major flaps 159 (the two length flaps overlap 55 mm on the 263 width). Minor flaps 131.5 (= 263/2) with a 1.5 mm slot. Handle: one trapezoid notch in the top edge of one length face, opening 149 mm, depth 110 mm, floor 65 mm above the bottom crease, flat 92.6 mm, ~R10 fillets. Length-flap notch 172 mm centered (shoulders 71.5) and 27.5 mm deep from the flap edge. Outside is flexo white; inside is brown (engine back face). Lid 120200206 POWERFORCE XXL 35L-RED-ORANGE 1047093401 (LID). QC phủ bì 315 × 258 × 173 mm. Two-flap cover: flap 173 + center 258 + flap 173. Not a telescoping skirt. Outer corners R20 (tangent offset 20 mm). Flap sides inset 3 mm. Two Ø20 holes on the center, centers 60 mm apart (40 mm edge to edge), 99 mm from each crease (89 mm to the hole edge), 157.5 mm from each side edge (147.5 mm to the hole edge). Estimate, pending Product Master: board caliper 2.0 mm; floorBoardLayers 2; pack grid is empty. The 1 mm pack fields are schema placeholders, not roll sizes. FIT is not a pack result until EB, rolls/carton, bags/roll, bag width and film arrive.",
+    "notes": "Dieline (cut and crease vectors, one of the two-up blanks). Carton 50POW0350001485 POWERFORCE XXL 35L-RED-ORANGE 1047093101 (BOX). QC phủ bì 315 × 263 × 175 mm. Wrap L→R: glue 30 + 315 + 263 + 315 + 261 = blank 1184 mm. Body 175. Bottom major flaps 159 (the two length flaps overlap 55 mm on the 263 width). Minor flaps 131.5 (= 263/2) with a 1.5 mm slot. Handle: one trapezoid notch in the top edge of one length face, opening 149 mm, depth 110 mm, floor 65 mm above the bottom crease, flat 92.6 mm, ~R10 fillets. Length-flap notch 172 mm centered (shoulders 71.5) and 27.5 mm deep from the flap edge. Outside is flexo white; inside is brown (engine back face). Lid 120200206 POWERFORCE XXL 35L-RED-ORANGE 1047093401 (LID). QC phủ bì 315 × 258 × 173 mm. Two-flap cover: flap 173 + center 258 + flap 173. Not a telescoping skirt. Outer corners R20 (tangent offset 20 mm). Flap sides inset 3 mm. Two Ø20 holes on the center, centers 60 mm apart (40 mm edge to edge), 99 mm from each crease (89 mm to the hole edge), 157.5 mm from each side edge (147.5 mm to the hole edge). Product Master V2 pm_2026-10-24.xlsx (Modified 2026-10-20), SKU 2847093101 / Article 1047093101 (apple-cinnamon/red; mandarin/orange twin uses the same carton, lid, and counts). Label codes 51POW035CI01486 / 51POW035MI01487 are meta only. EB horizontal. Rolls/carton 6. Bags/roll 60. Bag width 580 mm. Thickness 0.014 mm. Folding type 4 folds, folding width 145 mm (580/4). Carton QC phủ bì 315 × 263 × 175 matches the dieline. Lid QC 315 × 258 × 173 is the dieline. Roll axis = folding width 145 mm, placed along carton length. Grid is 2 along length × 3 across width × 1 high because floor((L−2t)/145) = 2 and 6/2 = 3. No paper or steel core, ID = 0. OD estimate: OD = sqrt(ID² + 4 × bags × pitch × gauge / π) = sqrt(4 × 60 × 580 × 0.014 / π) = 24.91 mm. Pitch 580 mm is an estimate, not a Product Master column — the cited row has bag width and folding width, not machine-direction bag length. Reference pitch is set equal to the bag width so the formula is numeric. OD scales with sqrt(pitch). Face width cancels out of the OD (it is the cylinder length). Board caliper 2.0 mm and floorBoardLayers 2 stay estimates (the dieline says Flexo, not a flute). Clearances use that caliper.",
     "todo": [
-      "Product Master pending: EB, rolls per carton, bags per roll, bag width, film. Leave pack.grid.cells empty until then.",
-      "Replace pack itemHeightMm / colMm / rowMm (currently 1 mm schema placeholders) with the Product Master roll.",
+      "Bag length / pitch is not in the cited Product Master columns. OD uses reference pitch = bag width 580 mm (estimate). Replace pitch when that column is confirmed.",
       "Board caliper 2.0 mm is an estimate — the dieline says Flexo, not a flute."
     ]
   },
@@ -951,24 +952,41 @@
       }
     ]
   },
+  "rolls": [
+    {
+      "id": "roll",
+      "thicknessMm": 0.014,
+      "flatPositionMm": [1240, 0, 200],
+      "seatMm": [1240, 12.455, 200],
+      "uprightEulerDeg": [0, 0, 0],
+      "orientWindow": [0, 0],
+      "panels": [],
+      "creases": [],
+      "rollMm": {
+        "lengthMm": 145,
+        "odMm": 24.91,
+        "idMm": 0,
+        "bags": 60,
+        "pitchMm": 580,
+        "filmThicknessMm": 0.014
+      }
+    }
+  ],
   "pack": {
-    "eb": "vertical",
+    "eb": "horizontal",
     "grid": {
-      "cols": 1,
-      "rows": 1,
-      "colMm": 1,
-      "rowMm": 1,
-      "cells": []
+      "cols": 2,
+      "rows": 3,
+      "colMm": 145,
+      "rowMm": 24.91,
+      "cells": ["roll", "roll", "roll", "roll", "roll", "roll"]
     },
     "anchor": "center",
     "restingYRule": "floor+H/2",
-    "heroTowardDisplay": true,
-    "itemHeightMm": 1,
+    "heroTowardDisplay": false,
+    "itemHeightMm": 24.91,
     "floorBoardLayers": 2,
-    "dropWindow": [
-      56,
-      76
-    ],
+    "dropWindow": [56, 76],
     "stagger": 1,
     "dropDuration": 8
   },
@@ -986,12 +1004,12 @@
       "label": "Bottom closed / Gấp đáy"
     },
     {
-      "t": 74,
-      "label": "Lid folds / Gấp nắp"
+      "t": 70,
+      "label": "6 rolls in / Xếp 6 cuộn"
     },
     {
       "t": 100,
-      "label": "Lid on — pack pending Product Master / Đậy nắp — chờ Product Master"
+      "label": "Lid on · FIT / Đậy nắp · FIT"
     }
   ]
 }

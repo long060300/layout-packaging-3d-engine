@@ -136,6 +136,16 @@ function checkAssembly(asm, label, errors) {
   if (!Array.isArray(asm.orientWindow) || asm.orientWindow.length !== 2) {
     errors.push(`${label} orientWindow must be [t0, t1]`);
   }
+  if (asm.rollMm) {
+    const roll = asm.rollMm;
+    if (!roll || !(roll.lengthMm > 0) || !(roll.odMm > 0) || typeof roll.idMm !== 'number' || roll.idMm < 0 || roll.idMm >= roll.odMm) {
+      errors.push(`${label} rollMm needs lengthMm > 0, odMm > 0, and 0 ≤ idMm < odMm`);
+    }
+    if ((asm.panels && asm.panels.length) || (asm.creases && asm.creases.length)) {
+      errors.push(`${label} is a roll — panels and creases stay empty`);
+    }
+    return;
+  }
   if (!Array.isArray(asm.panels) || asm.panels.length < 1) errors.push(`${label} needs at least one panel`);
   if (!Array.isArray(asm.creases)) errors.push(`${label} creases must be an array`);
   const ids = new Set();
@@ -278,6 +288,26 @@ export function assertJob(job) {
         }
         if (g && Math.abs(root.rectMm.w - g.colMm) > 0.05) {
           errors.push(`${part.id} root rectMm.w (${root.rectMm.w}) must equal pack.grid.colMm (${g.colMm})`);
+        }
+      }
+    }
+    if (pack.eb === 'horizontal' && g && Array.isArray(g.cells) && g.cells.length) {
+      const packedIds = new Set(g.cells);
+      for (const part of parts) {
+        if (!part || !packedIds.has(part.id)) continue;
+        const roll = part.rollMm;
+        if (!roll) {
+          errors.push(`${part.id} is in a horizontal grid but has no rollMm`);
+          continue;
+        }
+        if (Math.abs(roll.lengthMm - g.colMm) > 0.05) {
+          errors.push(`${part.id} roll length ${roll.lengthMm} must equal pack.grid.colMm ${g.colMm} (axis along carton length)`);
+        }
+        if (Math.abs(roll.odMm - g.rowMm) > 0.05) {
+          errors.push(`${part.id} roll OD ${roll.odMm} must equal pack.grid.rowMm ${g.rowMm}`);
+        }
+        if (Math.abs(roll.odMm - pack.itemHeightMm) > 0.05) {
+          errors.push(`${part.id} roll OD ${roll.odMm} must equal pack.itemHeightMm ${pack.itemHeightMm}`);
         }
       }
     }

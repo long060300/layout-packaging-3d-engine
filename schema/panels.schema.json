@@ -80,7 +80,12 @@
           "items": { "type": "number" },
           "description": "Optional PDF page size in mm, written by the dieline parser stub."
         },
-        "generatedBy": { "type": "string" }
+        "generatedBy": { "type": "string" },
+        "labelCodes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Retail label codes that share this carton and lid. Metadata only — not a panel and not a packed item."
+        }
       }
     },
     "vec3": {
@@ -240,8 +245,30 @@
           "description": "Euler XYZ degrees of the folded blank in use. Cartons and vertical inners use [0,0,0] (root face standing, print toward +Z). A hood whose local XY is the top board uses [-90,0,0] so print faces up."
         },
         "orientWindow": { "$ref": "#/$defs/window" },
-        "panels": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/panel" } },
-        "creases": { "type": "array", "items": { "$ref": "#/$defs/crease" } }
+        "panels": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/panel" },
+          "description": "Empty when rollMm is set. Otherwise at least one panel, exactly one of them the root."
+        },
+        "creases": { "type": "array", "items": { "$ref": "#/$defs/crease" } },
+        "rollMm": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lengthMm", "odMm", "idMm"],
+          "description": "Coreless film roll instead of a folded blank. lengthMm is the cylinder axis (pack column / carton length when horizontal). odMm and idMm are diameters. idMm 0 means film to the center, no paper or steel core.",
+          "properties": {
+            "lengthMm": { "type": "number", "exclusiveMinimum": 0 },
+            "odMm": { "type": "number", "exclusiveMinimum": 0 },
+            "idMm": { "type": "number", "minimum": 0 },
+            "bags": { "type": "integer", "minimum": 1 },
+            "pitchMm": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "Machine-direction length of one bag used in the OD estimate. Cite the source in meta.notes."
+            },
+            "filmThicknessMm": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        }
       }
     },
     "pack": {
@@ -255,7 +282,7 @@
       "properties": {
         "eb": {
           "enum": ["vertical", "horizontal"],
-          "description": "Pack orientation. vertical: root panel +Y is up, and that panel's rectMm.h is H. horizontal is reserved for a later job; H is still the vertical extent used by the resting-Y rule."
+          "description": "Pack orientation. vertical: root panel +Y is up, and that panel's rectMm.h is H. horizontal: a roll's axis follows the grid column (carton length). H is still the vertical extent used by the resting-Y rule, and for a roll H is the OD."
         },
         "grid": {
           "type": "object",

@@ -279,6 +279,24 @@ async function meshCheck() {
   }
   if (insideHole) fail(`powerforce lid holes still contain ${insideHole} print vertices`);
   else ok('powerforce lid holes are open');
+
+  const pfRoll = buildAssembly(pf.rolls[0]);
+  applyFold(pfRoll, 100);
+  applyPose(pfRoll, 100);
+  const rollBox = worldBox(pfRoll.root);
+  const rollSize = {
+    x: rollBox.max.x - rollBox.min.x,
+    y: rollBox.max.y - rollBox.min.y,
+    z: rollBox.max.z - rollBox.min.z,
+  };
+  console.log('powerforce roll AABB', rollSize.x.toFixed(2), rollSize.y.toFixed(2), rollSize.z.toFixed(2));
+  if (Math.abs(rollSize.x - 145) > 1) fail(`powerforce roll axis ${rollSize.x.toFixed(2)} mm, expected 145 along X`);
+  else ok('powerforce roll axis is 145 mm along X');
+  if (Math.abs(rollSize.y - 24.92) > 0.6 || Math.abs(rollSize.z - 24.92) > 0.6) {
+    fail(`powerforce roll OD box ${rollSize.y.toFixed(2)} × ${rollSize.z.toFixed(2)}`);
+  } else ok('powerforce roll cross-section is the estimated OD');
+  if (rollBox.min.y < -0.5) fail(`powerforce reference roll dips below the floor at ${rollBox.min.y.toFixed(2)}`);
+  else ok('powerforce reference roll sits on the floor');
 }
 
 function sleep(ms) {
@@ -369,12 +387,27 @@ async function browserSmoke() {
       if (folded.productCode && !String(folded.productCode).includes('50POW0350001485')) {
         fail('powerforce product code ' + folded.productCode);
       }
+      if (!folded.fit) fail('powerforce browser FIT at t=100 was false');
+      else ok('powerforce browser FIT at t=100');
+      if (!folded.packed || folded.packed.length !== 6) fail('powerforce browser packed count ' + (folded.packed && folded.packed.length));
+      else ok('powerforce browser shows 6 rolls');
+      const offRoll = (folded.packed || []).filter((p) => !p.visible || Math.abs(p.y - p.expected) > 0.2);
+      if (offRoll.length) fail('powerforce rolls not at resting Y: ' + JSON.stringify(offRoll));
+      else ok('powerforce rolls sit on resting Y');
       await jobPage.evaluate(() => window.__quickpack.setFrame([720, 520, 860], [0, 90, 0]));
       await sleep(250);
       await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-folded.png' });
-      await jobPage.evaluate(() => window.__quickpack.setFrame([40, 980, 80], [0, 90, 0]));
-      await sleep(200);
+      await jobPage.evaluate(() => {
+        const lid = document.getElementById('showLid');
+        lid.checked = false;
+        lid.dispatchEvent(new Event('change'));
+        window.__quickpack.setFrame([20, 780, 30], [0, 40, 0]);
+      });
+      await sleep(300);
       await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-top.png' });
+      await jobPage.evaluate(() => window.__quickpack.setFrame([210, 460, 340], [0, 30, 0]));
+      await sleep(250);
+      await jobPage.screenshot({ path: '/opt/cursor/artifacts/powerforce-lookin.png' });
       const dom = await jobPage.content();
       if (dom.includes(dataUrl) || dom.includes(b64Payload)) fail('powerforce viewer DOM contains an embedded image');
       else ok('powerforce viewer DOM has no embedded image');
@@ -394,16 +427,48 @@ ok('powerforce job passes assertJob');
   if (nom.l !== 315 || nom.w !== 263 || nom.h !== 175) {
     fail(`powerforce nominal ${nom.l}×${nom.w}×${nom.h}`);
   } else ok('powerforce carton QC phủ bì 315 × 263 × 175');
-  if (!pf.meta.sources.includes('dieline') || !pf.meta.sources.includes('estimate')) {
-    fail('powerforce sources must include dieline and estimate');
-  } else if (pf.meta.sources.includes('ProductMaster')) {
-    fail('powerforce must not claim Product Master until the reply lands');
-  } else ok('powerforce sources are dieline + estimate');
-  if (pf.pack.grid.cells.length !== 0) fail('powerforce pack cells should stay empty until Product Master');
-  else ok('powerforce pack cells empty (pending Product Master)');
-  if ((pf.inners && pf.inners.length) || (pf.rolls && pf.rolls.length)) {
-    fail('powerforce should not invent rolls or inners before Product Master');
-  } else ok('powerforce has no rolls or inners yet');
+  const sources = new Set(pf.meta.sources);
+  if (!sources.has('dieline') || !sources.has('ProductMaster') || !sources.has('estimate')) {
+    fail('powerforce sources must be dieline + ProductMaster + estimate');
+  } else ok('powerforce sources are dieline + ProductMaster + estimate');
+  const labels = pf.meta.labelCodes || [];
+  if (labels.join(',') !== '51POW035CI01486,51POW035MI01487') {
+    fail('powerforce label codes ' + labels.join(','));
+  } else ok('powerforce label codes are meta only');
+  if (pf.pack.eb !== 'horizontal') fail('powerforce EB should be horizontal');
+  else ok('powerforce EB is horizontal');
+  if ((pf.inners && pf.inners.length) || !pf.rolls || pf.rolls.length !== 1) {
+    fail('powerforce should pack one roll definition and no inners');
+  } else ok('powerforce has one coreless roll and no inners');
+  const roll = pf.rolls[0];
+  const rm = roll.rollMm;
+  const bags = 60;
+  const pitch = 580;
+  const gauge = 0.014;
+  const face = 145;
+  const od = Math.round(Math.sqrt((4 * bags * pitch * gauge) / Math.PI) * 100) / 100;
+  if (rm.bags !== bags || rm.filmThicknessMm !== gauge || rm.pitchMm !== pitch || rm.lengthMm !== face || rm.idMm !== 0) {
+    fail('powerforce roll inputs do not match Product Master + the pitch estimate');
+  } else ok('powerforce roll uses PM bags, gauge, folding width, and ID 0');
+  if (rm.odMm !== od) fail(`powerforce OD ${rm.odMm} != formula ${od}`);
+  else ok(`powerforce OD estimate ${od} mm from sqrt(4×60×580×0.014/π)`);
+  const g = pf.pack.grid;
+  if (g.cols !== 2 || g.rows !== 3 || g.colMm !== face || g.rowMm !== od || pf.pack.itemHeightMm !== od) {
+    fail('powerforce grid is not 2×145 along length by 3×OD across');
+  } else if (g.cells.length !== 6 || g.cells.some((id) => id !== 'roll')) {
+    fail('powerforce grid should place 6 rolls');
+  } else ok('powerforce places 6 rolls, axis along length, 2 × 3');
+  const pfFit = fitReport(pf);
+  const lengthClear = pfFit.rows.find((r) => r.key === 'length').clearance;
+  const widthClear = pfFit.rows.find((r) => r.key === 'width').clearance;
+  const heightClear = pfFit.rows.find((r) => r.key === 'height').clearance;
+  console.log('powerforce clearances', lengthClear.toFixed(2), widthClear.toFixed(2), heightClear.toFixed(2));
+  if (!pfFit.fit) fail('powerforce pack should FIT at board 2 mm');
+  else ok('powerforce FIT at board 2 mm');
+  if (Math.abs(lengthClear - 21) > 0.05) fail('powerforce length clearance ' + lengthClear);
+  else ok('powerforce length clearance is 21 mm');
+  if (widthClear < 180 || heightClear < 140) fail('powerforce cross-section clearances look wrong');
+  else ok('powerforce width and height clearances stay positive');
   if (!pf.lid || pf.lid.panels.length !== 3) fail('powerforce lid must be a two-flap cover (top + two flaps)');
   else ok('powerforce lid is a two-flap cover');
   const lidTop = pf.lid.panels.find((p) => p.id === 'lid-top');

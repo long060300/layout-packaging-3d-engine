@@ -149,10 +149,67 @@ function circleLoop(cx, cy, radius, z, n = 48) {
 }
 
 /**
+ * Coreless film roll. Axis along local +X (carton length when the pack column is X).
+ * idMm 0 is a solid film cylinder — no paper or steel core. A positive idMm is an open tube.
+ * The mesh is centered on the assembly origin. thicknessScales stays off so board caliper
+ * does not squash the roll.
+ */
+function buildRoll(asm) {
+  const { lengthMm, odMm, idMm } = asm.rollMm;
+  const root = new THREE.Group();
+  root.name = asm.id;
+  const outer = odMm / 2;
+  const inner = Math.max(0, idMm) / 2;
+  let geo;
+  if (inner < 0.05) {
+    geo = new THREE.CylinderGeometry(outer, outer, lengthMm, 48, 1, false);
+    geo.rotateZ(-Math.PI / 2);
+  } else {
+    const shape = new THREE.Shape();
+    shape.absarc(0, 0, outer, 0, Math.PI * 2, false);
+    const hole = new THREE.Path();
+    hole.absarc(0, 0, inner, 0, Math.PI * 2, true);
+    shape.holes.push(hole);
+    geo = new THREE.ExtrudeGeometry(shape, { depth: lengthMm, bevelEnabled: false, curveSegments: 48 });
+    geo.translate(0, 0, -lengthMm / 2);
+    geo.rotateY(Math.PI / 2);
+  }
+  const film = new THREE.MeshStandardMaterial({
+    color: 0xc5cdd4,
+    roughness: 0.38,
+    metalness: 0.02,
+  });
+  const end = new THREE.MeshStandardMaterial({
+    color: 0xe7edf1,
+    roughness: 0.5,
+    metalness: 0,
+  });
+  const mesh = new THREE.Mesh(geo, inner < 0.05 ? [film, end, end] : film);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  mesh.userData.body = true;
+  mesh.userData.panelId = asm.id;
+  mesh.userData.role = 'face';
+  mesh.userData.printFace = 'none';
+  mesh.userData.roll = true;
+  root.add(mesh);
+  return {
+    asm,
+    root,
+    pivots: [],
+    meshes: [mesh],
+    lines: [],
+    lineMaterials: makeLineMaterials(),
+    thickness: asm.thicknessMm,
+  };
+}
+
+/**
  * @param {object} asm assembly from panels.json
  * @returns built blank. Root quaternion/position are identity until applyPose.
  */
 export function buildAssembly(asm) {
+  if (asm.rollMm) return buildRoll(asm);
   const panels = new Map(asm.panels.map((p) => [p.id, p]));
   const creaseByChild = new Map();
   for (const crease of asm.creases) {

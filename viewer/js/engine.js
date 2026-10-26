@@ -237,6 +237,14 @@ function renderSpec(job, report) {
   const g = job.pack.grid;
   row('Grid', `${g.cols} × ${g.rows}  ·  ${g.colMm} × ${g.rowMm} mm  ·  ${job.pack.eb}`);
   row('H', `${job.pack.itemHeightMm} mm`);
+  const roll = (job.rolls || []).find((item) => item && item.rollMm);
+  if (roll) {
+    const m = roll.rollMm;
+    row('Roll', `axis ${m.lengthMm} mm along L · OD ${m.odMm} mm estimate · ID ${m.idMm} mm · ×${job.pack.grid.cells.length}`);
+    if (m.bags && m.pitchMm && m.filmThicknessMm) {
+      row('OD', `sqrt(${m.idMm}² + 4×${m.bags}×${m.pitchMm}×${m.filmThicknessMm}/π) = ${m.odMm} mm`);
+    }
+  }
   row('Anchor', `${job.pack.anchor} → ${job.pack.restingYRule}`);
   row('Resting Y', `${fmt(report.restingY)} mm   (floor ${fmt(report.floor)} + rule)`);
   row('Hero → +Z', job.pack.heroTowardDisplay ? 'yes' : 'no');
