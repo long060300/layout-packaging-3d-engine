@@ -165,6 +165,33 @@ for (const inner of zosia.inners) {
 }
 if (facesOk) ok('ZOSIA dieline: hero on 75 mm faces, text on 40 mm faces');
 
+const zosiaAssemblies = [zosia.carton, zosia.lid, ...zosia.inners];
+const usedTex = new Set();
+let contoursOk = true;
+for (const asm of zosiaAssemblies) {
+  for (const panel of asm.panels) {
+    if (!panel.outlineMm || panel.outlineMm.length < 3) {
+      contoursOk = false;
+      fail(`${asm.id} ${panel.id} is still a rectangle — it needs the dieline outline`);
+    }
+    if (!panel.textureRef || usedTex.has(panel.textureRef)) {
+      contoursOk = false;
+      fail(`${asm.id} ${panel.id} needs its own texture crop, not a shared sheet`);
+    }
+    if (panel.textureRef) usedTex.add(panel.textureRef);
+  }
+}
+const lidRoot = zosia.lid.panels.find((p) => !zosia.lid.creases.some((c) => c.panelB === p.id));
+const windowFlaps = zosia.lid.panels.filter((p) => Array.isArray(p.holesMm) && p.holesMm.length);
+if (!lidRoot || lidRoot.rectMm.h < 250) {
+  contoursOk = false;
+  fail('ZOSIA lid root should be the hood wall (~265 mm), not a telescoping top board');
+} else if (windowFlaps.length < 2) {
+  contoursOk = false;
+  fail('ZOSIA hood should keep the two window flaps from the dieline');
+}
+if (contoursOk) ok('ZOSIA panels are dieline contours with a crop per face and a windowed hood');
+
 const refs = new Set();
 const walk = (node) => {
   if (!node || typeof node !== 'object') return;
@@ -265,7 +292,7 @@ async function meshCheck() {
     console.log('Install three@0.147.0 so Node resolves "three", then re-run. See the header of this file.');
     return;
   }
-  const { buildAssembly, applyFold, applyPose, createPackPrototype, clonePacked, worldBox } = assemble;
+  const { buildAssembly, applyFold, applyPose, createPackPrototype, clonePacked, worldBox, bodyBounds } = assemble;
   const inner = job.inners[0];
   const proto = createPackPrototype(inner, true);
   const size = proto.size;
@@ -277,7 +304,7 @@ async function meshCheck() {
 
   const wrap = clonePacked(proto, 'center');
   wrap.position.set(cell.x, cell.y, cell.z);
-  const box = worldBox(wrap);
+  const box = bodyBounds(wrap);
   const midY = (box.min.y + box.max.y) / 2;
   if (Math.abs(midY - 64) > 0.2) fail(`packed center Y ${midY.toFixed(2)} is not 64`);
   else ok('packed geometric center Y is floor + H/2');

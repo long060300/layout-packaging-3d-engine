@@ -117,6 +117,12 @@ function isVec3(v) {
   return Array.isArray(v) && v.length === 3 && v.every((n) => typeof n === 'number' && Number.isFinite(n));
 }
 
+function isRing(pts) {
+  return Array.isArray(pts) && pts.length >= 3 && pts.every((q) => (
+    Array.isArray(q) && q.length === 2 && q.every((n) => typeof n === 'number' && Number.isFinite(n))
+  ));
+}
+
 function rootPanel(asm) {
   const children = new Set(asm.creases.map((c) => c.panelB));
   const roots = asm.panels.filter((p) => !children.has(p.id));
@@ -154,6 +160,23 @@ function checkAssembly(asm, label, errors) {
     }
     if (p.textureRef !== undefined && !TEXTURE_REF.test(p.textureRef)) {
       errors.push(`${label} panel ${p.id} textureRef must be textures/<file>.png|webp|jpg (no base64, no URLs)`);
+    }
+    if (p.outlineMm !== undefined && !isRing(p.outlineMm)) {
+      errors.push(`${label} panel ${p.id} outlineMm must be a polygon of [x,y] points`);
+    }
+    if (p.holesMm !== undefined) {
+      if (!Array.isArray(p.holesMm) || p.holesMm.some((hole) => !isRing(hole))) {
+        errors.push(`${label} panel ${p.id} holesMm must be an array of polygons`);
+      }
+    }
+    if (p.uvMm !== undefined) {
+      const u = p.uvMm;
+      if (!u || typeof u.x !== 'number' || typeof u.y !== 'number' || !(u.w > 0) || !(u.h > 0)) {
+        errors.push(`${label} panel ${p.id} uvMm needs {x,y,w>0,h>0}`);
+      }
+    }
+    if (p.stackLayer !== undefined && (typeof p.stackLayer !== 'number' || p.stackLayer < 0)) {
+      errors.push(`${label} panel ${p.id} stackLayer must be a number ≥ 0`);
     }
     if (p.hinge !== undefined) {
       errors.push(`${label} panel ${p.id} must not store its own hinge — attach it only as a crease.panelB`);

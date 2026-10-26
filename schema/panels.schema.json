@@ -116,7 +116,41 @@
         "textureRef": {
           "type": "string",
           "pattern": "^textures/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(png|webp|jpe?g)$",
-          "description": "Path relative to this job JSON. A file under textures/. Never a data: URL or base64."
+          "description": "Path relative to this job JSON. A file under textures/. One crop per face — never a data: URL, base64, or one full sheet stretched across every panel."
+        },
+        "outlineMm": {
+          "type": "array",
+          "minItems": 3,
+          "description": "Dieline contour in this panel's local millimetres (same space as rectMm). When present the mesh is this polygon, not the rectangle. rectMm stays for the vertical pack check.",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": { "type": "number" }
+          }
+        },
+        "holesMm": {
+          "type": "array",
+          "description": "Openings cut through the outline (handle slot, hood window). Each ring is a polygon in the same local millimetres.",
+          "items": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": { "type": "number" }
+            }
+          }
+        },
+        "uvMm": {
+          "$ref": "#/$defs/rect",
+          "description": "Local rectangle the texture covers. +Y is up the face, so the image top is max Y. Defaults to the outline bounds."
+        },
+        "stackLayer": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Board layers this panel shifts toward the unprinted side while it folds, so stacked flaps do not occupy the same sheet. 0 is the outer board."
         }
       }
     },

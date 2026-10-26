@@ -3,569 +3,4976 @@
   "meta": {
     "productCode": "JMDWSL001",
     "title": "ZOSIA Slider mix 1L + 3L",
-    "sources": ["dieline", "ProductMaster", "estimate"],
-    "generatedBy": "Rectangle port of the ZOSIA Slider mix. Contours are simplified; numbers are cited below.",
-    "todo": [
-      "Dieline vectors are not cut yet. Panels are rectangles. The carton front slot is the dieline hole's 90 × 33 mm box, not the real contour.",
-      "Inner top flaps from the dieline are left off this blank so the closed bottom is what the resting-Y check measures."
+    "sources": [
+      "dieline",
+      "ProductMaster",
+      "estimate"
     ],
-    "notes": "Product Master V2 Packing_Material_Code_R7d, saved 14:49 Asia/Bangkok 24/10/2026. Carton 50ZOAMIX0001568 outside L×W×H 297 × 155 × 259 mm (this nominal replaces the verified model's 297.5 mm length). Lid 53ZOAMIX0001569 has no L×W×H in Packing; hood 304 × 161 × 265 mm is the dieline / verify measure (estimate). Inners 54ZOA0010001570 (1L, SKU 28JMDWSL00101) and 54ZOA0030001571 (3L, SKU 28JMDWSL00102). EB Vertical for both. Inner QC L×W×H 255 × 75 × 40 mm, with 255 vertical. Innerbox per carton 7 + 7 = 14, not rolls. Bags per innerbox 1L=20 and 3L=15, bag width target 240 mm, bag film 0.047 mm: meta only, not geometry and not board caliper. Pack map (Long / QuickPack): vertical, up = 255, 7 × 40 mm along the carton length (under 297), 2 × 75 mm along the depth. Dieline: hero art is on the 75 mm faces, text is on the 40 mm faces. The 75 mm hero normal points out the 155 mm end (+X), the look-in. Shoppers on that axis see the hero, not the 40 mm text face. The 40 mm text face is parallel to the 297 mm wall. Turning the 75 mm normal onto +Z is a 90° yaw and swaps the cell to 75 × 40, and 7 × 75 mm does not fit 297 mm. heroTowardDisplay is false so that yaw is not applied. The hero print already points out the +X end, so no extra 180° about the center is needed; the placement stays on the body center, not a corner. Row 0 (+Z) = 7 × 1L and row 1 = 7 × 3L follows the verified sim (estimate; Product Master does not name the row). Board 2.0 mm and two bottom layers are the verify run's T=2 (estimate), so floor = 4 mm, center resting Y = 131.5 mm, H = 255. Inner board 0.5 mm is the verified sim's duplex (estimate). Dieline glue: carton 30 mm, inner 15 × 253.4 mm. Dieline carton sides 155 and 153 mm; both walls here are 155 mm so the outside matches Product Master width. Dieline carton length panels 297.5 / 297 / 295.5 mm; walls here are 297 mm. Bottom flaps from the dieline: carton 107 mm and 93.5 mm, inner 39.5 / 38 / 37 mm. Lid skirt 263 mm is 265 − 2 mm top board (estimate) so the hood outside height stays 265 mm. Verify json on the 297.5 mm model: per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261, overlaps 0, outside 0, fit true. Formula clearances on Product Master 297 × 155 × 259 at t = 2 mm are length 13 mm, width 1 mm, height 0 mm. Textures are raster previews of the dieline PDFs, one sheet per blank, not a per-panel UV."
+    "generatedBy": "Dieline contours and per-face crops from the ZOSIA Slider mix sim.",
+    "todo": [
+      "Board caliper 2.0 mm (carton and hood) and inner duplex 0.5 mm are still estimates.",
+      "Which row is 1L is the verified sim's row order; Product Master does not name it."
+    ],
+    "notes": "Product Master V2 Packing_Material_Code_R7d, saved 14:49 Asia/Bangkok 24/10/2026. Carton 50ZOAMIX0001568 outside L\u00d7W\u00d7H 297 \u00d7 155 \u00d7 259 mm (this nominal replaces the verified model's 297.5 mm length). Lid 53ZOAMIX0001569 has no L\u00d7W\u00d7H in Packing; hood 304 \u00d7 161 \u00d7 265 mm is the dieline / verify measure (estimate). Inners 54ZOA0010001570 (1L, SKU 28JMDWSL00101) and 54ZOA0030001571 (3L, SKU 28JMDWSL00102). EB Vertical for both. Inner QC L\u00d7W\u00d7H 255 \u00d7 75 \u00d7 40 mm, with 255 vertical. Innerbox per carton 7 + 7 = 14, not rolls. Bags per innerbox 1L=20 and 3L=15, bag width target 240 mm, bag film 0.047 mm: meta only, not geometry and not board caliper. Pack map (Long / QuickPack): vertical, up = 255, 7 \u00d7 40 mm along the carton length (under 297), 2 \u00d7 75 mm along the depth. Dieline: hero art is on the 75 mm faces, text is on the 40 mm faces. The 75 mm hero normal points out the 155 mm end (+X), the look-in. Shoppers on that axis see the hero, not the 40 mm text face. The 40 mm text face is parallel to the 297 mm wall. Turning the 75 mm normal onto +Z is a 90\u00b0 yaw and swaps the cell to 75 \u00d7 40, and 7 \u00d7 75 mm does not fit 297 mm. heroTowardDisplay is false so that yaw is not applied. The hero print already points out the +X end. Row 0 (+Z) = 7 \u00d7 1L and row 1 = 7 \u00d7 3L follows the verified sim (estimate; Product Master does not name the row). Board 2.0 mm and two bottom layers are the verify run's T=2 (estimate), so floor = 4 mm, center resting Y = 131.5 mm, H = 255. Inner board 0.5 mm is the verified sim's duplex (estimate). Contours, holes, and hinges are the sim panel graph (dieline), not rectangles. The display side (155 mm) is 150 mm tall with a U opening, and the 297 mm front slopes from 259 mm down to 150 mm, so the 255 mm inners show above the carton. The lid is the kraft hood: walls 304 / 161 / 304 / 159 plus a 30 mm glue tab, open at the bottom, with four top flaps. Two of those flaps carry the \u00d825 window and the 85 \u00d7 28 hand hole. It is not a telescoping skirt. Each face texture is a crop of that panel from the sim artwork. The inner root is the 40 \u00d7 255 mm QC face (face-40); the dieline side panel itself is about 252.5 mm tall. Verify json on the 297.5 mm model: per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261, overlaps 0, outside 0, fit true. Formula clearances on Product Master 297 \u00d7 155 \u00d7 259 at t = 2 mm are length 13 mm, width 1 mm, height 0 mm."
   },
   "carton": {
     "id": "carton",
     "thicknessMm": 2,
-    "nominalOutsideMm": { "l": 297, "w": 155, "h": 259 },
-    "flatPositionMm": [-560, 0, 480],
-    "seatMm": [-148.5, 0, 77.5],
-    "uprightEulerDeg": [0, 0, 0],
-    "orientWindow": [0, 16],
+    "flatPositionMm": [
+      -720,
+      0,
+      520
+    ],
+    "seatMm": [
+      -148.5,
+      0,
+      77.5
+    ],
+    "uprightEulerDeg": [
+      0,
+      0,
+      0
+    ],
+    "orientWindow": [
+      0,
+      30
+    ],
     "panels": [
       {
         "id": "front",
         "role": "face",
-        "rectMm": { "x": 0, "y": 0, "w": 297, "h": 259 },
+        "rectMm": {
+          "x": 0.0,
+          "y": -0.0,
+          "w": 297.5,
+          "h": 259.0
+        },
+        "outlineMm": [
+          [
+            0.0,
+            -0.0
+          ],
+          [
+            297.5,
+            -0.0
+          ],
+          [
+            297.5,
+            150.0
+          ],
+          [
+            100.0,
+            259.0
+          ],
+          [
+            0.0,
+            259.0
+          ]
+        ],
         "printFace": "hero",
-        "textureRef": "textures/carton.png"
-      },
-      {
-        "id": "right",
-        "role": "face",
-        "rectMm": { "x": 0, "y": 0, "w": 155, "h": 259 },
-        "printFace": "text",
-        "textureRef": "textures/carton.png"
-      },
-      {
-        "id": "back",
-        "role": "face",
-        "rectMm": { "x": 0, "y": 0, "w": 297, "h": 259 },
-        "printFace": "kraft",
-        "textureRef": "textures/carton.png"
-      },
-      {
-        "id": "left",
-        "role": "face",
-        "rectMm": { "x": 0, "y": 0, "w": 155, "h": 259 },
-        "printFace": "kraft",
-        "textureRef": "textures/carton.png"
-      },
-      {
-        "id": "glue",
-        "role": "glue",
-        "rectMm": { "x": 0, "y": 0, "w": 30, "h": 259 },
-        "printFace": "none"
+        "textureRef": "textures/carton-front.webp",
+        "uvMm": {
+          "x": -1.116,
+          "y": -1.071,
+          "w": 299.616,
+          "h": 261.196
+        },
+        "holesMm": [
+          [
+            [
+              188.5,
+              120.5
+            ],
+            [
+              187.5,
+              119.5
+            ],
+            [
+              184.5,
+              118.0
+            ],
+            [
+              183.0,
+              117.5
+            ],
+            [
+              182.0,
+              117.5
+            ],
+            [
+              181.0,
+              117.0
+            ],
+            [
+              178.5,
+              117.0
+            ],
+            [
+              177.0,
+              117.5
+            ],
+            [
+              171.5,
+              118.5
+            ],
+            [
+              154.5,
+              120.0
+            ],
+            [
+              143.0,
+              120.0
+            ],
+            [
+              126.0,
+              118.5
+            ],
+            [
+              120.5,
+              117.5
+            ],
+            [
+              119.0,
+              117.0
+            ],
+            [
+              116.5,
+              117.0
+            ],
+            [
+              115.5,
+              117.5
+            ],
+            [
+              114.5,
+              117.5
+            ],
+            [
+              113.0,
+              118.0
+            ],
+            [
+              110.0,
+              119.5
+            ],
+            [
+              109.0,
+              120.5
+            ],
+            [
+              108.0,
+              121.0
+            ],
+            [
+              105.5,
+              124.0
+            ],
+            [
+              104.0,
+              127.5
+            ],
+            [
+              104.0,
+              135.5
+            ],
+            [
+              107.0,
+              141.0
+            ],
+            [
+              108.5,
+              142.5
+            ],
+            [
+              110.0,
+              143.5
+            ],
+            [
+              111.5,
+              145.0
+            ],
+            [
+              113.5,
+              145.5
+            ],
+            [
+              115.5,
+              146.5
+            ],
+            [
+              122.0,
+              147.5
+            ],
+            [
+              128.5,
+              149.0
+            ],
+            [
+              142.0,
+              150.0
+            ],
+            [
+              155.5,
+              150.0
+            ],
+            [
+              169.0,
+              149.0
+            ],
+            [
+              175.5,
+              147.5
+            ],
+            [
+              182.0,
+              146.5
+            ],
+            [
+              184.0,
+              145.5
+            ],
+            [
+              186.0,
+              145.0
+            ],
+            [
+              190.5,
+              141.0
+            ],
+            [
+              193.5,
+              135.5
+            ],
+            [
+              193.5,
+              133.5
+            ],
+            [
+              194.0,
+              131.0
+            ],
+            [
+              193.5,
+              130.0
+            ],
+            [
+              193.5,
+              127.5
+            ],
+            [
+              192.0,
+              124.0
+            ],
+            [
+              191.0,
+              123.0
+            ],
+            [
+              190.5,
+              122.0
+            ],
+            [
+              189.5,
+              121.0
+            ]
+          ]
+        ]
       },
       {
         "id": "flap-front",
         "role": "flap",
-        "rectMm": { "x": 0, "y": -107, "w": 297, "h": 107 },
+        "rectMm": {
+          "x": -147.75,
+          "y": -107.0,
+          "w": 295.5,
+          "h": 107.0
+        },
+        "outlineMm": [
+          [
+            -135.25,
+            -107.0
+          ],
+          [
+            -92.25,
+            -107.0
+          ],
+          [
+            -91.25,
+            -106.5
+          ],
+          [
+            -90.75,
+            -106.5
+          ],
+          [
+            -88.75,
+            -105.0
+          ],
+          [
+            -88.75,
+            -104.5
+          ],
+          [
+            -87.75,
+            -103.0
+          ],
+          [
+            -86.25,
+            -77.5
+          ],
+          [
+            86.25,
+            -77.5
+          ],
+          [
+            87.75,
+            -103.0
+          ],
+          [
+            88.25,
+            -103.5
+          ],
+          [
+            88.75,
+            -104.5
+          ],
+          [
+            88.75,
+            -105.0
+          ],
+          [
+            90.75,
+            -106.5
+          ],
+          [
+            91.25,
+            -106.5
+          ],
+          [
+            92.25,
+            -107.0
+          ],
+          [
+            135.25,
+            -107.0
+          ],
+          [
+            135.75,
+            -106.5
+          ],
+          [
+            136.75,
+            -106.5
+          ],
+          [
+            138.75,
+            -104.5
+          ],
+          [
+            139.25,
+            -103.5
+          ],
+          [
+            147.25,
+            -0.5
+          ],
+          [
+            147.75,
+            -0.0
+          ],
+          [
+            -147.75,
+            -0.0
+          ],
+          [
+            -147.25,
+            -0.5
+          ],
+          [
+            -139.25,
+            -103.5
+          ],
+          [
+            -138.75,
+            -104.5
+          ],
+          [
+            -136.75,
+            -106.5
+          ],
+          [
+            -135.75,
+            -106.5
+          ]
+        ],
         "printFace": "kraft",
-        "textureRef": "textures/carton.png"
+        "textureRef": "textures/carton-flap-front.webp",
+        "uvMm": {
+          "x": -148.928,
+          "y": -108.126,
+          "w": 297.741,
+          "h": 109.164
+        },
+        "stackLayer": 0.5
+      },
+      {
+        "id": "side-look",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -75.0,
+          "w": 155.0,
+          "h": 150.0
+        },
+        "outlineMm": [
+          [
+            27.0,
+            65.0
+          ],
+          [
+            26.5,
+            66.0
+          ],
+          [
+            26.5,
+            68.0
+          ],
+          [
+            25.5,
+            69.5
+          ],
+          [
+            25.5,
+            70.0
+          ],
+          [
+            25.0,
+            71.0
+          ],
+          [
+            24.0,
+            72.0
+          ],
+          [
+            23.0,
+            72.5
+          ],
+          [
+            21.5,
+            74.0
+          ],
+          [
+            20.5,
+            74.0
+          ],
+          [
+            20.0,
+            74.5
+          ],
+          [
+            19.0,
+            74.5
+          ],
+          [
+            18.5,
+            75.0
+          ],
+          [
+            0.0,
+            75.0
+          ],
+          [
+            0.0,
+            -75.0
+          ],
+          [
+            155.0,
+            -75.0
+          ],
+          [
+            155.0,
+            75.0
+          ],
+          [
+            136.0,
+            75.0
+          ],
+          [
+            135.5,
+            74.5
+          ],
+          [
+            134.5,
+            74.5
+          ],
+          [
+            134.0,
+            74.0
+          ],
+          [
+            133.0,
+            74.0
+          ],
+          [
+            131.5,
+            72.5
+          ],
+          [
+            130.5,
+            72.0
+          ],
+          [
+            129.5,
+            71.0
+          ],
+          [
+            129.0,
+            70.0
+          ],
+          [
+            129.0,
+            69.5
+          ],
+          [
+            128.5,
+            69.0
+          ],
+          [
+            128.5,
+            68.0
+          ],
+          [
+            128.0,
+            67.5
+          ],
+          [
+            128.0,
+            -25.0
+          ],
+          [
+            127.5,
+            -25.5
+          ],
+          [
+            127.5,
+            -28.0
+          ],
+          [
+            127.0,
+            -28.5
+          ],
+          [
+            126.0,
+            -31.0
+          ],
+          [
+            124.5,
+            -32.5
+          ],
+          [
+            123.5,
+            -33.0
+          ],
+          [
+            122.5,
+            -34.0
+          ],
+          [
+            121.5,
+            -34.0
+          ],
+          [
+            121.0,
+            -34.5
+          ],
+          [
+            120.0,
+            -34.5
+          ],
+          [
+            119.5,
+            -35.0
+          ],
+          [
+            35.0,
+            -35.0
+          ],
+          [
+            32.0,
+            -34.0
+          ],
+          [
+            28.5,
+            -31.0
+          ],
+          [
+            27.0,
+            -26.5
+          ]
+        ],
+        "printFace": "hero",
+        "textureRef": "textures/carton-side-look.webp",
+        "uvMm": {
+          "x": -1.11,
+          "y": -76.072,
+          "w": 157.31,
+          "h": 152.267
+        }
+      },
+      {
+        "id": "flap-look",
+        "role": "flap",
+        "rectMm": {
+          "x": -77.01,
+          "y": -93.5,
+          "w": 154.0,
+          "h": 93.5
+        },
+        "outlineMm": [
+          [
+            0.49,
+            -62.5
+          ],
+          [
+            -12.01,
+            -74.0
+          ],
+          [
+            -14.01,
+            -79.5
+          ],
+          [
+            -14.01,
+            -83.5
+          ],
+          [
+            -13.01,
+            -86.5
+          ],
+          [
+            -12.01,
+            -87.5
+          ],
+          [
+            -11.51,
+            -89.0
+          ],
+          [
+            -9.51,
+            -91.0
+          ],
+          [
+            -6.01,
+            -93.0
+          ],
+          [
+            -4.51,
+            -93.5
+          ],
+          [
+            63.49,
+            -93.5
+          ],
+          [
+            64.49,
+            -93.0
+          ],
+          [
+            64.99,
+            -93.0
+          ],
+          [
+            66.49,
+            -92.0
+          ],
+          [
+            68.49,
+            -90.0
+          ],
+          [
+            69.49,
+            -88.5
+          ],
+          [
+            69.49,
+            -88.0
+          ],
+          [
+            70.49,
+            -85.5
+          ],
+          [
+            76.49,
+            -0.5
+          ],
+          [
+            76.99,
+            -0.0
+          ],
+          [
+            -77.01,
+            -0.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/carton-flap-look.webp",
+        "uvMm": {
+          "x": -78.115,
+          "y": -94.539,
+          "w": 156.138,
+          "h": 95.577
+        },
+        "stackLayer": 1
+      },
+      {
+        "id": "glue",
+        "role": "glue",
+        "rectMm": {
+          "x": -30.0,
+          "y": -129.5,
+          "w": 30.0,
+          "h": 259.0
+        },
+        "outlineMm": [
+          [
+            0.0,
+            129.5
+          ],
+          [
+            -30.0,
+            123.5
+          ],
+          [
+            -30.0,
+            -123.0
+          ],
+          [
+            0.0,
+            -129.5
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/carton-glue.webp",
+        "uvMm": {
+          "x": -31.124,
+          "y": -130.571,
+          "w": 32.353,
+          "h": 261.196
+        },
+        "stackLayer": 1
+      },
+      {
+        "id": "back",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -75.0,
+          "w": 297.0,
+          "h": 259.0
+        },
+        "outlineMm": [
+          [
+            297.0,
+            184.0
+          ],
+          [
+            197.0,
+            184.0
+          ],
+          [
+            0.0,
+            75.0
+          ],
+          [
+            0.0,
+            -75.0
+          ],
+          [
+            297.0,
+            -75.0
+          ]
+        ],
+        "printFace": "hero",
+        "textureRef": "textures/carton-back.webp",
+        "uvMm": {
+          "x": -1.144,
+          "y": -76.072,
+          "w": 299.147,
+          "h": 261.196
+        },
+        "holesMm": [
+          [
+            [
+              188.0,
+              45.5
+            ],
+            [
+              187.0,
+              44.5
+            ],
+            [
+              183.0,
+              42.5
+            ],
+            [
+              181.5,
+              42.5
+            ],
+            [
+              180.5,
+              42.0
+            ],
+            [
+              178.0,
+              42.0
+            ],
+            [
+              176.5,
+              42.5
+            ],
+            [
+              171.0,
+              43.5
+            ],
+            [
+              154.0,
+              45.0
+            ],
+            [
+              142.5,
+              45.0
+            ],
+            [
+              125.5,
+              43.5
+            ],
+            [
+              120.0,
+              42.5
+            ],
+            [
+              118.5,
+              42.0
+            ],
+            [
+              116.5,
+              42.0
+            ],
+            [
+              112.5,
+              43.0
+            ],
+            [
+              109.5,
+              44.5
+            ],
+            [
+              106.5,
+              47.0
+            ],
+            [
+              106.0,
+              48.0
+            ],
+            [
+              105.0,
+              49.0
+            ],
+            [
+              104.0,
+              51.5
+            ],
+            [
+              104.0,
+              52.5
+            ],
+            [
+              103.5,
+              53.5
+            ],
+            [
+              103.5,
+              58.5
+            ],
+            [
+              104.5,
+              62.5
+            ],
+            [
+              106.5,
+              66.0
+            ],
+            [
+              111.0,
+              70.0
+            ],
+            [
+              113.0,
+              70.5
+            ],
+            [
+              115.0,
+              71.5
+            ],
+            [
+              121.5,
+              72.5
+            ],
+            [
+              128.0,
+              74.0
+            ],
+            [
+              141.5,
+              75.0
+            ],
+            [
+              155.0,
+              75.0
+            ],
+            [
+              168.5,
+              74.0
+            ],
+            [
+              175.0,
+              72.5
+            ],
+            [
+              181.5,
+              71.5
+            ],
+            [
+              183.5,
+              70.5
+            ],
+            [
+              185.5,
+              70.0
+            ],
+            [
+              189.0,
+              67.5
+            ],
+            [
+              191.5,
+              64.0
+            ],
+            [
+              193.0,
+              60.5
+            ],
+            [
+              193.0,
+              58.5
+            ],
+            [
+              193.5,
+              55.0
+            ],
+            [
+              193.0,
+              53.5
+            ],
+            [
+              193.0,
+              52.5
+            ],
+            [
+              191.5,
+              49.0
+            ],
+            [
+              190.5,
+              48.0
+            ],
+            [
+              190.0,
+              47.0
+            ],
+            [
+              189.0,
+              46.0
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "side-full",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -129.5,
+          "w": 153.0,
+          "h": 259.0
+        },
+        "outlineMm": [
+          [
+            0.0,
+            -129.5
+          ],
+          [
+            153.0,
+            -129.5
+          ],
+          [
+            153.0,
+            129.5
+          ],
+          [
+            0.0,
+            129.5
+          ]
+        ],
+        "printFace": "hero",
+        "textureRef": "textures/carton-side-full.webp",
+        "uvMm": {
+          "x": -1.107,
+          "y": -130.571,
+          "w": 155.2,
+          "h": 261.196
+        }
       },
       {
         "id": "flap-back",
         "role": "flap",
-        "rectMm": { "x": 0, "y": -107, "w": 297, "h": 107 },
+        "rectMm": {
+          "x": -148.5,
+          "y": -107.0,
+          "w": 297.0,
+          "h": 107.0
+        },
+        "outlineMm": [
+          [
+            -82.0,
+            -105.5
+          ],
+          [
+            -82.0,
+            -106.0
+          ],
+          [
+            -81.5,
+            -106.0
+          ],
+          [
+            -80.0,
+            -107.0
+          ],
+          [
+            79.5,
+            -107.0
+          ],
+          [
+            80.0,
+            -106.5
+          ],
+          [
+            81.0,
+            -106.5
+          ],
+          [
+            81.0,
+            -106.0
+          ],
+          [
+            81.5,
+            -106.0
+          ],
+          [
+            81.5,
+            -105.5
+          ],
+          [
+            82.0,
+            -105.5
+          ],
+          [
+            82.0,
+            -105.0
+          ],
+          [
+            82.5,
+            -105.0
+          ],
+          [
+            82.5,
+            -104.5
+          ],
+          [
+            83.0,
+            -104.0
+          ],
+          [
+            85.5,
+            -77.5
+          ],
+          [
+            148.5,
+            -0.0
+          ],
+          [
+            -148.5,
+            -0.0
+          ],
+          [
+            -86.0,
+            -77.5
+          ],
+          [
+            -83.5,
+            -104.0
+          ],
+          [
+            -83.0,
+            -104.0
+          ],
+          [
+            -83.0,
+            -105.0
+          ],
+          [
+            -82.5,
+            -105.0
+          ],
+          [
+            -82.5,
+            -105.5
+          ]
+        ],
         "printFace": "kraft",
-        "textureRef": "textures/carton.png"
+        "textureRef": "textures/carton-flap-back.webp",
+        "uvMm": {
+          "x": -149.644,
+          "y": -108.126,
+          "w": 299.147,
+          "h": 109.164
+        }
       },
       {
-        "id": "flap-right",
+        "id": "flap-full",
         "role": "flap",
-        "rectMm": { "x": 0, "y": -93.5, "w": 155, "h": 93.5 },
-        "printFace": "kraft"
-      },
-      {
-        "id": "flap-left",
-        "role": "flap",
-        "rectMm": { "x": 0, "y": -93.5, "w": 155, "h": 93.5 },
-        "printFace": "kraft"
-      },
-      {
-        "id": "front-slot",
-        "role": "window",
-        "rectMm": { "x": 0, "y": 0, "w": 90, "h": 33 },
-        "printFace": "none"
+        "rectMm": {
+          "x": -75.95,
+          "y": -93.5,
+          "w": 152.0,
+          "h": 93.5
+        },
+        "outlineMm": [
+          [
+            -75.95,
+            -0.0
+          ],
+          [
+            -75.95,
+            -1.0
+          ],
+          [
+            -75.45,
+            -1.0
+          ],
+          [
+            -71.95,
+            -85.0
+          ],
+          [
+            -71.45,
+            -85.5
+          ],
+          [
+            -71.45,
+            -87.0
+          ],
+          [
+            -70.95,
+            -88.0
+          ],
+          [
+            -70.95,
+            -88.5
+          ],
+          [
+            -69.95,
+            -90.0
+          ],
+          [
+            -68.45,
+            -91.5
+          ],
+          [
+            -67.45,
+            -92.0
+          ],
+          [
+            -66.45,
+            -93.0
+          ],
+          [
+            -65.45,
+            -93.0
+          ],
+          [
+            -64.95,
+            -93.5
+          ],
+          [
+            3.05,
+            -93.5
+          ],
+          [
+            4.55,
+            -93.0
+          ],
+          [
+            8.05,
+            -91.0
+          ],
+          [
+            10.05,
+            -89.0
+          ],
+          [
+            11.55,
+            -86.5
+          ],
+          [
+            12.55,
+            -83.5
+          ],
+          [
+            12.55,
+            -79.5
+          ],
+          [
+            10.55,
+            -74.0
+          ],
+          [
+            -1.45,
+            -62.5
+          ],
+          [
+            76.05,
+            -0.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/carton-flap-full.webp",
+        "uvMm": {
+          "x": -77.121,
+          "y": -94.539,
+          "w": 154.262,
+          "h": 95.577
+        },
+        "stackLayer": 1
       }
     ],
     "creases": [
       {
-        "id": "front-right",
-        "panelA": "front",
-        "panelB": "right",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [297, 0, 0],
-        "foldDeg": 90,
-        "foldWindow": [6, 20],
-        "lengthMm": 259
-      },
-      {
-        "id": "right-back",
-        "panelA": "right",
-        "panelB": "back",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [155, 0, 0],
-        "foldDeg": 90,
-        "foldWindow": [8, 22],
-        "lengthMm": 259
-      },
-      {
-        "id": "back-left",
-        "panelA": "back",
-        "panelB": "left",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [297, 0, 0],
-        "foldDeg": 90,
-        "foldWindow": [10, 24],
-        "lengthMm": 259
-      },
-      {
-        "id": "left-glue",
-        "panelA": "left",
-        "panelB": "glue",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [155, 0, 0],
-        "foldDeg": 90,
-        "foldWindow": [12, 26],
-        "lengthMm": 259
-      },
-      {
-        "id": "front-flap",
+        "id": "front-flap-front",
         "panelA": "front",
         "panelB": "flap-front",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 0, 0],
+        "axis": {
+          "direction": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          148.75,
+          -0.0,
+          0.0
+        ],
         "foldDeg": 90,
-        "foldWindow": [22, 38],
-        "lengthMm": 297
+        "foldWindow": [
+          22.0,
+          27.0
+        ],
+        "lengthMm": 297.3
       },
       {
-        "id": "back-flap",
+        "id": "front-side-look",
+        "panelA": "front",
+        "panelB": "side-look",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          297.5,
+          75.001,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          6.0,
+          18.0
+        ],
+        "lengthMm": 151.8
+      },
+      {
+        "id": "side-look-flap-look",
+        "panelA": "side-look",
+        "panelB": "flap-look",
+        "axis": {
+          "direction": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          77.005,
+          -75.001,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          18.0,
+          24.0
+        ],
+        "lengthMm": 155.8
+      },
+      {
+        "id": "front-glue",
+        "panelA": "front",
+        "panelB": "glue",
+        "axis": {
+          "direction": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          0.0,
+          129.5,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          6.0,
+          18.0
+        ],
+        "lengthMm": 260.8
+      },
+      {
+        "id": "side-look-back",
+        "panelA": "side-look",
+        "panelB": "back",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          155.0,
+          0.0,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          6.0,
+          18.0
+        ],
+        "lengthMm": 151.8
+      },
+      {
+        "id": "back-side-full",
+        "panelA": "back",
+        "panelB": "side-full",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          297.0,
+          54.499,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          6.0,
+          18.0
+        ],
+        "lengthMm": 260.8
+      },
+      {
+        "id": "back-flap-back",
         "panelA": "back",
         "panelB": "flap-back",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 0, 0],
+        "axis": {
+          "direction": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          148.5,
+          -75.001,
+          0.0
+        ],
         "foldDeg": 90,
-        "foldWindow": [24, 40],
-        "lengthMm": 297
+        "foldWindow": [
+          25.0,
+          30.0
+        ],
+        "lengthMm": 298.8
       },
       {
-        "id": "right-flap",
-        "panelA": "right",
-        "panelB": "flap-right",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 0, 0],
+        "id": "side-full-flap-full",
+        "panelA": "side-full",
+        "panelB": "flap-full",
+        "axis": {
+          "direction": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          76.951,
+          -129.5,
+          0.0
+        ],
         "foldDeg": 90,
-        "foldWindow": [22, 38],
-        "lengthMm": 155
-      },
-      {
-        "id": "left-flap",
-        "panelA": "left",
-        "panelB": "flap-left",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 0, 0],
-        "foldDeg": 90,
-        "foldWindow": [24, 40],
-        "lengthMm": 155
-      },
-      {
-        "id": "front-slot",
-        "panelA": "front",
-        "panelB": "front-slot",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [103.5, 109, 0.8],
-        "foldDeg": 0,
-        "foldWindow": [0, 1],
-        "lengthMm": 33
+        "foldWindow": [
+          18.0,
+          24.0
+        ],
+        "lengthMm": 153.8
       }
-    ]
+    ],
+    "nominalOutsideMm": {
+      "l": 297,
+      "w": 155,
+      "h": 259
+    }
   },
   "lid": {
     "id": "lid",
     "thicknessMm": 2,
-    "nominalOutsideMm": { "l": 304, "w": 161, "h": 265 },
-    "flatPositionMm": [-560, 0, -40],
-    "seatMm": [-152, 265, 80.5],
-    "uprightEulerDeg": [-90, 0, 0],
-    "orientWindow": [82, 100],
+    "flatPositionMm": [
+      -720,
+      0,
+      -220
+    ],
+    "seatMm": [
+      -152,
+      0,
+      80.5
+    ],
+    "uprightEulerDeg": [
+      0,
+      0,
+      0
+    ],
+    "orientWindow": [
+      64,
+      82
+    ],
     "panels": [
       {
-        "id": "lid-top",
+        "id": "wall-a",
         "role": "face",
-        "rectMm": { "x": 0, "y": 0, "w": 304, "h": 161 },
-        "printFace": "text",
-        "textureRef": "textures/lid.png"
-      },
-      {
-        "id": "lid-front",
-        "role": "flap",
-        "rectMm": { "x": 0, "y": -263, "w": 304, "h": 263 },
+        "rectMm": {
+          "x": 0.0,
+          "y": -0.0,
+          "w": 304.0,
+          "h": 265.0
+        },
+        "outlineMm": [
+          [
+            304.0,
+            265.0
+          ],
+          [
+            0.0,
+            265.0
+          ],
+          [
+            0.0,
+            -0.0
+          ],
+          [
+            304.0,
+            -0.0
+          ]
+        ],
         "printFace": "kraft",
-        "textureRef": "textures/lid.png"
+        "textureRef": "textures/lid-wall-a.webp",
+        "uvMm": {
+          "x": -1.196,
+          "y": -1.073,
+          "w": 306.234,
+          "h": 267.111
+        },
+        "holesMm": [
+          [
+            [
+              194.5,
+              130.0
+            ],
+            [
+              194.5,
+              126.0
+            ],
+            [
+              193.5,
+              122.5
+            ],
+            [
+              190.0,
+              118.0
+            ],
+            [
+              188.5,
+              117.0
+            ],
+            [
+              183.0,
+              115.5
+            ],
+            [
+              181.5,
+              115.5
+            ],
+            [
+              170.0,
+              117.5
+            ],
+            [
+              158.0,
+              118.5
+            ],
+            [
+              146.0,
+              118.5
+            ],
+            [
+              134.5,
+              117.5
+            ],
+            [
+              122.5,
+              115.5
+            ],
+            [
+              121.5,
+              115.5
+            ],
+            [
+              116.0,
+              117.0
+            ],
+            [
+              114.5,
+              118.0
+            ],
+            [
+              113.0,
+              119.5
+            ],
+            [
+              110.0,
+              124.0
+            ],
+            [
+              110.0,
+              126.0
+            ],
+            [
+              109.5,
+              128.0
+            ],
+            [
+              110.0,
+              130.0
+            ],
+            [
+              110.0,
+              132.0
+            ],
+            [
+              113.0,
+              136.5
+            ],
+            [
+              114.5,
+              138.0
+            ],
+            [
+              116.0,
+              139.0
+            ],
+            [
+              121.5,
+              140.5
+            ],
+            [
+              123.0,
+              140.5
+            ],
+            [
+              134.5,
+              142.5
+            ],
+            [
+              146.0,
+              143.5
+            ],
+            [
+              158.0,
+              143.5
+            ],
+            [
+              169.5,
+              142.5
+            ],
+            [
+              181.5,
+              140.5
+            ],
+            [
+              182.5,
+              140.5
+            ],
+            [
+              186.5,
+              139.5
+            ],
+            [
+              190.0,
+              138.0
+            ],
+            [
+              191.0,
+              136.5
+            ],
+            [
+              192.5,
+              135.0
+            ],
+            [
+              193.5,
+              133.5
+            ],
+            [
+              194.0,
+              132.0
+            ]
+          ]
+        ]
       },
       {
-        "id": "lid-back",
-        "role": "flap",
-        "rectMm": { "x": 0, "y": 0, "w": 304, "h": 263 },
+        "id": "wall-side-a",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -132.5,
+          "w": 161.0,
+          "h": 265.0
+        },
+        "outlineMm": [
+          [
+            161.0,
+            132.5
+          ],
+          [
+            0.0,
+            132.5
+          ],
+          [
+            0.0,
+            -132.5
+          ],
+          [
+            161.0,
+            -132.5
+          ]
+        ],
         "printFace": "kraft",
-        "textureRef": "textures/lid.png"
+        "textureRef": "textures/lid-wall-side-a.webp",
+        "uvMm": {
+          "x": -1.13,
+          "y": -133.573,
+          "w": 163.357,
+          "h": 267.111
+        }
       },
       {
-        "id": "lid-left",
+        "id": "flap-window-a",
         "role": "flap",
-        "rectMm": { "x": -263, "y": 0, "w": 263, "h": 161 },
-        "printFace": "text",
-        "textureRef": "textures/lid.png"
+        "rectMm": {
+          "x": -151.54,
+          "y": -0.0,
+          "w": 303.0,
+          "h": 110.0
+        },
+        "outlineMm": [
+          [
+            138.46,
+            110.0
+          ],
+          [
+            79.96,
+            110.0
+          ],
+          [
+            78.96,
+            109.5
+          ],
+          [
+            76.46,
+            107.0
+          ],
+          [
+            74.46,
+            80.5
+          ],
+          [
+            -74.54,
+            80.5
+          ],
+          [
+            -76.04,
+            106.0
+          ],
+          [
+            -76.54,
+            107.0
+          ],
+          [
+            -76.54,
+            107.5
+          ],
+          [
+            -78.04,
+            109.0
+          ],
+          [
+            -79.54,
+            110.0
+          ],
+          [
+            -138.04,
+            110.0
+          ],
+          [
+            -139.04,
+            109.5
+          ],
+          [
+            -141.54,
+            107.0
+          ],
+          [
+            -150.54,
+            0.5
+          ],
+          [
+            -151.04,
+            0.5
+          ],
+          [
+            -151.54,
+            -0.0
+          ],
+          [
+            151.46,
+            -0.0
+          ],
+          [
+            151.46,
+            0.5
+          ],
+          [
+            150.96,
+            0.5
+          ],
+          [
+            150.96,
+            1.0
+          ],
+          [
+            150.46,
+            1.0
+          ],
+          [
+            141.96,
+            106.0
+          ],
+          [
+            141.46,
+            107.0
+          ],
+          [
+            141.46,
+            107.5
+          ],
+          [
+            139.96,
+            109.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-flap-window-a.webp",
+        "uvMm": {
+          "x": -152.752,
+          "y": -1.13,
+          "w": 305.271,
+          "h": 112.24
+        },
+        "holesMm": [
+          [
+            [
+              -2.04,
+              65.0
+            ],
+            [
+              1.96,
+              65.0
+            ],
+            [
+              3.96,
+              64.5
+            ],
+            [
+              5.96,
+              63.5
+            ],
+            [
+              8.96,
+              61.5
+            ],
+            [
+              10.96,
+              58.5
+            ],
+            [
+              11.96,
+              56.5
+            ],
+            [
+              12.46,
+              54.5
+            ],
+            [
+              12.46,
+              50.5
+            ],
+            [
+              11.96,
+              48.5
+            ],
+            [
+              9.96,
+              45.0
+            ],
+            [
+              7.46,
+              42.5
+            ],
+            [
+              5.96,
+              41.5
+            ],
+            [
+              -0.04,
+              40.0
+            ],
+            [
+              -4.04,
+              41.0
+            ],
+            [
+              -7.54,
+              42.5
+            ],
+            [
+              -8.54,
+              44.0
+            ],
+            [
+              -10.04,
+              45.0
+            ],
+            [
+              -11.04,
+              47.0
+            ],
+            [
+              -12.54,
+              52.5
+            ],
+            [
+              -11.04,
+              58.5
+            ],
+            [
+              -10.04,
+              60.0
+            ],
+            [
+              -7.54,
+              62.5
+            ],
+            [
+              -4.04,
+              64.5
+            ]
+          ]
+        ],
+        "stackLayer": 0.5
       },
       {
-        "id": "lid-right",
+        "id": "flap-side-a",
         "role": "flap",
-        "rectMm": { "x": 0, "y": 0, "w": 263, "h": 161 },
-        "printFace": "text",
-        "textureRef": "textures/lid.png"
+        "rectMm": {
+          "x": -80.29,
+          "y": -0.0,
+          "w": 160.5,
+          "h": 111.0
+        },
+        "outlineMm": [
+          [
+            72.21,
+            106.5
+          ],
+          [
+            71.71,
+            108.5
+          ],
+          [
+            70.21,
+            110.0
+          ],
+          [
+            68.71,
+            111.0
+          ],
+          [
+            -4.29,
+            111.0
+          ],
+          [
+            -5.79,
+            110.5
+          ],
+          [
+            -9.79,
+            108.0
+          ],
+          [
+            -10.79,
+            107.0
+          ],
+          [
+            -11.29,
+            105.5
+          ],
+          [
+            -12.29,
+            104.5
+          ],
+          [
+            -14.29,
+            98.5
+          ],
+          [
+            -14.29,
+            97.0
+          ],
+          [
+            -13.79,
+            95.5
+          ],
+          [
+            -13.79,
+            94.0
+          ],
+          [
+            -13.29,
+            92.5
+          ],
+          [
+            -12.29,
+            91.5
+          ],
+          [
+            -11.79,
+            90.0
+          ],
+          [
+            0.21,
+            77.5
+          ],
+          [
+            -80.29,
+            -0.0
+          ],
+          [
+            80.21,
+            -0.0
+          ],
+          [
+            80.21,
+            0.5
+          ],
+          [
+            79.71,
+            0.5
+          ],
+          [
+            79.71,
+            1.0
+          ],
+          [
+            79.21,
+            1.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-flap-side-a.webp",
+        "uvMm": {
+          "x": -81.423,
+          "y": -1.13,
+          "w": 162.634,
+          "h": 113.203
+        },
+        "stackLayer": 1
+      },
+      {
+        "id": "glue",
+        "role": "glue",
+        "rectMm": {
+          "x": -30.0,
+          "y": -132.5,
+          "w": 30.0,
+          "h": 265.0
+        },
+        "outlineMm": [
+          [
+            -30.0,
+            -126.0
+          ],
+          [
+            0.0,
+            -132.5
+          ],
+          [
+            0.0,
+            132.5
+          ],
+          [
+            -30.0,
+            126.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-glue.webp",
+        "uvMm": {
+          "x": -31.072,
+          "y": -133.573,
+          "w": 32.286,
+          "h": 267.111
+        },
+        "stackLayer": 1
+      },
+      {
+        "id": "wall-b",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -132.5,
+          "w": 304.0,
+          "h": 265.0
+        },
+        "outlineMm": [
+          [
+            0.0,
+            -132.5
+          ],
+          [
+            304.0,
+            -132.5
+          ],
+          [
+            304.0,
+            132.5
+          ],
+          [
+            0.0,
+            132.5
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-wall-b.webp",
+        "uvMm": {
+          "x": -1.182,
+          "y": -133.573,
+          "w": 306.234,
+          "h": 267.111
+        },
+        "holesMm": [
+          [
+            [
+              194.5,
+              -2.5
+            ],
+            [
+              194.5,
+              -6.5
+            ],
+            [
+              193.5,
+              -10.0
+            ],
+            [
+              190.0,
+              -14.5
+            ],
+            [
+              188.5,
+              -15.5
+            ],
+            [
+              183.0,
+              -17.0
+            ],
+            [
+              181.5,
+              -17.0
+            ],
+            [
+              170.0,
+              -15.0
+            ],
+            [
+              158.0,
+              -14.0
+            ],
+            [
+              146.0,
+              -14.0
+            ],
+            [
+              134.5,
+              -15.0
+            ],
+            [
+              122.5,
+              -17.0
+            ],
+            [
+              121.5,
+              -17.0
+            ],
+            [
+              116.0,
+              -15.5
+            ],
+            [
+              114.5,
+              -14.5
+            ],
+            [
+              113.0,
+              -13.0
+            ],
+            [
+              110.0,
+              -8.5
+            ],
+            [
+              109.5,
+              -6.5
+            ],
+            [
+              109.5,
+              -2.5
+            ],
+            [
+              110.0,
+              -0.5
+            ],
+            [
+              113.0,
+              4.0
+            ],
+            [
+              114.5,
+              5.5
+            ],
+            [
+              116.0,
+              6.5
+            ],
+            [
+              121.5,
+              8.0
+            ],
+            [
+              123.0,
+              8.0
+            ],
+            [
+              134.5,
+              10.0
+            ],
+            [
+              146.0,
+              11.0
+            ],
+            [
+              158.0,
+              11.0
+            ],
+            [
+              169.5,
+              10.0
+            ],
+            [
+              181.5,
+              8.0
+            ],
+            [
+              182.5,
+              8.0
+            ],
+            [
+              186.5,
+              7.0
+            ],
+            [
+              190.0,
+              5.5
+            ],
+            [
+              191.0,
+              4.0
+            ],
+            [
+              192.5,
+              2.5
+            ],
+            [
+              193.5,
+              1.0
+            ],
+            [
+              194.0,
+              -0.5
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "wall-side-b",
+        "role": "face",
+        "rectMm": {
+          "x": 0.0,
+          "y": -132.5,
+          "w": 159.0,
+          "h": 265.0
+        },
+        "outlineMm": [
+          [
+            159.0,
+            -132.5
+          ],
+          [
+            159.0,
+            132.5
+          ],
+          [
+            0.0,
+            132.5
+          ],
+          [
+            0.0,
+            -132.5
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-wall-side-b.webp",
+        "uvMm": {
+          "x": -1.116,
+          "y": -133.573,
+          "w": 161.189,
+          "h": 267.111
+        }
+      },
+      {
+        "id": "flap-window-b",
+        "role": "flap",
+        "rectMm": {
+          "x": -152.0,
+          "y": -0.0,
+          "w": 304.0,
+          "h": 110.0
+        },
+        "outlineMm": [
+          [
+            68.5,
+            110.0
+          ],
+          [
+            -68.0,
+            110.0
+          ],
+          [
+            -69.5,
+            109.0
+          ],
+          [
+            -71.0,
+            107.5
+          ],
+          [
+            -71.0,
+            107.0
+          ],
+          [
+            -71.5,
+            106.0
+          ],
+          [
+            -74.0,
+            80.5
+          ],
+          [
+            -152.0,
+            -0.0
+          ],
+          [
+            152.0,
+            -0.0
+          ],
+          [
+            74.0,
+            80.5
+          ],
+          [
+            72.0,
+            105.5
+          ],
+          [
+            71.5,
+            106.0
+          ],
+          [
+            71.5,
+            107.0
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-flap-window-b.webp",
+        "uvMm": {
+          "x": -153.182,
+          "y": -1.13,
+          "w": 306.234,
+          "h": 112.24
+        },
+        "holesMm": [
+          [
+            [
+              -1.0,
+              65.0
+            ],
+            [
+              3.0,
+              65.0
+            ],
+            [
+              5.0,
+              64.5
+            ],
+            [
+              10.0,
+              61.5
+            ],
+            [
+              12.0,
+              58.5
+            ],
+            [
+              13.0,
+              56.5
+            ],
+            [
+              13.5,
+              54.5
+            ],
+            [
+              13.5,
+              50.5
+            ],
+            [
+              13.0,
+              48.5
+            ],
+            [
+              11.0,
+              45.0
+            ],
+            [
+              8.5,
+              42.5
+            ],
+            [
+              6.5,
+              41.5
+            ],
+            [
+              1.0,
+              40.0
+            ],
+            [
+              -5.0,
+              41.5
+            ],
+            [
+              -6.5,
+              42.5
+            ],
+            [
+              -9.0,
+              45.0
+            ],
+            [
+              -11.0,
+              48.5
+            ],
+            [
+              -11.5,
+              50.5
+            ],
+            [
+              -11.5,
+              54.5
+            ],
+            [
+              -11.0,
+              56.5
+            ],
+            [
+              -10.0,
+              58.5
+            ],
+            [
+              -8.0,
+              61.5
+            ],
+            [
+              -5.0,
+              63.5
+            ],
+            [
+              -3.0,
+              64.5
+            ]
+          ]
+        ]
+      },
+      {
+        "id": "flap-side-b",
+        "role": "flap",
+        "rectMm": {
+          "x": -79.25,
+          "y": -0.0,
+          "w": 158.5,
+          "h": 111.0
+        },
+        "outlineMm": [
+          [
+            -78.75,
+            0.5
+          ],
+          [
+            -79.25,
+            -0.0
+          ],
+          [
+            79.25,
+            -0.0
+          ],
+          [
+            -1.25,
+            77.5
+          ],
+          [
+            8.75,
+            88.0
+          ],
+          [
+            10.25,
+            89.0
+          ],
+          [
+            12.25,
+            92.5
+          ],
+          [
+            13.25,
+            95.5
+          ],
+          [
+            13.25,
+            100.0
+          ],
+          [
+            11.75,
+            104.5
+          ],
+          [
+            10.75,
+            105.5
+          ],
+          [
+            9.75,
+            107.0
+          ],
+          [
+            7.75,
+            109.0
+          ],
+          [
+            6.25,
+            109.5
+          ],
+          [
+            3.75,
+            111.0
+          ],
+          [
+            -69.75,
+            111.0
+          ],
+          [
+            -70.75,
+            110.0
+          ],
+          [
+            -72.25,
+            109.0
+          ],
+          [
+            -72.25,
+            108.5
+          ],
+          [
+            -72.75,
+            108.0
+          ],
+          [
+            -72.75,
+            107.0
+          ],
+          [
+            -73.25,
+            106.5
+          ],
+          [
+            -78.25,
+            0.5
+          ]
+        ],
+        "printFace": "kraft",
+        "textureRef": "textures/lid-flap-side-b.webp",
+        "uvMm": {
+          "x": -80.379,
+          "y": -1.13,
+          "w": 160.707,
+          "h": 113.203
+        },
+        "stackLayer": 1
       }
     ],
     "creases": [
       {
-        "id": "lid-to-front",
-        "panelA": "lid-top",
-        "panelB": "lid-front",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 0, 0],
+        "id": "wall-a-wall-side-a",
+        "panelA": "wall-a",
+        "panelB": "wall-side-a",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          304.0,
+          132.5,
+          0.0
+        ],
         "foldDeg": 90,
-        "foldWindow": [74, 90],
-        "lengthMm": 304
+        "foldWindow": [
+          66.0,
+          74.0
+        ],
+        "lengthMm": 266.8
       },
       {
-        "id": "lid-to-back",
-        "panelA": "lid-top",
-        "panelB": "lid-back",
-        "axis": { "direction": [1, 0, 0] },
-        "attachMm": [0, 161, 0],
-        "foldDeg": -90,
-        "foldWindow": [74, 90],
-        "lengthMm": 304
-      },
-      {
-        "id": "lid-to-left",
-        "panelA": "lid-top",
-        "panelB": "lid-left",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [0, 0, 0],
-        "foldDeg": -90,
-        "foldWindow": [76, 90],
-        "lengthMm": 161
-      },
-      {
-        "id": "lid-to-right",
-        "panelA": "lid-top",
-        "panelB": "lid-right",
-        "axis": { "direction": [0, 1, 0] },
-        "attachMm": [304, 0, 0],
+        "id": "wall-a-flap-window-a",
+        "panelA": "wall-a",
+        "panelB": "flap-window-a",
+        "axis": {
+          "direction": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          152.038,
+          265.0,
+          0.0
+        ],
         "foldDeg": 90,
-        "foldWindow": [76, 90],
-        "lengthMm": 161
+        "foldWindow": [
+          75.0,
+          79.0
+        ],
+        "lengthMm": 304.8
+      },
+      {
+        "id": "wall-side-a-flap-side-a",
+        "panelA": "wall-side-a",
+        "panelB": "flap-side-a",
+        "axis": {
+          "direction": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          80.293,
+          132.5,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          72.0,
+          76.0
+        ],
+        "lengthMm": 162.3
+      },
+      {
+        "id": "wall-a-glue",
+        "panelA": "wall-a",
+        "panelB": "glue",
+        "axis": {
+          "direction": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          0.0,
+          132.5,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          66.0,
+          74.0
+        ],
+        "lengthMm": 266.8
+      },
+      {
+        "id": "wall-side-a-wall-b",
+        "panelA": "wall-side-a",
+        "panelB": "wall-b",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          161.0,
+          -0.0,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          66.0,
+          74.0
+        ],
+        "lengthMm": 266.8
+      },
+      {
+        "id": "wall-b-wall-side-b",
+        "panelA": "wall-b",
+        "panelB": "wall-side-b",
+        "axis": {
+          "direction": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          304.0,
+          0.0,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          66.0,
+          74.0
+        ],
+        "lengthMm": 266.8
+      },
+      {
+        "id": "wall-b-flap-window-b",
+        "panelA": "wall-b",
+        "panelB": "flap-window-b",
+        "axis": {
+          "direction": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          152.0,
+          132.5,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          78.0,
+          82.0
+        ],
+        "lengthMm": 305.8
+      },
+      {
+        "id": "wall-side-b-flap-side-b",
+        "panelA": "wall-side-b",
+        "panelB": "flap-side-b",
+        "axis": {
+          "direction": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        "attachMm": [
+          79.745,
+          132.5,
+          0.0
+        ],
+        "foldDeg": 90,
+        "foldWindow": [
+          72.0,
+          76.0
+        ],
+        "lengthMm": 160.3
       }
-    ]
+    ],
+    "nominalOutsideMm": {
+      "l": 304,
+      "w": 161,
+      "h": 265
+    }
   },
   "inners": [
     {
       "id": "inner-1l",
       "thicknessMm": 0.5,
-      "flatPositionMm": [480, 0, 220],
-      "seatMm": [430, 0, 40],
-      "uprightEulerDeg": [0, 0, 0],
-      "orientWindow": [28, 48],
+      "flatPositionMm": [
+        520,
+        0,
+        420
+      ],
+      "seatMm": [
+        460,
+        0,
+        80
+      ],
+      "uprightEulerDeg": [
+        0,
+        0,
+        0
+      ],
+      "orientWindow": [
+        30,
+        46
+      ],
       "panels": [
-        {
-          "id": "face-40",
-          "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "text",
-          "textureRef": "textures/text-face.png"
-        },
         {
           "id": "face-75a",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "rectMm": {
+            "x": 0.0,
+            "y": -0.0,
+            "w": 75.0,
+            "h": 255.0
+          },
+          "outlineMm": [
+            [
+              75.0,
+              255.0
+            ],
+            [
+              0.0,
+              255.0
+            ],
+            [
+              0.0,
+              -0.0
+            ],
+            [
+              75.0,
+              -0.0
+            ]
+          ],
           "printFace": "hero",
-          "textureRef": "textures/inner-1l.png"
+          "textureRef": "textures/in1-face-75a.webp",
+          "uvMm": {
+            "x": -1.02,
+            "y": -1.07,
+            "w": 77.139,
+            "h": 257.14
+          }
+        },
+        {
+          "id": "face-40",
+          "role": "face",
+          "rectMm": {
+            "x": -40.0,
+            "y": -126.25,
+            "w": 40,
+            "h": 255
+          },
+          "outlineMm": [
+            [
+              -40.0,
+              126.25
+            ],
+            [
+              -40.0,
+              -126.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              0.0,
+              126.25
+            ]
+          ],
+          "printFace": "text",
+          "textureRef": "textures/in1-face-40.webp",
+          "uvMm": {
+            "x": -41.151,
+            "y": -127.258,
+            "w": 42.161,
+            "h": 254.641
+          }
         },
         {
           "id": "face-40b",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "rectMm": {
+            "x": 0.0,
+            "y": -126.25,
+            "w": 39.5,
+            "h": 252.5
+          },
+          "outlineMm": [
+            [
+              0.0,
+              126.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              39.5,
+              -126.25
+            ],
+            [
+              39.5,
+              126.25
+            ]
+          ],
           "printFace": "text",
-          "textureRef": "textures/text-face.png"
+          "textureRef": "textures/in1-face-40b.webp",
+          "uvMm": {
+            "x": -1.067,
+            "y": -127.258,
+            "w": 41.693,
+            "h": 254.641
+          }
+        },
+        {
+          "id": "flap-75a-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -37.5,
+            "y": -0.0,
+            "w": 75.0,
+            "h": 39.5
+          },
+          "outlineMm": [
+            [
+              37.5,
+              39.5
+            ],
+            [
+              -37.5,
+              39.5
+            ],
+            [
+              -37.5,
+              -0.0
+            ],
+            [
+              37.5,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-75a-top.webp",
+          "uvMm": {
+            "x": -38.52,
+            "y": -1.117,
+            "w": 77.139,
+            "h": 41.711
+          }
+        },
+        {
+          "id": "flap-75a-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -37.5,
+            "y": -39.5,
+            "w": 75.0,
+            "h": 39.5
+          },
+          "outlineMm": [
+            [
+              -37.5,
+              -39.5
+            ],
+            [
+              37.5,
+              -39.5
+            ],
+            [
+              37.5,
+              -0.0
+            ],
+            [
+              -37.5,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-75a-bot.webp",
+          "uvMm": {
+            "x": -38.52,
+            "y": -40.594,
+            "w": 77.139,
+            "h": 41.711
+          }
+        },
+        {
+          "id": "flap-40-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -20.0,
+            "y": -37.0,
+            "w": 40.0,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -20.0,
+              -0.0
+            ],
+            [
+              -20.0,
+              -10.0
+            ],
+            [
+              -19.5,
+              -10.5
+            ],
+            [
+              -19.0,
+              -10.5
+            ],
+            [
+              -17.5,
+              -12.0
+            ],
+            [
+              -17.5,
+              -12.5
+            ],
+            [
+              -17.0,
+              -13.0
+            ],
+            [
+              -17.0,
+              -37.0
+            ],
+            [
+              17.0,
+              -37.0
+            ],
+            [
+              17.0,
+              -14.0
+            ],
+            [
+              17.5,
+              -13.5
+            ],
+            [
+              17.5,
+              -13.0
+            ],
+            [
+              18.5,
+              -12.0
+            ],
+            [
+              18.5,
+              -11.5
+            ],
+            [
+              19.0,
+              -11.5
+            ],
+            [
+              19.5,
+              -11.0
+            ],
+            [
+              20.0,
+              -11.0
+            ],
+            [
+              20.0,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-40-bot.webp",
+          "uvMm": {
+            "x": -21.151,
+            "y": -38.032,
+            "w": 42.161,
+            "h": 39.055
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -20.0,
+            "y": -0.0,
+            "w": 40.0,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -20.0,
+              10.0
+            ],
+            [
+              -20.0,
+              -0.0
+            ],
+            [
+              20.0,
+              -0.0
+            ],
+            [
+              20.0,
+              10.5
+            ],
+            [
+              18.5,
+              11.5
+            ],
+            [
+              18.5,
+              12.0
+            ],
+            [
+              17.5,
+              13.0
+            ],
+            [
+              17.5,
+              13.5
+            ],
+            [
+              17.0,
+              14.0
+            ],
+            [
+              17.0,
+              37.0
+            ],
+            [
+              -17.0,
+              37.0
+            ],
+            [
+              -17.0,
+              12.5
+            ],
+            [
+              -17.5,
+              12.0
+            ],
+            [
+              -17.5,
+              11.5
+            ],
+            [
+              -18.5,
+              10.5
+            ],
+            [
+              -19.0,
+              10.5
+            ],
+            [
+              -19.5,
+              10.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-40-top.webp",
+          "uvMm": {
+            "x": -21.151,
+            "y": -1.054,
+            "w": 42.161,
+            "h": 39.055
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40b-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -19.75,
+            "y": -37.0,
+            "w": 39.5,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -16.75,
+              -13.5
+            ],
+            [
+              -16.75,
+              -37.0
+            ],
+            [
+              16.75,
+              -37.0
+            ],
+            [
+              16.75,
+              -14.0
+            ],
+            [
+              17.25,
+              -13.5
+            ],
+            [
+              17.25,
+              -13.0
+            ],
+            [
+              17.75,
+              -12.5
+            ],
+            [
+              17.75,
+              -12.0
+            ],
+            [
+              18.25,
+              -11.5
+            ],
+            [
+              18.75,
+              -11.5
+            ],
+            [
+              19.25,
+              -11.0
+            ],
+            [
+              19.75,
+              -11.0
+            ],
+            [
+              19.75,
+              -0.0
+            ],
+            [
+              -19.75,
+              -0.0
+            ],
+            [
+              -19.75,
+              -11.0
+            ],
+            [
+              -19.25,
+              -11.0
+            ],
+            [
+              -18.75,
+              -11.5
+            ],
+            [
+              -18.25,
+              -11.5
+            ],
+            [
+              -17.25,
+              -12.5
+            ],
+            [
+              -17.25,
+              -13.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-40b-bot.webp",
+          "uvMm": {
+            "x": -20.817,
+            "y": -38.032,
+            "w": 41.693,
+            "h": 39.055
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40b-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -19.75,
+            "y": -0.0,
+            "w": 39.5,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -19.75,
+              10.5
+            ],
+            [
+              -19.75,
+              -0.0
+            ],
+            [
+              19.75,
+              -0.0
+            ],
+            [
+              19.75,
+              10.5
+            ],
+            [
+              19.25,
+              11.0
+            ],
+            [
+              18.75,
+              11.0
+            ],
+            [
+              17.75,
+              12.0
+            ],
+            [
+              17.75,
+              12.5
+            ],
+            [
+              16.75,
+              14.0
+            ],
+            [
+              16.75,
+              37.0
+            ],
+            [
+              -16.75,
+              37.0
+            ],
+            [
+              -16.75,
+              13.5
+            ],
+            [
+              -17.25,
+              13.0
+            ],
+            [
+              -17.25,
+              12.5
+            ],
+            [
+              -18.75,
+              11.0
+            ],
+            [
+              -19.25,
+              11.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-40b-top.webp",
+          "uvMm": {
+            "x": -20.817,
+            "y": -1.054,
+            "w": 41.693,
+            "h": 39.055
+          },
+          "stackLayer": 2
         },
         {
           "id": "face-75b",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "rectMm": {
+            "x": -75.0,
+            "y": -127.25,
+            "w": 75.0,
+            "h": 254.0
+          },
+          "outlineMm": [
+            [
+              -73.5,
+              126.75
+            ],
+            [
+              -75.0,
+              126.43
+            ],
+            [
+              -75.0,
+              -126.93
+            ],
+            [
+              -73.5,
+              -127.25
+            ],
+            [
+              -0.8,
+              -127.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              0.0,
+              126.25
+            ],
+            [
+              -0.4,
+              126.75
+            ]
+          ],
           "printFace": "hero",
-          "textureRef": "textures/inner-1l.png"
+          "textureRef": "textures/in1-face-75b.webp",
+          "uvMm": {
+            "x": -76.104,
+            "y": -128.351,
+            "w": 77.139,
+            "h": 256.203
+          }
         },
         {
           "id": "glue",
           "role": "glue",
-          "rectMm": { "x": 0, "y": 0, "w": 15, "h": 253.4 },
-          "printFace": "none"
+          "rectMm": {
+            "x": -15.0,
+            "y": -126.68,
+            "w": 15.0,
+            "h": 253.36
+          },
+          "outlineMm": [
+            [
+              0.0,
+              126.68
+            ],
+            [
+              -15.0,
+              123.5
+            ],
+            [
+              -15.0,
+              -123.5
+            ],
+            [
+              0.0,
+              -126.68
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-glue.webp",
+          "uvMm": {
+            "x": -16.095,
+            "y": -127.789,
+            "w": 17.177,
+            "h": 255.578
+          },
+          "stackLayer": 1
         },
         {
-          "id": "flap-40",
+          "id": "flap-75b-top",
           "role": "flap",
-          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
-          "printFace": "kraft"
+          "rectMm": {
+            "x": -36.54,
+            "y": -0.0,
+            "w": 73.1,
+            "h": 38.0
+          },
+          "outlineMm": [
+            [
+              -34.04,
+              5.0
+            ],
+            [
+              -36.54,
+              -0.0
+            ],
+            [
+              36.56,
+              -0.0
+            ],
+            [
+              32.96,
+              4.5
+            ],
+            [
+              32.96,
+              36.5
+            ],
+            [
+              32.46,
+              37.0
+            ],
+            [
+              32.46,
+              37.5
+            ],
+            [
+              31.96,
+              37.5
+            ],
+            [
+              31.46,
+              38.0
+            ],
+            [
+              -32.54,
+              38.0
+            ],
+            [
+              -32.54,
+              37.5
+            ],
+            [
+              -33.04,
+              37.5
+            ],
+            [
+              -33.54,
+              37.0
+            ],
+            [
+              -33.54,
+              36.0
+            ],
+            [
+              -34.04,
+              35.5
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-75b-top.webp",
+          "uvMm": {
+            "x": -37.585,
+            "y": -1.086,
+            "w": 75.265,
+            "h": 40.149
+          },
+          "stackLayer": 1
         },
         {
-          "id": "flap-40b",
+          "id": "flap-75b-bot",
           "role": "flap",
-          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
-          "printFace": "kraft"
-        },
-        {
-          "id": "flap-75a",
-          "role": "flap",
-          "rectMm": { "x": 0, "y": -39.5, "w": 75, "h": 39.5 },
-          "printFace": "kraft"
-        },
-        {
-          "id": "flap-75b",
-          "role": "flap",
-          "rectMm": { "x": 0, "y": -38, "w": 73, "h": 38 },
-          "printFace": "kraft"
+          "rectMm": {
+            "x": -36.34,
+            "y": -38.0,
+            "w": 72.7,
+            "h": 38.0
+          },
+          "outlineMm": [
+            [
+              -36.34,
+              -0.0
+            ],
+            [
+              -33.84,
+              -5.0
+            ],
+            [
+              -33.84,
+              -35.5
+            ],
+            [
+              -33.34,
+              -36.0
+            ],
+            [
+              -33.34,
+              -36.5
+            ],
+            [
+              -31.84,
+              -38.0
+            ],
+            [
+              31.16,
+              -38.0
+            ],
+            [
+              31.66,
+              -37.5
+            ],
+            [
+              32.16,
+              -37.5
+            ],
+            [
+              32.66,
+              -37.0
+            ],
+            [
+              32.66,
+              -36.5
+            ],
+            [
+              33.16,
+              -36.5
+            ],
+            [
+              33.16,
+              -4.0
+            ],
+            [
+              36.36,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in1-flap-75b-bot.webp",
+          "uvMm": {
+            "x": -37.385,
+            "y": -39.063,
+            "w": 74.797,
+            "h": 40.149
+          },
+          "stackLayer": 1
         }
       ],
       "creases": [
         {
-          "id": "to-75a",
+          "id": "face-40-face-75a",
           "panelA": "face-40",
           "panelB": "face-75a",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [40, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [32, 44],
-          "lengthMm": 255
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -0.0,
+            -127.75,
+            0.0
+          ],
+          "foldDeg": -90,
+          "foldWindow": [
+            30.0,
+            34.0
+          ],
+          "lengthMm": 255.0
         },
         {
-          "id": "to-40b",
+          "id": "face-75a-face-40b",
           "panelA": "face-75a",
           "panelB": "face-40b",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [75, 0, 0],
+          "axis": {
+            "direction": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            75.0,
+            127.75,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [34, 46],
-          "lengthMm": 255
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 254.3
         },
         {
-          "id": "to-75b",
+          "id": "face-75a-flap-75a-top",
+          "panelA": "face-75a",
+          "panelB": "flap-75a-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            37.5,
+            255.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            43.0,
+            46.0
+          ],
+          "lengthMm": 76.8
+        },
+        {
+          "id": "face-75a-flap-75a-bot",
+          "panelA": "face-75a",
+          "panelB": "flap-75a-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            37.5,
+            -0.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            43.0,
+            46.0
+          ],
+          "lengthMm": 76.8
+        },
+        {
+          "id": "face-40-flap-40-bot",
+          "panelA": "face-40",
+          "panelB": "flap-40-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -20.0,
+            -126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.8
+        },
+        {
+          "id": "face-40-flap-40-top",
+          "panelA": "face-40",
+          "panelB": "flap-40-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -20.0,
+            126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.8
+        },
+        {
+          "id": "face-40b-flap-40b-bot",
           "panelA": "face-40b",
-          "panelB": "face-75b",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [40, 0, 0],
+          "panelB": "flap-40b-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            19.75,
+            -126.25,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [36, 46],
-          "lengthMm": 255
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.3
         },
         {
-          "id": "to-glue",
+          "id": "face-40b-flap-40b-top",
+          "panelA": "face-40b",
+          "panelB": "flap-40b-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            19.75,
+            126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.3
+        },
+        {
+          "id": "face-40-face-75b",
+          "panelA": "face-40",
+          "panelB": "face-75b",
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -40.0,
+            0.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 254.3
+        },
+        {
+          "id": "face-75b-glue",
           "panelA": "face-75b",
           "panelB": "glue",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [75, 0, 0],
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -75.0,
+            -0.25,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [38, 48],
-          "lengthMm": 253.4
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 255.2
         },
         {
-          "id": "to-flap-40",
-          "panelA": "face-40",
-          "panelB": "flap-40",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 40
-        },
-        {
-          "id": "to-flap-40b",
-          "panelA": "face-40b",
-          "panelB": "flap-40b",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 40
-        },
-        {
-          "id": "to-flap-75a",
-          "panelA": "face-75a",
-          "panelB": "flap-75a",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 75
-        },
-        {
-          "id": "to-flap-75b",
+          "id": "face-75b-flap-75b-top",
           "panelA": "face-75b",
-          "panelB": "flap-75b",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
+          "panelB": "flap-75b-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -36.958,
+            126.75,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 73
+          "foldWindow": [
+            41.0,
+            44.0
+          ],
+          "lengthMm": 74.9
+        },
+        {
+          "id": "face-75b-flap-75b-bot",
+          "panelA": "face-75b",
+          "panelB": "flap-75b-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -37.158,
+            -127.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            41.0,
+            44.0
+          ],
+          "lengthMm": 74.5
         }
       ]
     },
     {
       "id": "inner-3l",
       "thicknessMm": 0.5,
-      "flatPositionMm": [480, 0, -280],
-      "seatMm": [430, 0, -160],
-      "uprightEulerDeg": [0, 0, 0],
-      "orientWindow": [28, 48],
+      "flatPositionMm": [
+        520,
+        0,
+        -280
+      ],
+      "seatMm": [
+        460,
+        0,
+        -160
+      ],
+      "uprightEulerDeg": [
+        0,
+        0,
+        0
+      ],
+      "orientWindow": [
+        30,
+        46
+      ],
       "panels": [
-        {
-          "id": "face-40",
-          "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
-          "printFace": "text",
-          "textureRef": "textures/text-face.png"
-        },
         {
           "id": "face-75a",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "rectMm": {
+            "x": 0.0,
+            "y": -0.0,
+            "w": 75.0,
+            "h": 255.0
+          },
+          "outlineMm": [
+            [
+              75.0,
+              255.0
+            ],
+            [
+              0.0,
+              255.0
+            ],
+            [
+              0.0,
+              -0.0
+            ],
+            [
+              75.0,
+              -0.0
+            ]
+          ],
           "printFace": "hero",
-          "textureRef": "textures/inner-3l.png"
+          "textureRef": "textures/in3-face-75a.webp",
+          "uvMm": {
+            "x": -1.094,
+            "y": -1.113,
+            "w": 77.188,
+            "h": 257.226
+          }
+        },
+        {
+          "id": "face-40",
+          "role": "face",
+          "rectMm": {
+            "x": -40.0,
+            "y": -126.25,
+            "w": 40,
+            "h": 255
+          },
+          "outlineMm": [
+            [
+              -40.0,
+              126.25
+            ],
+            [
+              -40.0,
+              -126.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              0.0,
+              126.25
+            ]
+          ],
+          "printFace": "text",
+          "textureRef": "textures/in3-face-40.webp",
+          "uvMm": {
+            "x": -41.094,
+            "y": -127.301,
+            "w": 42.188,
+            "h": 254.571
+          }
         },
         {
           "id": "face-40b",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "rectMm": {
+            "x": 0.0,
+            "y": -126.25,
+            "w": 39.5,
+            "h": 252.5
+          },
+          "outlineMm": [
+            [
+              0.0,
+              126.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              39.5,
+              -126.25
+            ],
+            [
+              39.5,
+              126.25
+            ]
+          ],
           "printFace": "text",
-          "textureRef": "textures/text-face.png"
+          "textureRef": "textures/in3-face-40b.webp",
+          "uvMm": {
+            "x": -1.094,
+            "y": -127.301,
+            "w": 41.719,
+            "h": 254.571
+          }
+        },
+        {
+          "id": "flap-75a-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -37.5,
+            "y": -0.0,
+            "w": 75.0,
+            "h": 39.5
+          },
+          "outlineMm": [
+            [
+              37.5,
+              39.5
+            ],
+            [
+              -37.5,
+              39.5
+            ],
+            [
+              -37.5,
+              -0.0
+            ],
+            [
+              37.5,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-75a-top.webp",
+          "uvMm": {
+            "x": -38.594,
+            "y": -1.074,
+            "w": 77.188,
+            "h": 41.7
+          }
+        },
+        {
+          "id": "flap-75a-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -37.5,
+            "y": -39.5,
+            "w": 75.0,
+            "h": 39.5
+          },
+          "outlineMm": [
+            [
+              -37.5,
+              -39.5
+            ],
+            [
+              37.5,
+              -39.5
+            ],
+            [
+              37.5,
+              -0.0
+            ],
+            [
+              -37.5,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-75a-bot.webp",
+          "uvMm": {
+            "x": -38.594,
+            "y": -40.626,
+            "w": 77.188,
+            "h": 41.7
+          }
+        },
+        {
+          "id": "flap-40-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -20.0,
+            "y": -37.0,
+            "w": 40.0,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -20.0,
+              -0.0
+            ],
+            [
+              -20.0,
+              -10.0
+            ],
+            [
+              -19.5,
+              -10.5
+            ],
+            [
+              -19.0,
+              -10.5
+            ],
+            [
+              -17.5,
+              -12.0
+            ],
+            [
+              -17.5,
+              -12.5
+            ],
+            [
+              -17.0,
+              -13.0
+            ],
+            [
+              -17.0,
+              -37.0
+            ],
+            [
+              17.0,
+              -37.0
+            ],
+            [
+              17.0,
+              -14.0
+            ],
+            [
+              17.5,
+              -13.5
+            ],
+            [
+              17.5,
+              -13.0
+            ],
+            [
+              18.5,
+              -12.0
+            ],
+            [
+              18.5,
+              -11.5
+            ],
+            [
+              19.0,
+              -11.5
+            ],
+            [
+              19.5,
+              -11.0
+            ],
+            [
+              20.0,
+              -11.0
+            ],
+            [
+              20.0,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-40-bot.webp",
+          "uvMm": {
+            "x": -21.094,
+            "y": -38.065,
+            "w": 42.188,
+            "h": 39.201
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -20.0,
+            "y": -0.0,
+            "w": 40.0,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -20.0,
+              10.0
+            ],
+            [
+              -20.0,
+              -0.0
+            ],
+            [
+              20.0,
+              -0.0
+            ],
+            [
+              20.0,
+              10.5
+            ],
+            [
+              18.5,
+              11.5
+            ],
+            [
+              18.5,
+              12.0
+            ],
+            [
+              17.5,
+              13.0
+            ],
+            [
+              17.5,
+              13.5
+            ],
+            [
+              17.0,
+              14.0
+            ],
+            [
+              17.0,
+              37.0
+            ],
+            [
+              -17.0,
+              37.0
+            ],
+            [
+              -17.0,
+              12.5
+            ],
+            [
+              -17.5,
+              12.0
+            ],
+            [
+              -17.5,
+              11.5
+            ],
+            [
+              -18.5,
+              10.5
+            ],
+            [
+              -19.0,
+              10.5
+            ],
+            [
+              -19.5,
+              10.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-40-top.webp",
+          "uvMm": {
+            "x": -21.094,
+            "y": -1.011,
+            "w": 42.188,
+            "h": 39.045
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40b-bot",
+          "role": "flap",
+          "rectMm": {
+            "x": -19.75,
+            "y": -37.0,
+            "w": 39.5,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -16.75,
+              -13.5
+            ],
+            [
+              -16.75,
+              -37.0
+            ],
+            [
+              16.75,
+              -37.0
+            ],
+            [
+              16.75,
+              -14.0
+            ],
+            [
+              17.25,
+              -13.5
+            ],
+            [
+              17.25,
+              -13.0
+            ],
+            [
+              17.75,
+              -12.5
+            ],
+            [
+              17.75,
+              -12.0
+            ],
+            [
+              18.25,
+              -11.5
+            ],
+            [
+              18.75,
+              -11.5
+            ],
+            [
+              19.25,
+              -11.0
+            ],
+            [
+              19.75,
+              -11.0
+            ],
+            [
+              19.75,
+              -0.0
+            ],
+            [
+              -19.75,
+              -0.0
+            ],
+            [
+              -19.75,
+              -11.0
+            ],
+            [
+              -19.25,
+              -11.0
+            ],
+            [
+              -18.75,
+              -11.5
+            ],
+            [
+              -18.25,
+              -11.5
+            ],
+            [
+              -17.25,
+              -12.5
+            ],
+            [
+              -17.25,
+              -13.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-40b-bot.webp",
+          "uvMm": {
+            "x": -20.844,
+            "y": -38.065,
+            "w": 41.719,
+            "h": 39.201
+          },
+          "stackLayer": 2
+        },
+        {
+          "id": "flap-40b-top",
+          "role": "flap",
+          "rectMm": {
+            "x": -19.75,
+            "y": -0.0,
+            "w": 39.5,
+            "h": 37.0
+          },
+          "outlineMm": [
+            [
+              -19.75,
+              10.5
+            ],
+            [
+              -19.75,
+              -0.0
+            ],
+            [
+              19.75,
+              -0.0
+            ],
+            [
+              19.75,
+              10.5
+            ],
+            [
+              19.25,
+              11.0
+            ],
+            [
+              18.75,
+              11.0
+            ],
+            [
+              17.75,
+              12.0
+            ],
+            [
+              17.75,
+              12.5
+            ],
+            [
+              16.75,
+              14.0
+            ],
+            [
+              16.75,
+              37.0
+            ],
+            [
+              -16.75,
+              37.0
+            ],
+            [
+              -16.75,
+              13.5
+            ],
+            [
+              -17.25,
+              13.0
+            ],
+            [
+              -17.25,
+              12.5
+            ],
+            [
+              -18.75,
+              11.0
+            ],
+            [
+              -19.25,
+              11.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-40b-top.webp",
+          "uvMm": {
+            "x": -20.844,
+            "y": -1.011,
+            "w": 41.719,
+            "h": 39.045
+          },
+          "stackLayer": 2
         },
         {
           "id": "face-75b",
           "role": "face",
-          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "rectMm": {
+            "x": -75.0,
+            "y": -127.25,
+            "w": 75.0,
+            "h": 254.0
+          },
+          "outlineMm": [
+            [
+              -73.5,
+              126.75
+            ],
+            [
+              -75.0,
+              126.43
+            ],
+            [
+              -75.0,
+              -126.93
+            ],
+            [
+              -73.5,
+              -127.25
+            ],
+            [
+              -0.8,
+              -127.25
+            ],
+            [
+              0.0,
+              -126.25
+            ],
+            [
+              0.0,
+              126.25
+            ],
+            [
+              -0.4,
+              126.75
+            ]
+          ],
           "printFace": "hero",
-          "textureRef": "textures/inner-3l.png"
+          "textureRef": "textures/in3-face-75b.webp",
+          "uvMm": {
+            "x": -76.094,
+            "y": -128.394,
+            "w": 77.188,
+            "h": 256.288
+          }
         },
         {
           "id": "glue",
           "role": "glue",
-          "rectMm": { "x": 0, "y": 0, "w": 15, "h": 253.4 },
-          "printFace": "none"
+          "rectMm": {
+            "x": -15.0,
+            "y": -126.68,
+            "w": 15.0,
+            "h": 253.36
+          },
+          "outlineMm": [
+            [
+              0.0,
+              126.68
+            ],
+            [
+              -15.0,
+              123.5
+            ],
+            [
+              -15.0,
+              -123.5
+            ],
+            [
+              0.0,
+              -126.68
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-glue.webp",
+          "uvMm": {
+            "x": -16.094,
+            "y": -127.832,
+            "w": 17.188,
+            "h": 255.664
+          },
+          "stackLayer": 1
         },
         {
-          "id": "flap-40",
+          "id": "flap-75b-top",
           "role": "flap",
-          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
-          "printFace": "kraft"
+          "rectMm": {
+            "x": -36.54,
+            "y": -0.0,
+            "w": 73.1,
+            "h": 38.0
+          },
+          "outlineMm": [
+            [
+              -34.04,
+              5.0
+            ],
+            [
+              -36.54,
+              -0.0
+            ],
+            [
+              36.56,
+              -0.0
+            ],
+            [
+              32.96,
+              4.5
+            ],
+            [
+              32.96,
+              36.5
+            ],
+            [
+              31.46,
+              38.0
+            ],
+            [
+              -32.54,
+              38.0
+            ],
+            [
+              -32.54,
+              37.5
+            ],
+            [
+              -33.04,
+              37.5
+            ],
+            [
+              -33.54,
+              37.0
+            ],
+            [
+              -33.54,
+              36.0
+            ],
+            [
+              -34.04,
+              35.5
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-75b-top.webp",
+          "uvMm": {
+            "x": -37.574,
+            "y": -1.042,
+            "w": 75.156,
+            "h": 40.138
+          },
+          "stackLayer": 1
         },
         {
-          "id": "flap-40b",
+          "id": "flap-75b-bot",
           "role": "flap",
-          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
-          "printFace": "kraft"
-        },
-        {
-          "id": "flap-75a",
-          "role": "flap",
-          "rectMm": { "x": 0, "y": -39.5, "w": 75, "h": 39.5 },
-          "printFace": "kraft"
-        },
-        {
-          "id": "flap-75b",
-          "role": "flap",
-          "rectMm": { "x": 0, "y": -38, "w": 73, "h": 38 },
-          "printFace": "kraft"
+          "rectMm": {
+            "x": -36.34,
+            "y": -38.0,
+            "w": 72.7,
+            "h": 38.0
+          },
+          "outlineMm": [
+            [
+              -36.34,
+              -0.0
+            ],
+            [
+              -33.84,
+              -5.0
+            ],
+            [
+              -33.84,
+              -35.5
+            ],
+            [
+              -33.34,
+              -36.0
+            ],
+            [
+              -33.34,
+              -36.5
+            ],
+            [
+              -31.84,
+              -38.0
+            ],
+            [
+              31.16,
+              -38.0
+            ],
+            [
+              31.66,
+              -37.5
+            ],
+            [
+              32.16,
+              -37.5
+            ],
+            [
+              32.16,
+              -37.0
+            ],
+            [
+              32.66,
+              -36.5
+            ],
+            [
+              33.16,
+              -36.5
+            ],
+            [
+              33.16,
+              -4.0
+            ],
+            [
+              36.36,
+              -0.0
+            ]
+          ],
+          "printFace": "kraft",
+          "textureRef": "textures/in3-flap-75b-bot.webp",
+          "uvMm": {
+            "x": -37.374,
+            "y": -39.096,
+            "w": 74.844,
+            "h": 40.138
+          },
+          "stackLayer": 1
         }
       ],
       "creases": [
         {
-          "id": "to-75a",
+          "id": "face-40-face-75a",
           "panelA": "face-40",
           "panelB": "face-75a",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [40, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [32, 44],
-          "lengthMm": 255
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -0.0,
+            -127.75,
+            0.0
+          ],
+          "foldDeg": -90,
+          "foldWindow": [
+            30.0,
+            34.0
+          ],
+          "lengthMm": 255.0
         },
         {
-          "id": "to-40b",
+          "id": "face-75a-face-40b",
           "panelA": "face-75a",
           "panelB": "face-40b",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [75, 0, 0],
+          "axis": {
+            "direction": [
+              0.0,
+              1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            75.0,
+            127.75,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [34, 46],
-          "lengthMm": 255
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 254.3
         },
         {
-          "id": "to-75b",
+          "id": "face-75a-flap-75a-top",
+          "panelA": "face-75a",
+          "panelB": "flap-75a-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            37.5,
+            255.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            43.0,
+            46.0
+          ],
+          "lengthMm": 76.8
+        },
+        {
+          "id": "face-75a-flap-75a-bot",
+          "panelA": "face-75a",
+          "panelB": "flap-75a-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            37.5,
+            -0.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            43.0,
+            46.0
+          ],
+          "lengthMm": 76.8
+        },
+        {
+          "id": "face-40-flap-40-bot",
+          "panelA": "face-40",
+          "panelB": "flap-40-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -20.0,
+            -126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.8
+        },
+        {
+          "id": "face-40-flap-40-top",
+          "panelA": "face-40",
+          "panelB": "flap-40-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -20.0,
+            126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.8
+        },
+        {
+          "id": "face-40b-flap-40b-bot",
           "panelA": "face-40b",
-          "panelB": "face-75b",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [40, 0, 0],
+          "panelB": "flap-40b-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            19.75,
+            -126.25,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [36, 46],
-          "lengthMm": 255
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.3
         },
         {
-          "id": "to-glue",
+          "id": "face-40b-flap-40b-top",
+          "panelA": "face-40b",
+          "panelB": "flap-40b-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            19.75,
+            126.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            39.0,
+            42.0
+          ],
+          "lengthMm": 41.3
+        },
+        {
+          "id": "face-40-face-75b",
+          "panelA": "face-40",
+          "panelB": "face-75b",
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -40.0,
+            0.0,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 254.3
+        },
+        {
+          "id": "face-75b-glue",
           "panelA": "face-75b",
           "panelB": "glue",
-          "axis": { "direction": [0, 1, 0] },
-          "attachMm": [75, 0, 0],
+          "axis": {
+            "direction": [
+              0.0,
+              -1.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -75.0,
+            -0.25,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [38, 48],
-          "lengthMm": 253.4
+          "foldWindow": [
+            33.0,
+            40.0
+          ],
+          "lengthMm": 255.2
         },
         {
-          "id": "to-flap-40",
-          "panelA": "face-40",
-          "panelB": "flap-40",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 40
-        },
-        {
-          "id": "to-flap-40b",
-          "panelA": "face-40b",
-          "panelB": "flap-40b",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 40
-        },
-        {
-          "id": "to-flap-75a",
-          "panelA": "face-75a",
-          "panelB": "flap-75a",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
-          "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 75
-        },
-        {
-          "id": "to-flap-75b",
+          "id": "face-75b-flap-75b-top",
           "panelA": "face-75b",
-          "panelB": "flap-75b",
-          "axis": { "direction": [1, 0, 0] },
-          "attachMm": [0, 0, 0],
+          "panelB": "flap-75b-top",
+          "axis": {
+            "direction": [
+              -1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -36.958,
+            126.75,
+            0.0
+          ],
           "foldDeg": 90,
-          "foldWindow": [40, 50],
-          "lengthMm": 73
+          "foldWindow": [
+            41.0,
+            44.0
+          ],
+          "lengthMm": 74.9
+        },
+        {
+          "id": "face-75b-flap-75b-bot",
+          "panelA": "face-75b",
+          "panelB": "flap-75b-bot",
+          "axis": {
+            "direction": [
+              1.0,
+              0.0,
+              0.0
+            ]
+          },
+          "attachMm": [
+            -37.158,
+            -127.25,
+            0.0
+          ],
+          "foldDeg": 90,
+          "foldWindow": [
+            41.0,
+            44.0
+          ],
+          "lengthMm": 74.5
         }
       ]
     }
@@ -578,8 +4985,20 @@
       "colMm": 40,
       "rowMm": 75,
       "cells": [
-        "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l",
-        "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l"
+        "inner-1l",
+        "inner-1l",
+        "inner-1l",
+        "inner-1l",
+        "inner-1l",
+        "inner-1l",
+        "inner-1l",
+        "inner-3l",
+        "inner-3l",
+        "inner-3l",
+        "inner-3l",
+        "inner-3l",
+        "inner-3l",
+        "inner-3l"
       ]
     },
     "anchor": "center",
@@ -587,16 +5006,45 @@
     "heroTowardDisplay": false,
     "itemHeightMm": 255,
     "floorBoardLayers": 2,
-    "dropWindow": [46, 76],
+    "dropWindow": [
+      46,
+      76
+    ],
     "stagger": 1,
     "dropDuration": 8
   },
   "steps": [
-    { "t": 0, "label": "Flat blanks / Tấm phẳng" },
-    { "t": 16, "label": "Carton body / Dựng thân thùng" },
-    { "t": 40, "label": "Bottom closed / Gấp đáy" },
-    { "t": 50, "label": "Inners folded / Gấp inner 1L và 3L" },
-    { "t": 72, "label": "14 packed / Xếp 7×1L + 7×3L" },
-    { "t": 100, "label": "Lid on · measure FIT / Đậy nắp · đo FIT" }
+    {
+      "t": 0,
+      "label": "Flat blanks / T\u1ea5m ph\u1eb3ng"
+    },
+    {
+      "t": 6,
+      "label": "Carton tube / D\u1ef1ng th\u00e2n th\u00f9ng"
+    },
+    {
+      "t": 18,
+      "label": "Carton bottom / G\u1ea5p \u0111\u00e1y th\u00f9ng"
+    },
+    {
+      "t": 30,
+      "label": "Fold inners / G\u1ea5p inner 1L v\u00e0 3L"
+    },
+    {
+      "t": 46,
+      "label": "14 packed / X\u1ebfp 7\u00d71L + 7\u00d73L"
+    },
+    {
+      "t": 64,
+      "label": "Kraft hood / G\u1ea5p n\u1eafp hood"
+    },
+    {
+      "t": 82,
+      "label": "Hood on / Ch\u1ee5p n\u1eafp"
+    },
+    {
+      "t": 100,
+      "label": "Done \u00b7 measure FIT / Ho\u00e0n t\u1ea5t \u00b7 \u0111o FIT"
+    }
   ]
 }
