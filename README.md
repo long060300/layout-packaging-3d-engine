@@ -9,7 +9,13 @@ Một viewer tĩnh cho mọi job xếp hộp. Sản phẩm mới = thư mục `j
 3. Đặt ảnh in vào `jobs/<mã>/textures/` và trỏ `textureRef` bằng đường dẫn tương đối (`textures/hero.png`). Không `data:` URL.
 4. Mở viewer: `/viewer/?job=../jobs/<mã>/panels.json`.
 
-Mẫu `EXAMPLE-ZOSIA-LAYOUT` dùng hằng số tròn (thùng 200×100×160, inner 46×46×120, sóng 2.0 mm). Đây không phải số Product Master và không phải số đo dieline.
+Mẫu `EXAMPLE-ZOSIA-LAYOUT` dùng hằng số tròn (thùng 200×100×160, inner 46×46×120, sóng 2.0 mm). Đây không phải số Product Master và không phải số đo dieline. Viewer mở mẫu này khi không có `?job=`.
+
+## Job ZOSIA Slider mix
+
+`jobs/zosia-slider-mix-1l3l/` là job ZOSIA thật (mã kiểu `JMDWSL001`), cùng viewer, không có engine thứ hai. Product Master V2 `Packing_Material_Code_R7d` (lưu 14:49 Asia/Bangkok 24/10/2026): thùng `50ZOAMIX0001568` **297 × 155 × 259 mm**, nắp `53ZOAMIX0001569` (Packing không có L×W×H; hood 304 × 161 × 265 là ước lượng từ dieline / bản đo), inner `54ZOA0010001570` (1L) và `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. Mặt hero 75 mm hướng ra đầu 155 mm (nhìn vào thấy hero, không phải mặt text 40 mm). Lưới vẫn 7 × 40 dọc dài và 2 × 75 dọc sâu. Mở:
+
+`/viewer/?job=../jobs/zosia-slider-mix-1l3l/panels.json`
 
 ## Quy tắc Y nghỉ
 
@@ -58,7 +64,13 @@ One static viewer for every packing job. A new product is a new `jobs/<code>/` f
 3. Put print art in `jobs/<code>/textures/` and set `textureRef` to a relative path such as `textures/hero.png`.
 4. Open `/viewer/?job=../jobs/<code>/panels.json`.
 
-`EXAMPLE-ZOSIA-LAYOUT` uses round EXAMPLE constants (carton 200×100×160, inner 46×46×120, board 2.0 mm). Those are not Product Master numbers and not dieline measurements. The fold slider, legend, and resting Y follow the earlier one-file sim; the blank here is simplified rectangles so the first load does not wait on a full dieline port.
+`EXAMPLE-ZOSIA-LAYOUT` uses round EXAMPLE constants (carton 200×100×160, inner 46×46×120, board 2.0 mm). Those are not Product Master numbers and not dieline measurements. The fold slider, legend, and resting Y follow the earlier one-file sim; the blank here is simplified rectangles so the first load does not wait on a full dieline port. The viewer opens this sample when `?job=` is omitted.
+
+## ZOSIA Slider mix job
+
+`jobs/zosia-slider-mix-1l3l/` is the real ZOSIA mix (style `JMDWSL001`) on the same viewer. Product Master V2 `Packing_Material_Code_R7d`, saved 14:49 Asia/Bangkok 24/10/2026: carton `50ZOAMIX0001568` **297 × 155 × 259 mm**, lid `53ZOAMIX0001569` (no L×W×H in Packing; the 304 × 161 × 265 mm hood is the dieline / verify estimate), inners `54ZOA0010001570` (1L) and `54ZOA0030001571` (3L), QC **255 × 75 × 40 mm**, EB Vertical, 7 + 7 = 14. The 75 mm hero face points out the 155 mm end (the look-in shows the hero, not the 40 mm text face). The grid stays 7 × 40 mm along the length and 2 × 75 mm along the depth. Open:
+
+`/viewer/?job=../jobs/zosia-slider-mix-1l3l/panels.json`
 
 ## Resting Y
 

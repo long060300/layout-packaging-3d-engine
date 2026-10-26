@@ -105,6 +105,66 @@ if (cell.x !== -69 || cell.y !== 64 || cell.z !== 23) {
   fail(`cell 0 expected (-69, 64, 23), got (${cell.x}, ${cell.y}, ${cell.z})`);
 } else ok('cell 0 center is (-69, 64, 23)');
 
+const zosia = JSON.parse(read('jobs/zosia-slider-mix-1l3l/panels.json'));
+assertJob(zosia);
+ok('ZOSIA job passes assertJob');
+const zReport = fitReport(zosia);
+const zClear = zReport.rows.map((r) => r.clearance);
+if (zReport.floor !== 4 || zReport.H !== 255 || zReport.restingY !== 131.5) {
+  fail(`ZOSIA resting Y ${zReport.restingY}, floor ${zReport.floor}, H ${zReport.H}`);
+} else ok('ZOSIA floor 4 + H/2 = 131.5');
+if (!zReport.fit || zReport.packedCount !== 14) {
+  fail(`ZOSIA FIT ${zReport.fit} count ${zReport.packedCount} clearances ${zClear.join(',')}`);
+} else if (zClear[0] !== 13 || zClear[1] !== 1 || zClear[2] !== 0) {
+  fail(`ZOSIA clearances expected 13, 1, 0 got ${zClear.join(', ')}`);
+} else ok('ZOSIA FIT at board 2 mm: 14 inners, clearances 13 / 1 / 0 mm');
+console.log('verify-json measured carton 297.5 × 155 × 259, per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261. This job keeps Product Master 297 × 155 × 259, so the formula gaps above are the ones that must pass.');
+const zCell = cellPlacement(zosia.pack, 0, zReport.floor);
+if (zCell.x !== -120 || zCell.y !== 131.5 || zCell.z !== 37.5 || zCell.id !== 'inner-1l') {
+  fail(`ZOSIA cell 0 expected inner-1l at (-120, 131.5, 37.5), got ${zCell.id} (${zCell.x}, ${zCell.y}, ${zCell.z})`);
+} else ok('ZOSIA cell 0 is inner-1l at (-120, 131.5, 37.5)');
+const zCells = zosia.pack.grid.cells;
+if (zCells.filter((id) => id === 'inner-1l').length !== 7 || zCells.filter((id) => id === 'inner-3l').length !== 7) {
+  fail('ZOSIA grid must be 7 × inner-1l then 7 × inner-3l');
+} else ok('ZOSIA grid is 7 × 1L + 7 × 3L');
+const nom = zosia.carton.nominalOutsideMm;
+if (nom.l !== 297 || nom.w !== 155 || nom.h !== 259) fail(`ZOSIA carton nominal ${nom.l}×${nom.w}×${nom.h}`);
+else ok('ZOSIA carton nominal is Product Master 297 × 155 × 259');
+const lidNom = zosia.lid && zosia.lid.nominalOutsideMm;
+if (!lidNom || lidNom.l !== 304 || lidNom.w !== 161 || lidNom.h !== 265) fail('ZOSIA lid nominal should stay the dieline/verify estimate 304 × 161 × 265');
+else ok('ZOSIA lid nominal is the dieline/verify estimate 304 × 161 × 265');
+const note = zosia.meta.notes || '';
+const cited = [
+  'Packing_Material_Code_R7d',
+  '50ZOAMIX0001568',
+  '53ZOAMIX0001569',
+  '54ZOA0010001570',
+  '54ZOA0030001571',
+  '28JMDWSL00101',
+  '28JMDWSL00102',
+  '0.047',
+];
+const missingCite = cited.filter((token) => !note.includes(token));
+if (missingCite.length) fail('ZOSIA notes missing ' + missingCite.join(', '));
+else ok('ZOSIA notes cite Product Master codes and the bag-film thickness');
+if (zosia.inners.some((inner) => inner.thicknessMm === 0.047 || inner.thicknessMm < 0.1)) {
+  fail('bag film 0.047 must stay meta, not inner board thickness');
+} else ok('inner board is not the 0.047 mm bag film');
+if (zosia.pack.heroTowardDisplay) {
+  fail('ZOSIA heroTowardDisplay must stay false so a 90° yaw does not swap the 40 × 75 footprint');
+} else ok('ZOSIA does not yaw the 75 mm hero onto +Z');
+let facesOk = true;
+for (const inner of zosia.inners) {
+  const byId = new Map(inner.panels.map((p) => [p.id, p]));
+  const hero75 = ['face-75a', 'face-75b'].every((id) => byId.get(id) && byId.get(id).printFace === 'hero');
+  const text40 = ['face-40', 'face-40b'].every((id) => byId.get(id) && byId.get(id).printFace === 'text');
+  if (!hero75 || !text40) {
+    facesOk = false;
+    fail(`${inner.id} must put hero on the 75 mm faces and text on the 40 mm faces`);
+  }
+}
+if (facesOk) ok('ZOSIA dieline: hero on 75 mm faces, text on 40 mm faces');
+
 const refs = new Set();
 const walk = (node) => {
   if (!node || typeof node !== 'object') return;
@@ -114,6 +174,15 @@ const walk = (node) => {
 };
 walk(job);
 if (refs.size < 1) fail('sample job has no textureRef');
+const zosiaRefs = new Set();
+const walkZosia = (node) => {
+  if (!node || typeof node !== 'object') return;
+  if (Array.isArray(node)) { node.forEach(walkZosia); return; }
+  if (typeof node.textureRef === 'string') zosiaRefs.add(node.textureRef);
+  Object.values(node).forEach(walkZosia);
+};
+walkZosia(zosia);
+if (zosiaRefs.size < 1) fail('ZOSIA job has no textureRef');
 for (const ref of refs) {
   const path = join(root, 'jobs/sample-zosia', ref);
   if (!existsSync(path)) {
@@ -127,6 +196,20 @@ for (const ref of refs) {
   if (!png && !webp) fail(ref + ' is not a png or webp');
   else if (buf.length > 400_000) fail(ref + ' is unexpectedly large');
   else ok('texture file ' + ref + ` (${buf.length} bytes)`);
+}
+for (const ref of zosiaRefs) {
+  const path = join(root, 'jobs/zosia-slider-mix-1l3l', ref);
+  if (!existsSync(path)) {
+    fail('missing ZOSIA texture ' + ref);
+    continue;
+  }
+  const buf = readFileSync(path);
+  const magic = buf.subarray(0, 8).toString('hex');
+  const png = magic.startsWith('89504e470d0a1a0a');
+  const webp = buf.subarray(0, 4).toString() === 'RIFF' && buf.subarray(8, 12).toString() === 'WEBP';
+  if (!png && !webp) fail(ref + ' is not a png or webp');
+  else if (buf.length > 400_000) fail(ref + ' is unexpectedly large');
+  else ok('ZOSIA texture ' + ref + ` (${buf.length} bytes)`);
 }
 
 const dataUrl = ['data', 'image/'].join(':');
@@ -233,6 +316,86 @@ async function meshCheck() {
   console.log('lid AABB y', lbox.min.y.toFixed(2), '→', lbox.max.y.toFixed(2));
   if (lidH > 80) fail(`lid lips look unfolded, vertical extent ${lidH.toFixed(2)}`);
   else ok('lid folds into a shallow hood');
+
+  function bodyBox(obj) {
+    obj.updateMatrixWorld(true);
+    let box = null;
+    obj.traverse((c) => {
+      if (!c.isMesh || !c.userData || !c.userData.body || !c.geometry) return;
+      c.geometry.computeBoundingBox();
+      const bb = c.geometry.boundingBox.clone().applyMatrix4(c.matrixWorld);
+      if (!box) box = bb;
+      else box.union(bb);
+    });
+    return box;
+  }
+
+  const protoById = new Map(zosia.inners.map((inner) => [inner.id, createPackPrototype(inner, zosia.pack.heroTowardDisplay)]));
+  let underFloor = 0;
+  const counts = { 'inner-1l': 0, 'inner-3l': 0 };
+  for (let index = 0; index < zosia.pack.grid.cells.length; index += 1) {
+    const id = zosia.pack.grid.cells[index];
+    counts[id] += 1;
+    const place = cellPlacement(zosia.pack, index, zReport.floor);
+    const wrap = clonePacked(protoById.get(id), zosia.pack.anchor);
+    wrap.position.set(place.x, place.y, place.z);
+    const boards = bodyBox(wrap);
+    if (!boards || boards.min.y < zReport.floor - 1e-6) underFloor += 1;
+    if (index === 0) {
+      const sx = boards.max.x - boards.min.x;
+      const sy = boards.max.y - boards.min.y;
+      const sz = boards.max.z - boards.min.z;
+      console.log('ZOSIA inner boards', sx.toFixed(2), sy.toFixed(2), sz.toFixed(2), 'bottom', boards.min.y.toFixed(2));
+      if (sx < 39 || sx > 42 || sz < 74 || sz > 78 || sy < 254 || sy > 257) {
+        fail(`ZOSIA packed footprint ${sx.toFixed(2)} × ${sy.toFixed(2)} × ${sz.toFixed(2)} is not 40 × 255 × 75`);
+      } else ok('ZOSIA packed boards are 40 × 255 × 75');
+      const normals = {};
+      wrap.traverse((obj) => {
+        if (!obj.isMesh || !obj.userData || !obj.userData.panelId) return;
+        const e = obj.matrixWorld.elements;
+        const len = Math.hypot(e[8], e[9], e[10]) || 1;
+        normals[obj.userData.panelId] = {
+          face: obj.userData.printFace,
+          x: e[8] / len,
+          z: e[10] / len,
+        };
+      });
+      const hero = normals['face-75a'];
+      const text = normals['face-40'];
+      if (!hero || hero.face !== 'hero' || hero.x < 0.9) {
+        fail(`ZOSIA 75 mm hero normal should point out the look-in (+X), got ${JSON.stringify(hero)}`);
+      } else if (!text || text.face !== 'text' || text.z < 0.9) {
+        fail(`ZOSIA 40 mm text face should stay parallel to the 297 mm wall (+Z), got ${JSON.stringify(text)}`);
+      } else ok('ZOSIA 75 mm hero points out the look-in (+X); 40 mm text stays on the 297 mm wall');
+    }
+  }
+  if (zosia.pack.grid.cells.length !== 14) fail('ZOSIA packed count ' + zosia.pack.grid.cells.length);
+  else ok('ZOSIA packs 14 inners at fold 100');
+  if (counts['inner-1l'] !== 7 || counts['inner-3l'] !== 7) fail('ZOSIA packed mix ' + JSON.stringify(counts));
+  else ok('ZOSIA packed mix is 7 × 1L + 7 × 3L');
+  if (underFloor) fail(`${underFloor} ZOSIA inners have board min.y under floor ${zReport.floor}`);
+  else ok('ZOSIA board bottoms sit on or above the floor');
+
+  const zCarton = buildAssembly(zosia.carton);
+  applyFold(zCarton, 100);
+  applyPose(zCarton, 100);
+  const zc = bodyBox(zCarton.root);
+  const zcSize = { x: zc.max.x - zc.min.x, y: zc.max.y - zc.min.y, z: zc.max.z - zc.min.z };
+  console.log('ZOSIA carton boards', zcSize.x.toFixed(2), zcSize.y.toFixed(2), zcSize.z.toFixed(2));
+  if (zcSize.x < 296 || zcSize.x > 302 || zcSize.y < 258 || zcSize.y > 262 || zcSize.z < 154 || zcSize.z > 158) {
+    fail(`ZOSIA carton boards ${zcSize.x.toFixed(2)} × ${zcSize.y.toFixed(2)} × ${zcSize.z.toFixed(2)}`);
+  } else ok('ZOSIA folded carton boards are 297 × 259 × 155');
+
+  const zLid = buildAssembly(zosia.lid);
+  applyFold(zLid, 100);
+  applyPose(zLid, 100);
+  const zl = bodyBox(zLid.root);
+  console.log('ZOSIA lid boards y', zl.min.y.toFixed(2), '→', zl.max.y.toFixed(2));
+  const zlX = zl.max.x - zl.min.x;
+  const zlZ = zl.max.z - zl.min.z;
+  if (zl.max.y < 260 || zl.max.y > 270 || zl.min.y < 0 || zl.min.y > 8 || zlX < 300 || zlX > 310 || zlZ < 158 || zlZ > 166) {
+    fail(`ZOSIA lid boards x ${zlX.toFixed(2)} z ${zlZ.toFixed(2)} y ${zl.min.y.toFixed(2)}→${zl.max.y.toFixed(2)}`);
+  } else ok('ZOSIA lid folds into a 304 × 161 hood, top at 265 mm');
 }
 
 function sleep(ms) {

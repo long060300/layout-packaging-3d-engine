@@ -1,0 +1,602 @@
+{
+  "$schema": "../../schema/panels.schema.json",
+  "meta": {
+    "productCode": "JMDWSL001",
+    "title": "ZOSIA Slider mix 1L + 3L",
+    "sources": ["dieline", "ProductMaster", "estimate"],
+    "generatedBy": "Rectangle port of the ZOSIA Slider mix. Contours are simplified; numbers are cited below.",
+    "todo": [
+      "Dieline vectors are not cut yet. Panels are rectangles. The carton front slot is the dieline hole's 90 × 33 mm box, not the real contour.",
+      "Inner top flaps from the dieline are left off this blank so the closed bottom is what the resting-Y check measures."
+    ],
+    "notes": "Product Master V2 Packing_Material_Code_R7d, saved 14:49 Asia/Bangkok 24/10/2026. Carton 50ZOAMIX0001568 outside L×W×H 297 × 155 × 259 mm (this nominal replaces the verified model's 297.5 mm length). Lid 53ZOAMIX0001569 has no L×W×H in Packing; hood 304 × 161 × 265 mm is the dieline / verify measure (estimate). Inners 54ZOA0010001570 (1L, SKU 28JMDWSL00101) and 54ZOA0030001571 (3L, SKU 28JMDWSL00102). EB Vertical for both. Inner QC L×W×H 255 × 75 × 40 mm, with 255 vertical. Innerbox per carton 7 + 7 = 14, not rolls. Bags per innerbox 1L=20 and 3L=15, bag width target 240 mm, bag film 0.047 mm: meta only, not geometry and not board caliper. Pack map (Long / QuickPack): vertical, up = 255, 7 × 40 mm along the carton length (under 297), 2 × 75 mm along the depth. Dieline: hero art is on the 75 mm faces, text is on the 40 mm faces. The 75 mm hero normal points out the 155 mm end (+X), the look-in. Shoppers on that axis see the hero, not the 40 mm text face. The 40 mm text face is parallel to the 297 mm wall. Turning the 75 mm normal onto +Z is a 90° yaw and swaps the cell to 75 × 40, and 7 × 75 mm does not fit 297 mm. heroTowardDisplay is false so that yaw is not applied. The hero print already points out the +X end, so no extra 180° about the center is needed; the placement stays on the body center, not a corner. Row 0 (+Z) = 7 × 1L and row 1 = 7 × 3L follows the verified sim (estimate; Product Master does not name the row). Board 2.0 mm and two bottom layers are the verify run's T=2 (estimate), so floor = 4 mm, center resting Y = 131.5 mm, H = 255. Inner board 0.5 mm is the verified sim's duplex (estimate). Dieline glue: carton 30 mm, inner 15 × 253.4 mm. Dieline carton sides 155 and 153 mm; both walls here are 155 mm so the outside matches Product Master width. Dieline carton length panels 297.5 / 297 / 295.5 mm; walls here are 297 mm. Bottom flaps from the dieline: carton 107 mm and 93.5 mm, inner 39.5 / 38 / 37 mm. Lid skirt 263 mm is 265 − 2 mm top board (estimate) so the hood outside height stays 265 mm. Verify json on the 297.5 mm model: per-side gaps clrLen 6.5 and clrWid 0.5, innerTop 259, lidCeil 261, overlaps 0, outside 0, fit true. Formula clearances on Product Master 297 × 155 × 259 at t = 2 mm are length 13 mm, width 1 mm, height 0 mm. Textures are raster previews of the dieline PDFs, one sheet per blank, not a per-panel UV."
+  },
+  "carton": {
+    "id": "carton",
+    "thicknessMm": 2,
+    "nominalOutsideMm": { "l": 297, "w": 155, "h": 259 },
+    "flatPositionMm": [-560, 0, 480],
+    "seatMm": [-148.5, 0, 77.5],
+    "uprightEulerDeg": [0, 0, 0],
+    "orientWindow": [0, 16],
+    "panels": [
+      {
+        "id": "front",
+        "role": "face",
+        "rectMm": { "x": 0, "y": 0, "w": 297, "h": 259 },
+        "printFace": "hero",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "right",
+        "role": "face",
+        "rectMm": { "x": 0, "y": 0, "w": 155, "h": 259 },
+        "printFace": "text",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "back",
+        "role": "face",
+        "rectMm": { "x": 0, "y": 0, "w": 297, "h": 259 },
+        "printFace": "kraft",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "left",
+        "role": "face",
+        "rectMm": { "x": 0, "y": 0, "w": 155, "h": 259 },
+        "printFace": "kraft",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "glue",
+        "role": "glue",
+        "rectMm": { "x": 0, "y": 0, "w": 30, "h": 259 },
+        "printFace": "none"
+      },
+      {
+        "id": "flap-front",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": -107, "w": 297, "h": 107 },
+        "printFace": "kraft",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "flap-back",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": -107, "w": 297, "h": 107 },
+        "printFace": "kraft",
+        "textureRef": "textures/carton.png"
+      },
+      {
+        "id": "flap-right",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": -93.5, "w": 155, "h": 93.5 },
+        "printFace": "kraft"
+      },
+      {
+        "id": "flap-left",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": -93.5, "w": 155, "h": 93.5 },
+        "printFace": "kraft"
+      },
+      {
+        "id": "front-slot",
+        "role": "window",
+        "rectMm": { "x": 0, "y": 0, "w": 90, "h": 33 },
+        "printFace": "none"
+      }
+    ],
+    "creases": [
+      {
+        "id": "front-right",
+        "panelA": "front",
+        "panelB": "right",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [297, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [6, 20],
+        "lengthMm": 259
+      },
+      {
+        "id": "right-back",
+        "panelA": "right",
+        "panelB": "back",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [155, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [8, 22],
+        "lengthMm": 259
+      },
+      {
+        "id": "back-left",
+        "panelA": "back",
+        "panelB": "left",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [297, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [10, 24],
+        "lengthMm": 259
+      },
+      {
+        "id": "left-glue",
+        "panelA": "left",
+        "panelB": "glue",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [155, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [12, 26],
+        "lengthMm": 259
+      },
+      {
+        "id": "front-flap",
+        "panelA": "front",
+        "panelB": "flap-front",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [22, 38],
+        "lengthMm": 297
+      },
+      {
+        "id": "back-flap",
+        "panelA": "back",
+        "panelB": "flap-back",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [24, 40],
+        "lengthMm": 297
+      },
+      {
+        "id": "right-flap",
+        "panelA": "right",
+        "panelB": "flap-right",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [22, 38],
+        "lengthMm": 155
+      },
+      {
+        "id": "left-flap",
+        "panelA": "left",
+        "panelB": "flap-left",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [24, 40],
+        "lengthMm": 155
+      },
+      {
+        "id": "front-slot",
+        "panelA": "front",
+        "panelB": "front-slot",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [103.5, 109, 0.8],
+        "foldDeg": 0,
+        "foldWindow": [0, 1],
+        "lengthMm": 33
+      }
+    ]
+  },
+  "lid": {
+    "id": "lid",
+    "thicknessMm": 2,
+    "nominalOutsideMm": { "l": 304, "w": 161, "h": 265 },
+    "flatPositionMm": [-560, 0, -40],
+    "seatMm": [-152, 265, 80.5],
+    "uprightEulerDeg": [-90, 0, 0],
+    "orientWindow": [82, 100],
+    "panels": [
+      {
+        "id": "lid-top",
+        "role": "face",
+        "rectMm": { "x": 0, "y": 0, "w": 304, "h": 161 },
+        "printFace": "text",
+        "textureRef": "textures/lid.png"
+      },
+      {
+        "id": "lid-front",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": -263, "w": 304, "h": 263 },
+        "printFace": "kraft",
+        "textureRef": "textures/lid.png"
+      },
+      {
+        "id": "lid-back",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": 0, "w": 304, "h": 263 },
+        "printFace": "kraft",
+        "textureRef": "textures/lid.png"
+      },
+      {
+        "id": "lid-left",
+        "role": "flap",
+        "rectMm": { "x": -263, "y": 0, "w": 263, "h": 161 },
+        "printFace": "text",
+        "textureRef": "textures/lid.png"
+      },
+      {
+        "id": "lid-right",
+        "role": "flap",
+        "rectMm": { "x": 0, "y": 0, "w": 263, "h": 161 },
+        "printFace": "text",
+        "textureRef": "textures/lid.png"
+      }
+    ],
+    "creases": [
+      {
+        "id": "lid-to-front",
+        "panelA": "lid-top",
+        "panelB": "lid-front",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [74, 90],
+        "lengthMm": 304
+      },
+      {
+        "id": "lid-to-back",
+        "panelA": "lid-top",
+        "panelB": "lid-back",
+        "axis": { "direction": [1, 0, 0] },
+        "attachMm": [0, 161, 0],
+        "foldDeg": -90,
+        "foldWindow": [74, 90],
+        "lengthMm": 304
+      },
+      {
+        "id": "lid-to-left",
+        "panelA": "lid-top",
+        "panelB": "lid-left",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [0, 0, 0],
+        "foldDeg": -90,
+        "foldWindow": [76, 90],
+        "lengthMm": 161
+      },
+      {
+        "id": "lid-to-right",
+        "panelA": "lid-top",
+        "panelB": "lid-right",
+        "axis": { "direction": [0, 1, 0] },
+        "attachMm": [304, 0, 0],
+        "foldDeg": 90,
+        "foldWindow": [76, 90],
+        "lengthMm": 161
+      }
+    ]
+  },
+  "inners": [
+    {
+      "id": "inner-1l",
+      "thicknessMm": 0.5,
+      "flatPositionMm": [480, 0, 220],
+      "seatMm": [430, 0, 40],
+      "uprightEulerDeg": [0, 0, 0],
+      "orientWindow": [28, 48],
+      "panels": [
+        {
+          "id": "face-40",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
+        },
+        {
+          "id": "face-75a",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "printFace": "hero",
+          "textureRef": "textures/inner-1l.png"
+        },
+        {
+          "id": "face-40b",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
+        },
+        {
+          "id": "face-75b",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "printFace": "hero",
+          "textureRef": "textures/inner-1l.png"
+        },
+        {
+          "id": "glue",
+          "role": "glue",
+          "rectMm": { "x": 0, "y": 0, "w": 15, "h": 253.4 },
+          "printFace": "none"
+        },
+        {
+          "id": "flap-40",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-40b",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-75a",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -39.5, "w": 75, "h": 39.5 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-75b",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -38, "w": 73, "h": 38 },
+          "printFace": "kraft"
+        }
+      ],
+      "creases": [
+        {
+          "id": "to-75a",
+          "panelA": "face-40",
+          "panelB": "face-75a",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [40, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [32, 44],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-40b",
+          "panelA": "face-75a",
+          "panelB": "face-40b",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [75, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [34, 46],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-75b",
+          "panelA": "face-40b",
+          "panelB": "face-75b",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [40, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [36, 46],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-glue",
+          "panelA": "face-75b",
+          "panelB": "glue",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [75, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [38, 48],
+          "lengthMm": 253.4
+        },
+        {
+          "id": "to-flap-40",
+          "panelA": "face-40",
+          "panelB": "flap-40",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 40
+        },
+        {
+          "id": "to-flap-40b",
+          "panelA": "face-40b",
+          "panelB": "flap-40b",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 40
+        },
+        {
+          "id": "to-flap-75a",
+          "panelA": "face-75a",
+          "panelB": "flap-75a",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 75
+        },
+        {
+          "id": "to-flap-75b",
+          "panelA": "face-75b",
+          "panelB": "flap-75b",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 73
+        }
+      ]
+    },
+    {
+      "id": "inner-3l",
+      "thicknessMm": 0.5,
+      "flatPositionMm": [480, 0, -280],
+      "seatMm": [430, 0, -160],
+      "uprightEulerDeg": [0, 0, 0],
+      "orientWindow": [28, 48],
+      "panels": [
+        {
+          "id": "face-40",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
+        },
+        {
+          "id": "face-75a",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "printFace": "hero",
+          "textureRef": "textures/inner-3l.png"
+        },
+        {
+          "id": "face-40b",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 40, "h": 255 },
+          "printFace": "text",
+          "textureRef": "textures/text-face.png"
+        },
+        {
+          "id": "face-75b",
+          "role": "face",
+          "rectMm": { "x": 0, "y": 0, "w": 75, "h": 255 },
+          "printFace": "hero",
+          "textureRef": "textures/inner-3l.png"
+        },
+        {
+          "id": "glue",
+          "role": "glue",
+          "rectMm": { "x": 0, "y": 0, "w": 15, "h": 253.4 },
+          "printFace": "none"
+        },
+        {
+          "id": "flap-40",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-40b",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -37, "w": 40, "h": 37 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-75a",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -39.5, "w": 75, "h": 39.5 },
+          "printFace": "kraft"
+        },
+        {
+          "id": "flap-75b",
+          "role": "flap",
+          "rectMm": { "x": 0, "y": -38, "w": 73, "h": 38 },
+          "printFace": "kraft"
+        }
+      ],
+      "creases": [
+        {
+          "id": "to-75a",
+          "panelA": "face-40",
+          "panelB": "face-75a",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [40, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [32, 44],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-40b",
+          "panelA": "face-75a",
+          "panelB": "face-40b",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [75, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [34, 46],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-75b",
+          "panelA": "face-40b",
+          "panelB": "face-75b",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [40, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [36, 46],
+          "lengthMm": 255
+        },
+        {
+          "id": "to-glue",
+          "panelA": "face-75b",
+          "panelB": "glue",
+          "axis": { "direction": [0, 1, 0] },
+          "attachMm": [75, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [38, 48],
+          "lengthMm": 253.4
+        },
+        {
+          "id": "to-flap-40",
+          "panelA": "face-40",
+          "panelB": "flap-40",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 40
+        },
+        {
+          "id": "to-flap-40b",
+          "panelA": "face-40b",
+          "panelB": "flap-40b",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 40
+        },
+        {
+          "id": "to-flap-75a",
+          "panelA": "face-75a",
+          "panelB": "flap-75a",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 75
+        },
+        {
+          "id": "to-flap-75b",
+          "panelA": "face-75b",
+          "panelB": "flap-75b",
+          "axis": { "direction": [1, 0, 0] },
+          "attachMm": [0, 0, 0],
+          "foldDeg": 90,
+          "foldWindow": [40, 50],
+          "lengthMm": 73
+        }
+      ]
+    }
+  ],
+  "pack": {
+    "eb": "vertical",
+    "grid": {
+      "cols": 7,
+      "rows": 2,
+      "colMm": 40,
+      "rowMm": 75,
+      "cells": [
+        "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l", "inner-1l",
+        "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l", "inner-3l"
+      ]
+    },
+    "anchor": "center",
+    "restingYRule": "floor+H/2",
+    "heroTowardDisplay": false,
+    "itemHeightMm": 255,
+    "floorBoardLayers": 2,
+    "dropWindow": [46, 76],
+    "stagger": 1,
+    "dropDuration": 8
+  },
+  "steps": [
+    { "t": 0, "label": "Flat blanks / Tấm phẳng" },
+    { "t": 16, "label": "Carton body / Dựng thân thùng" },
+    { "t": 40, "label": "Bottom closed / Gấp đáy" },
+    { "t": 50, "label": "Inners folded / Gấp inner 1L và 3L" },
+    { "t": 72, "label": "14 packed / Xếp 7×1L + 7×3L" },
+    { "t": 100, "label": "Lid on · measure FIT / Đậy nắp · đo FIT" }
+  ]
+}
