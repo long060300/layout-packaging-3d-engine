@@ -155,8 +155,8 @@ function bindTextures(roots) {
   for (const root of roots) {
     root.traverse((obj) => {
       const ref = obj.userData && obj.userData.textureRef;
-      const mat = Array.isArray(obj.material) ? obj.material[4] : null;
-      if (!ref || !mat) return;
+      const mat = Array.isArray(obj.material) ? obj.material[4] : obj.material;
+      if (!ref || !mat || !mat.isMaterial) return;
       if (String(ref).startsWith('data:')) throw new Error('textureRef must be a file, not base64');
       const url = new URL(ref, jobHref).href;
       const entry = textureFor(url);

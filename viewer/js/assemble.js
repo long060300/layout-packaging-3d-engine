@@ -1,7 +1,8 @@
 /**
  * Hinged blanks for the QuickPack viewer.
- * Rectangles only — dieline contours stay in the parser until a later port.
- * Resting Y is not computed here; callers use pack-rule.js so the rule stays in one place.
+ * A panel is a rectangle unless it carries outlineMm (dieline contour, optional holes).
+ * Contours extrude with the print as its own sheet so a hole stays open and the
+ * texture maps that face only. Resting Y stays in pack-rule.js.
  */
 import * as THREE_NS from 'three';
 
@@ -39,6 +40,36 @@ function makeLineMaterials() {
     crease: new THREE.LineDashedMaterial({ color: 0x1f8a52, dashSize: 4, gapSize: 3 }),
     window: new THREE.LineDashedMaterial({ color: 0xd0157a, dashSize: 2, gapSize: 2 }),
   };
+}
+
+function bounds2(pts) {
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  for (const [x, y] of pts) {
+    x0 = Math.min(x0, x);
+    y0 = Math.min(y0, y);
+    x1 = Math.max(x1, x);
+    y1 = Math.max(y1, y);
+  }
+  return { x: x0, y: y0, w: Math.max(1e-6, x1 - x0), h: Math.max(1e-6, y1 - y0) };
+}
+
+function makeShape(panel) {
+  const shape = new THREE.Shape(panel.outlineMm.map(([x, y]) => new THREE.Vector2(x, y)));
+  for (const hole of panel.holesMm || []) {
+    shape.holes.push(new THREE.Path(hole.map(([x, y]) => new THREE.Vector2(x, y))));
+  }
+  return shape;
+}
+
+/** Kraft carton, slightly paler kraft hood, duplex inner. Text faces mark an inner. */
+function boardColors(asm) {
+  if (asm.id === 'lid') return { inside: 0xb8946a, edge: 0x9c7a52 };
+  const inner = (asm.panels || []).some((p) => p.printFace === 'text');
+  if (inner) return { inside: 0xdcd8cf, edge: 0xcfcac0 };
+  return { inside: 0xa98157, edge: 0x8f6b45 };
 }
 
 /**
@@ -80,13 +111,15 @@ export function buildAssembly(asm) {
     pivots.set(panel.id, pivot);
 
     const rect = panel.rectMm;
-    const corners = [
-      new THREE.Vector3(rect.x, rect.y, 0.4),
-      new THREE.Vector3(rect.x + rect.w, rect.y, 0.4),
-      new THREE.Vector3(rect.x + rect.w, rect.y + rect.h, 0.4),
-      new THREE.Vector3(rect.x, rect.y + rect.h, 0.4),
-    ];
-    if (panel.role === 'window') {
+    const corners = panel.outlineMm
+      ? panel.outlineMm.map(([x, y]) => new THREE.Vector3(x, y, 0.4))
+      : [
+        new THREE.Vector3(rect.x, rect.y, 0.4),
+        new THREE.Vector3(rect.x + rect.w, rect.y, 0.4),
+        new THREE.Vector3(rect.x + rect.w, rect.y + rect.h, 0.4),
+        new THREE.Vector3(rect.x, rect.y + rect.h, 0.4),
+      ];
+    if (panel.role === 'window' && !panel.outlineMm) {
       const loopGeo = new THREE.BufferGeometry().setFromPoints([...corners, corners[0]]);
       const loop = new THREE.Line(loopGeo, linesMat.window);
       loop.computeLineDistances();
@@ -94,6 +127,62 @@ export function buildAssembly(asm) {
       loop.renderOrder = 2;
       pivot.add(loop);
       lines.push(loop);
+    } else if (panel.outlineMm) {
+      const shape = makeShape(panel);
+      const colors = boardColors(asm);
+      const geo = new THREE.ExtrudeGeometry(shape, { depth: 1, bevelEnabled: false, curveSegments: 1 });
+      geo.translate(0, 0, -1);
+      const backMat = new THREE.MeshStandardMaterial({ color: colors.inside, roughness: 0.95, metalness: 0 });
+      const edgeMat = new THREE.MeshStandardMaterial({ color: colors.edge, roughness: 1, metalness: 0 });
+      const body = new THREE.Mesh(geo, [backMat, edgeMat]);
+      body.scale.z = asm.thicknessMm;
+      body.castShadow = true;
+      body.receiveShadow = true;
+      body.userData.body = true;
+      body.userData.panelId = panel.id;
+      body.userData.role = panel.role;
+      body.userData.printFace = panel.printFace;
+      body.userData.thicknessScales = true;
+
+      const fg = new THREE.ShapeGeometry(shape);
+      const uv = panel.uvMm || bounds2(panel.outlineMm);
+      const pos = fg.attributes.position;
+      const a = new Float32Array(pos.count * 2);
+      for (let k = 0; k < pos.count; k += 1) {
+        a[2 * k] = (pos.getX(k) - uv.x) / uv.w;
+        a[2 * k + 1] = (pos.getY(k) - uv.y) / uv.h;
+      }
+      fg.setAttribute('uv', new THREE.BufferAttribute(a, 2));
+      fg.translate(0, 0, 0.06);
+      const printMat = new THREE.MeshStandardMaterial({
+        color: PRINT_COLOR[panel.printFace] ?? PRINT_COLOR.none,
+        roughness: panel.printFace === 'hero' ? 0.55 : panel.printFace === 'kraft' ? 0.9 : 0.72,
+        metalness: 0,
+        polygonOffset: true,
+        polygonOffsetFactor: -2,
+        polygonOffsetUnits: -2,
+      });
+      const face = new THREE.Mesh(fg, printMat);
+      face.receiveShadow = true;
+      face.userData.panelId = panel.id;
+      face.userData.role = panel.role;
+      face.userData.printFace = panel.printFace;
+      face.userData.textureRef = panel.textureRef || null;
+
+      const panelG = new THREE.Group();
+      panelG.add(body, face);
+      const cut = line([...corners, corners[0]], linesMat.cut, 'cut');
+      panelG.add(cut);
+      lines.push(cut);
+      for (const hole of panel.holesMm || []) {
+        const ring = hole.map(([x, y]) => new THREE.Vector3(x, y, 0.45));
+        const mark = line([...ring, ring[0]], linesMat.window, 'window');
+        panelG.add(mark);
+        lines.push(mark);
+      }
+      pivot.add(panelG);
+      pivot.userData.stackLayer = panel.stackLayer || 0;
+      meshes.push(body);
     } else {
       const geo = new THREE.BoxGeometry(rect.w, rect.h, 1);
       geo.translate(rect.x + rect.w / 2, rect.y + rect.h / 2, -0.5);
@@ -111,12 +200,12 @@ export function buildAssembly(asm) {
       mesh.scale.z = asm.thicknessMm;
       mesh.castShadow = true;
       mesh.receiveShadow = true;
-    mesh.userData.body = true;
-    mesh.userData.panelId = panel.id;
-    mesh.userData.role = panel.role;
-    mesh.userData.printFace = panel.printFace;
-    mesh.userData.textureRef = panel.textureRef || null;
-    mesh.userData.thicknessScales = true;
+      mesh.userData.body = true;
+      mesh.userData.panelId = panel.id;
+      mesh.userData.role = panel.role;
+      mesh.userData.printFace = panel.printFace;
+      mesh.userData.textureRef = panel.textureRef || null;
+      mesh.userData.thicknessScales = true;
       pivot.add(mesh);
       meshes.push(mesh);
       const cut = line([...corners, corners[0]], linesMat.cut, 'cut');
@@ -125,11 +214,32 @@ export function buildAssembly(asm) {
     }
 
     if (crease) {
-      const length = crease.lengthMm || Math.max(rect.w, rect.h);
-      const dir = pivot.userData.axis;
+      const dir = pivot.userData.axis.clone().normalize();
+      const pts = panel.outlineMm
+        ? panel.outlineMm.map(([x, y]) => new THREE.Vector3(x, y, 0))
+        : [
+          new THREE.Vector3(rect.x, rect.y, 0),
+          new THREE.Vector3(rect.x + rect.w, rect.y, 0),
+          new THREE.Vector3(rect.x + rect.w, rect.y + rect.h, 0),
+          new THREE.Vector3(rect.x, rect.y + rect.h, 0),
+        ];
+      const onHinge = pts.filter((p) => p.clone().addScaledVector(dir, -p.dot(dir)).length() < 1.5);
+      const use = onHinge.length >= 2 ? onHinge : pts;
+      let lo = Infinity;
+      let hi = -Infinity;
+      for (const p of use) {
+        const t = p.dot(dir);
+        lo = Math.min(lo, t);
+        hi = Math.max(hi, t);
+      }
+      if (!(hi > lo)) {
+        const length = crease.lengthMm || Math.max(rect.w, rect.h);
+        lo = 0;
+        hi = length;
+      }
       const creaseLine = line([
-        new THREE.Vector3(0, 0, 0.55),
-        new THREE.Vector3(dir.x * length, dir.y * length, dir.z * length + 0.55),
+        new THREE.Vector3(dir.x * lo, dir.y * lo, dir.z * lo + 0.55),
+        new THREE.Vector3(dir.x * hi, dir.y * hi, dir.z * hi + 0.55),
       ], linesMat.crease, 'crease');
       pivot.add(creaseLine);
       lines.push(creaseLine);
@@ -162,9 +272,18 @@ export function buildAssembly(asm) {
 export function applyFold(built, t) {
   for (const pivot of built.pivots) {
     const crease = pivot.userData.crease;
-    if (!crease || !pivot.userData.axis) continue;
-    const f = smoothstep(crease.foldWindow[0], crease.foldWindow[1], t);
-    pivot.quaternion.setFromAxisAngle(pivot.userData.axis, rad(crease.foldDeg) * f);
+    const f = crease && pivot.userData.axis
+      ? smoothstep(crease.foldWindow[0], crease.foldWindow[1], t)
+      : 0;
+    if (crease && pivot.userData.axis) {
+      const axis = pivot.userData.axis;
+      pivot.quaternion.setFromAxisAngle(axis, rad(crease.foldDeg) * f);
+    }
+    const layer = pivot.userData.stackLayer || 0;
+    if (layer) {
+      const panelG = pivot.children.find((child) => child.isGroup);
+      if (panelG) panelG.position.z = -layer * built.thickness * f;
+    }
   }
 }
 
@@ -218,9 +337,11 @@ export function createPackPrototype(asm, heroTowardDisplay) {
   }
   spin.rotation.y = -yaw;
   spin.updateMatrixWorld(true);
-  const box = new THREE.Box3().setFromObject(built.root);
-  const center = box.getCenter(new THREE.Vector3());
-  const size = box.getSize(new THREE.Vector3());
+  // Lines sit a fraction off the board. Center on the boards so that offset
+  // cannot walk the resting Y, then the full object still has to contain them.
+  const boards = bodyBounds(built.root);
+  const center = boards.getCenter(new THREE.Vector3());
+  const size = boards.getSize(new THREE.Vector3());
   spin.remove(built.root);
   return { built, yaw, center, size };
 }
@@ -234,6 +355,21 @@ export function clonePacked(proto, anchor) {
   if (anchor === 'center') spin.position.copy(proto.center).multiplyScalar(-1);
   wrap.add(spin);
   return wrap;
+}
+
+/** Board meshes only, so a crease mark cannot move the pack center. */
+export function bodyBounds(root) {
+  root.updateMatrixWorld(true);
+  const box = new THREE.Box3();
+  let any = false;
+  root.traverse((obj) => {
+    if (!obj.isMesh || !obj.userData || !obj.userData.body || !obj.geometry) return;
+    obj.geometry.computeBoundingBox();
+    box.union(obj.geometry.boundingBox.clone().applyMatrix4(obj.matrixWorld));
+    any = true;
+  });
+  if (!any) box.setFromObject(root);
+  return box;
 }
 
 export function worldBox(object) {
